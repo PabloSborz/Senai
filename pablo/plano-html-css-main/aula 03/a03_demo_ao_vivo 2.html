@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo ao Vivo — Imagens & Links · Aula 03</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;color:#1e293b;background:#f8fafc;min-height:100vh;padding:20px}
+.wrap{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hdr2{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;margin-bottom:2px}
+.hdr2 h1{font-size:16px;font-weight:600}.hdr2 p{font-size:12px;color:#94a3b8}
+.pg{grid-column:1/-1;height:3px;background:#e2e8f0;border-radius:2px;overflow:hidden}
+.pf{height:100%;background:#0D9488;border-radius:2px;transition:width .3s ease;width:0%}
+.panel{border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;background:#fff}
+.ph{display:flex;align-items:center;justify-content:space-between;padding:9px 13px;border-bottom:1px solid #e2e8f0;background:#f8fafc;font-size:12px;font-weight:500;color:#64748b}
+.dots-r{display:flex;gap:5px}.dot2{width:10px;height:10px;border-radius:50%}
+.editor{background:#1e293b;min-height:340px;padding:15px;font-family:'Courier New',monospace;font-size:12px;line-height:1.8;color:#94a3b8;overflow:hidden}
+#code-out{white-space:pre-wrap;word-break:break-all}
+.cursor{display:inline-block;width:2px;height:14px;background:#60a5fa;vertical-align:middle;animation:blink .9s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.preview{min-height:340px;padding:15px;background:#fff;overflow-y:auto}
+.step-bar{grid-column:1/-1;padding:11px 15px;border:1px solid #e2e8f0;border-radius:12px;background:#fff;display:flex;align-items:center;gap:10px}
+.sbadge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap;background:#ccfbf1;color:#0D9488}
+.slabel{font-size:12px;color:#64748b;flex:1}
+.cb{font-size:12px;font-weight:500;padding:6px 14px;border-radius:8px;border:1px solid #cbd5e1;background:#fff;color:#1e293b;cursor:pointer;font-family:inherit;transition:all .15s}
+.cb:hover{background:#f1f5f9}.cb.go{background:#0D9488;color:#fff;border-color:#0D9488}
+.cb:disabled{opacity:.35;pointer-events:none}
+.narr{grid-column:1/-1;border:1px solid #5eead4;border-radius:10px;padding:11px 15px;background:#f0fdfa;font-size:13px;color:#134e4a;line-height:1.6;min-height:50px}
+.narr strong{color:#0f766e}
+.k{color:#93c5fd}.p{color:#c4b5fd}.v{color:#6ee7b7}.s{color:#fda4af}.c{color:#475569;font-style:italic}
+@media(max-width:680px){.wrap{grid-template-columns:1fr}.panel:last-of-type{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr2"><h1>Demonstração ao vivo — Imagens & Links</h1><p>Aula 03 · 45 min · Docente digita, alunos acompanham</p></div>
+  <div class="pg"><div class="pf" id="prog"></div></div>
+  <div class="panel">
+    <div class="ph"><span>VS Code — index.html + css/estilos.css</span><div class="dots-r"><div class="dot2" style="background:#ef4444"></div><div class="dot2" style="background:#f59e0b"></div><div class="dot2" style="background:#10b981"></div></div></div>
+    <div class="editor"><span id="code-out"></span><span class="cursor"></span></div>
+  </div>
+  <div class="panel">
+    <div class="ph"><span>Navegador — resultado ao vivo</span><div class="dots-r"><div class="dot2" style="background:#ef4444"></div><div class="dot2" style="background:#f59e0b"></div><div class="dot2" style="background:#10b981"></div></div></div>
+    <div class="preview" id="preview"></div>
+  </div>
+  <div class="narr" id="narr">Pronto. Clique em <strong>Iniciar digitação</strong> para começar.</div>
+  <div class="step-bar">
+    <span class="sbadge" id="sbadge">Etapa 1/7</span>
+    <span class="slabel" id="sdesc">Criar pasta img/ e tag img básica</span>
+    <button class="cb" id="bp" onclick="prevS()" disabled>← Anterior</button>
+    <button class="cb go" id="bplay" onclick="playS()">▶ Digitar</button>
+    <button class="cb" id="bn" onclick="nextS()" disabled>Próxima →</button>
+  </div>
+</div>
+<script>
+const STEPS=[
+{label:"Tag img com atributos obrigatórios",
+narr:"<strong>Docente:</strong> \"Primeiro criamos a pasta <code>img/</code> e adicionamos uma foto. Veja os 4 atributos: src é o caminho, alt é a descrição para acessibilidade, width e height evitam o layout shift, e loading='lazy' só carrega quando necessário.\"",
+code:`<span class="c">&lt;!-- Adicionando a imagem de perfil --&gt;</span>
+<span class="k">&lt;section&gt;</span>
+  <span class="k">&lt;h2&gt;</span><span class="v">Sobre mim</span><span class="k">&lt;/h2&gt;</span>
+
+  <span class="k">&lt;img</span>
+    <span class="p">src</span>=<span class="s">"img/perfil.jpg"</span>
+    <span class="p">alt</span>=<span class="s">"Foto de perfil com sorriso"</span>
+    <span class="p">width</span>=<span class="s">"280"</span>
+    <span class="p">height</span>=<span class="s">"280"</span>
+    <span class="p">loading</span>=<span class="s">"lazy"</span>
+  <span class="k">&gt;</span>
+
+  <span class="k">&lt;p&gt;</span><span class="v">Sou estudante de desenvolvimento de sistemas.</span><span class="k">&lt;/p&gt;</span>
+<span class="k">&lt;/section&gt;</span>`,
+prev:`<section style="font-family:system-ui;padding:14px"><h2 style="font-size:15px;font-weight:600;margin-bottom:10px;color:#0D9488">Sobre mim</h2><div style="width:160px;height:160px;background:linear-gradient(135deg,#ccfbf1,#5eead4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:50px;margin-bottom:10px">👤</div><p style="font-size:13px;color:#475569">Sou estudante de desenvolvimento de sistemas.</p></section>`},
+{label:"figure + figcaption semântico",
+narr:"<strong>Docente:</strong> \"Agora usamos a estrutura semântica correta: figure agrupa imagem e legenda, figcaption é a legenda. O Google indexa o figcaption como texto associado à imagem — benefício direto de SEO.\"",
+code:`<span class="k">&lt;section&gt;</span>
+  <span class="k">&lt;h2&gt;</span><span class="v">Meus projetos</span><span class="k">&lt;/h2&gt;</span>
+
+  <span class="k">&lt;figure&gt;</span>
+    <span class="k">&lt;img</span>
+      <span class="p">src</span>=<span class="s">"img/projeto-1.jpg"</span>
+      <span class="p">alt</span>=<span class="s">"Captura de tela do site de portfólio"</span>
+      <span class="p">width</span>=<span class="s">"400"</span>
+      <span class="p">height</span>=<span class="s">"250"</span>
+      <span class="p">loading</span>=<span class="s">"lazy"</span>
+    <span class="k">&gt;</span>
+    <span class="k">&lt;figcaption&gt;</span><span class="v">Projeto 01 — Site de portfólio pessoal</span><span class="k">&lt;/figcaption&gt;</span>
+  <span class="k">&lt;/figure&gt;</span>
+
+<span class="k">&lt;/section&gt;</span>`,
+prev:`<section style="font-family:system-ui;padding:14px"><h2 style="font-size:15px;font-weight:600;margin-bottom:10px;color:#0D9488">Meus projetos</h2><figure style="max-width:280px"><div style="background:linear-gradient(135deg,#ccfbf1,#a7f3d0);border-radius:8px;height:160px;display:flex;align-items:center;justify-content:center;font-size:40px">🖼️</div><figcaption style="font-size:12px;color:#64748b;text-align:center;padding:8px 0;border-top:1px solid #e2e8f0;margin-top:6px">Projeto 01 — Site de portfólio pessoal</figcaption></figure></section>`},
+{label:"Galeria CSS com grid",
+narr:"<strong>Docente:</strong> \"Para a galeria usamos CSS Grid com repeat(auto-fill, minmax(200px, 1fr)) — cria automaticamente colunas responsivas. object-fit:cover faz a imagem preencher o container sem distorcer.\"",
+code:`<span class="c">/* CSS — galeria responsiva */</span>
+<span class="k">.galeria</span> {
+  <span class="p">display</span>: <span class="v">grid</span>;
+  <span class="p">grid-template-columns</span>: <span class="v">repeat(auto-fill, minmax(200px, 1fr))</span>;
+  <span class="p">gap</span>: <span class="v">16px</span>;
+  <span class="p">margin-top</span>: <span class="v">16px</span>;
+}
+
+<span class="k">.galeria figure</span> {
+  <span class="p">overflow</span>: <span class="v">hidden</span>;
+  <span class="p">border-radius</span>: <span class="v">10px</span>;
+  <span class="p">border</span>: <span class="v">1px solid #e2e8f0</span>;
+}
+
+<span class="k">.galeria figure img</span> {
+  <span class="p">width</span>:      <span class="v">100%</span>;
+  <span class="p">height</span>:     <span class="v">200px</span>;
+  <span class="p">object-fit</span>: <span class="v">cover</span>;
+  <span class="p">display</span>:    <span class="v">block</span>;
+  <span class="p">transition</span>: <span class="v">transform .3s, opacity .3s</span>;
+}
+
+<span class="k">.galeria figure:hover img</span> {
+  <span class="p">transform</span>: <span class="v">scale(1.06)</span>;
+  <span class="p">opacity</span>:   <span class="v">0.82</span>;
+}`,
+prev:`<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-family:system-ui">${['🌿','🎨','💻'].map((ico,i)=>`<figure style="overflow:hidden;border-radius:8px;border:1px solid #e2e8f0"><div style="background:linear-gradient(135deg,#ccfbf1,#a7f3d0);height:90px;display:flex;align-items:center;justify-content:center;font-size:28px">${ico}</div><figcaption style="font-size:11px;text-align:center;color:#64748b;padding:6px">Projeto ${i+1}</figcaption></figure>`).join('')}</div>`},
+{label:"Hero com background-image",
+narr:"<strong>Docente:</strong> \"O hero usa CSS background-image para sobrepor texto à imagem. background-size:cover preenche sem distorcer. Usamos um overlay rgba para garantir legibilidade do texto sobre qualquer foto.\"",
+code:`<span class="c">/* HTML */</span>
+<span class="k">&lt;section</span> <span class="p">class</span>=<span class="s">"hero"</span><span class="k">&gt;</span>
+  <span class="k">&lt;div</span> <span class="p">class</span>=<span class="s">"hero-content"</span><span class="k">&gt;</span>
+    <span class="k">&lt;h1&gt;</span><span class="v">Meu Portfólio</span><span class="k">&lt;/h1&gt;</span>
+    <span class="k">&lt;p&gt;</span><span class="v">Desenvolvedor web em formação — SENAI</span><span class="k">&lt;/p&gt;</span>
+    <span class="k">&lt;a</span> <span class="p">href</span>=<span class="s">"#galeria"</span> <span class="p">class</span>=<span class="s">"btn-hero"</span><span class="k">&gt;</span><span class="v">Ver projetos</span><span class="k">&lt;/a&gt;</span>
+  <span class="k">&lt;/div&gt;</span>
+<span class="k">&lt;/section&gt;</span>
+
+<span class="c">/* CSS */</span>
+<span class="k">.hero</span> {
+  <span class="p">background</span>: <span class="v">linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
+    url('img/capa.jpg') center/cover</span>;
+  <span class="p">height</span>: <span class="v">420px</span>;
+  <span class="p">display</span>: <span class="v">flex</span>;
+  <span class="p">align-items</span>: <span class="v">center</span>;
+  <span class="p">justify-content</span>: <span class="v">center</span>;
+  <span class="p">text-align</span>: <span class="v">center</span>;
+  <span class="p">color</span>: <span class="v">white</span>;
+}`,
+prev:`<div style="background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),linear-gradient(135deg,#0D9488,#0f766e);border-radius:8px;height:180px;display:flex;align-items:center;justify-content:center;text-align:center;color:white;font-family:system-ui;padding:20px"><div><h1 style="font-size:22px;font-weight:700;margin-bottom:8px">Meu Portfólio</h1><p style="font-size:13px;opacity:.85;margin-bottom:14px">Desenvolvedor web em formação — SENAI</p><a href="#" style="background:#0D9488;color:white;text-decoration:none;padding:8px 20px;border-radius:6px;font-size:13px;font-weight:600">Ver projetos</a></div></div>`},
+{label:"Todos os tipos de link",
+narr:"<strong>Docente:</strong> \"Agora adicionamos todos os tipos de link. Notem o rel='noopener' — obrigatório com target='_blank'. O tel: abre o discador no celular. O mailto: abre o cliente de e-mail. A âncora #galeria rola a página.\"",
+code:`<span class="k">&lt;section</span> <span class="p">id</span>=<span class="s">"contato"</span><span class="k">&gt;</span>
+  <span class="k">&lt;h2&gt;</span><span class="v">Contato</span><span class="k">&lt;/h2&gt;</span>
+
+  <span class="cm">&lt;!-- Link externo — nova aba com segurança --&gt;</span>
+  <span class="k">&lt;a</span> <span class="p">href</span>=<span class="s">"https://github.com/usuario"</span>
+     <span class="p">target</span>=<span class="s">"_blank"</span> <span class="p">rel</span>=<span class="s">"noopener"</span><span class="k">&gt;</span>
+    <span class="k">&lt;i</span> <span class="p">class</span>=<span class="s">"fa-brands fa-github"</span><span class="k">&gt;&lt;/i&gt;</span><span class="v"> GitHub</span>
+  <span class="k">&lt;/a&gt;</span>
+
+  <span class="cm">&lt;!-- E-mail --&gt;</span>
+  <span class="k">&lt;a</span> <span class="p">href</span>=<span class="s">"mailto:eu@meusite.com"</span><span class="k">&gt;</span>
+    <span class="k">&lt;i</span> <span class="p">class</span>=<span class="s">"fa-solid fa-envelope"</span><span class="k">&gt;&lt;/i&gt;</span><span class="v"> E-mail</span>
+  <span class="k">&lt;/a&gt;</span>
+
+  <span class="cm">&lt;!-- Telefone --&gt;</span>
+  <span class="k">&lt;a</span> <span class="p">href</span>=<span class="s">"tel:+5547999990000"</span><span class="k">&gt;</span>
+    <span class="k">&lt;i</span> <span class="p">class</span>=<span class="s">"fa-solid fa-phone"</span><span class="k">&gt;&lt;/i&gt;</span><span class="v"> (47) 9999-0000</span>
+  <span class="k">&lt;/a&gt;</span>
+
+  <span class="cm">&lt;!-- Âncora — rola até o elemento --&gt;</span>
+  <span class="k">&lt;a</span> <span class="p">href</span>=<span class="s">"#galeria"</span><span class="k">&gt;</span><span class="v">↑ Voltar à galeria</span><span class="k">&lt;/a&gt;</span>
+
+<span class="k">&lt;/section&gt;</span>`,
+prev:`<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><section style="font-family:system-ui;padding:14px"><h2 style="font-size:15px;font-weight:600;margin-bottom:12px;color:#0D9488">Contato</h2><div style="display:flex;flex-direction:column;gap:8px"><a href="#" style="color:#0D9488;text-decoration:none;font-weight:600;font-size:13px;border:1px solid #5eead4;padding:7px 13px;border-radius:7px;display:inline-flex;align-items:center;gap:7px"><i class="fa-brands fa-github"></i> GitHub</a><a href="#" style="color:#0D9488;text-decoration:none;font-weight:600;font-size:13px;border:1px solid #5eead4;padding:7px 13px;border-radius:7px;display:inline-flex;align-items:center;gap:7px"><i class="fa-solid fa-envelope"></i> eu@meusite.com</a><a href="#" style="color:#0D9488;text-decoration:none;font-weight:600;font-size:13px;border:1px solid #5eead4;padding:7px 13px;border-radius:7px;display:inline-flex;align-items:center;gap:7px"><i class="fa-solid fa-phone"></i> (47) 9999-0000</a></div></section>`},
+{label:"CSS para imagens de perfil redondas",
+narr:"<strong>Docente:</strong> \"A imagem de perfil fica melhor circular. Usamos border-radius:50% para isso. O border e box-shadow adicionam profundidade. E veja como o object-fit:cover garante que a foto não distorça no formato circular.\"",
+code:`<span class="c">/* CSS — imagem de perfil circular */</span>
+<span class="k">.foto-perfil</span> {
+  <span class="p">width</span>:         <span class="v">200px</span>;
+  <span class="p">height</span>:        <span class="v">200px</span>;
+  <span class="p">border-radius</span>: <span class="v">50%</span>;
+  <span class="p">object-fit</span>:    <span class="v">cover</span>;
+  <span class="p">border</span>:        <span class="v">4px solid #0D9488</span>;
+  <span class="p">display</span>:       <span class="v">block</span>;
+  <span class="p">margin</span>:        <span class="v">0 auto 20px</span>;
+}
+
+<span class="c">/* figcaption estilizado */</span>
+<span class="k">figcaption</span> {
+  <span class="p">font-size</span>:   <span class="v">.85rem</span>;
+  <span class="p">color</span>:       <span class="v">#64748b</span>;
+  <span class="p">text-align</span>:  <span class="v">center</span>;
+  <span class="p">padding</span>:     <span class="v">8px 0</span>;
+  <span class="p">font-style</span>:  <span class="v">italic</span>;
+  <span class="p">border-top</span>:  <span class="v">1px solid #e2e8f0</span>;
+  <span class="p">margin-top</span>:  <span class="v">8px</span>;
+}`,
+prev:`<div style="font-family:system-ui;text-align:center;padding:14px"><figure><div style="width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#ccfbf1,#5eead4);border:4px solid #0D9488;display:flex;align-items:center;justify-content:center;font-size:50px;margin:0 auto 8px">👤</div><figcaption style="font-size:12px;color:#64748b;font-style:italic;padding:6px 0;border-top:1px solid #e2e8f0">Ana Lima — Desenvolvedora Web</figcaption></figure></div>`},
+{label:"Resultado final",
+narr:"<strong>Docente:</strong> \"Vejam o resultado final: hero com imagem de fundo, galeria semântica com hover, perfil circular, ícones Font Awesome e todos os tipos de link. Isso é uma página HTML+CSS profissional com imagens. Agora é a vez de vocês!\"",
+code:`<span class="c">&lt;!-- Estrutura final da página --&gt;</span>
+
+<span class="c">&lt;!-- 1. Hero com background --&gt;</span>
+<span class="k">&lt;section</span> <span class="p">class</span>=<span class="s">"hero"</span><span class="k">&gt;</span>...<span class="k">&lt;/section&gt;</span>
+
+<span class="c">&lt;!-- 2. Sobre mim com foto circular --&gt;</span>
+<span class="k">&lt;section&gt;</span>
+  <span class="k">&lt;figure&gt;</span>
+    <span class="k">&lt;img</span> <span class="p">class</span>=<span class="s">"foto-perfil"</span> <span class="p">src</span>=<span class="s">"img/perfil.jpg"</span>
+         <span class="p">alt</span>=<span class="s">"..."</span> <span class="p">loading</span>=<span class="s">"lazy"</span><span class="k">&gt;</span>
+    <span class="k">&lt;figcaption&gt;</span><span class="v">Nome — Função</span><span class="k">&lt;/figcaption&gt;</span>
+  <span class="k">&lt;/figure&gt;</span>
+<span class="k">&lt;/section&gt;</span>
+
+<span class="c">&lt;!-- 3. Galeria com 6 figuras --&gt;</span>
+<span class="k">&lt;section</span> <span class="p">class</span>=<span class="s">"galeria"</span> <span class="p">id</span>=<span class="s">"galeria"</span><span class="k">&gt;</span>
+  <span class="k">&lt;figure&gt;</span>...<span class="k">&lt;/figure&gt;</span>
+  <span class="cm">&lt;!-- 5 mais --&gt;</span>
+<span class="k">&lt;/section&gt;</span>
+
+<span class="c">&lt;!-- 4. Contato com todos os tipos de link --&gt;</span>
+<span class="k">&lt;section</span> <span class="p">id</span>=<span class="s">"contato"</span><span class="k">&gt;</span>...<span class="k">&lt;/section&gt;</span>`,
+prev:`<div style="font-family:system-ui;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden"><div style="background:linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)),linear-gradient(135deg,#0D9488,#0f766e);height:80px;display:flex;align-items:center;justify-content:center;color:white;text-align:center"><div><h2 style="font-size:14px;font-weight:700">Meu Portfólio</h2><p style="font-size:11px;opacity:.8">Desenvolvedor web</p></div></div><div style="padding:12px;display:flex;align-items:center;gap:10px"><div style="width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#ccfbf1,#5eead4);border:2px solid #0D9488;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">👤</div><div><div style="font-size:12px;font-weight:600">Ana Lima</div><div style="font-size:11px;color:#64748b">SENAI · 2025</div></div></div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0 12px 12px">${['🌿','🎨','💻'].map(ico=>`<div style="background:linear-gradient(135deg,#ccfbf1,#a7f3d0);border-radius:6px;height:55px;display:flex;align-items:center;justify-content:center;font-size:22px">${ico}</div>`).join('')}</div></div>`}
+];
+let cur=0,typing=false,typeTimer=null;
+function render(){const s=STEPS[cur];document.getElementById('sbadge').textContent=`Etapa ${cur+1}/${STEPS.length}`;document.getElementById('sdesc').textContent=s.label;document.getElementById('prog').style.width=`${Math.round(((cur+1)/STEPS.length)*100)}%`;document.getElementById('bp').disabled=cur===0;document.getElementById('bn').disabled=cur===STEPS.length-1;document.getElementById('narr').innerHTML=s.narr;document.getElementById('preview').innerHTML=s.prev||'';}
+function playS(){if(typing)return;typing=true;const s=STEPS[cur];const out=document.getElementById('code-out');out.innerHTML='';document.getElementById('bplay').disabled=true;document.getElementById('bp').disabled=true;document.getElementById('bn').disabled=true;const full=s.code;const parts=[];let i=0;while(i<full.length){if(full[i]==='<'){const end=full.indexOf('>',i);if(end!==-1){parts.push({type:'tag',val:full.slice(i,end+1)});i=end+1;continue;}}parts.push({type:'char',val:full[i]});i++;}let pi=0;function tick(){if(pi>=parts.length){typing=false;document.getElementById('bplay').textContent='Rever';document.getElementById('bplay').disabled=false;document.getElementById('bn').disabled=cur===STEPS.length-1;document.getElementById('bp').disabled=false;return;}const p=parts[pi];if(p.type==='tag'){out.innerHTML+=p.val;pi++;tick();return;}out.innerHTML+=p.val;pi++;typeTimer=setTimeout(tick,p.val==='\n'?55:p.val===' '?18:Math.random()*22+16);}tick();}
+function nextS(){if(typing){clearTimeout(typeTimer);typing=false;}cur=Math.min(cur+1,STEPS.length-1);render();document.getElementById('code-out').innerHTML=STEPS[cur].code;document.getElementById('bplay').textContent='Rever';document.getElementById('bplay').disabled=false;}
+function prevS(){if(typing){clearTimeout(typeTimer);typing=false;}cur=Math.max(cur-1,0);render();document.getElementById('code-out').innerHTML=STEPS[cur].code;document.getElementById('bplay').textContent='Rever';document.getElementById('bplay').disabled=false;}
+render();document.getElementById('code-out').innerHTML='';
+</script>
+</body>
+</html>

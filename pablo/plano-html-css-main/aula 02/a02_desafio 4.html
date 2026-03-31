@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desafio Autônomo — CSS Fundamentos · Aula 02</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;color:#1e293b;background:#f8fafc;min-height:100vh;padding:22px}
+.wrap{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:11px}
+.brief-card{border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;background:#fff}
+.bt{background:#e0f2fe;padding:17px 19px;border-bottom:1px solid #bae6fd}
+.bb2{font-size:11px;font-weight:600;background:#fff;color:#0284C7;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:7px}
+.btitle{font-size:19px;font-weight:600;color:#0c4a6e;margin-bottom:3px}
+.bsub{font-size:13px;color:#0284C7}
+.bb{padding:15px 19px}
+.ctx{background:#f0f9ff;border-radius:8px;padding:11px 13px;font-size:13px;color:#475569;line-height:1.6;margin-bottom:13px;border-left:3px solid #0284C7}
+.ctx strong{color:#1e293b;font-weight:600;display:block;margin-bottom:3px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.two{grid-template-columns:1fr}}
+.colt{font-size:11px;font-weight:600;color:#64748b;margin-bottom:7px;text-transform:uppercase;letter-spacing:.05em}
+.rl2{display:flex;flex-direction:column;gap:5px}
+.ri2{display:flex;gap:9px;align-items:flex-start}
+.rc{width:19px;height:19px;min-width:19px;border-radius:5px;border:1.5px solid #cbd5e1;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-top:2px;transition:all .15s;background:#fff}
+.rc:hover{border-color:#0284C7;background:#e0f2fe}.rc.on{background:#22c55e;border-color:#22c55e}
+.rc svg{display:none}.rc.on svg{display:block}
+.rt2{font-size:12.5px;color:#475569;line-height:1.5}
+.rt2.done{color:#94a3b8;text-decoration:line-through}
+code{font-family:'Courier New',monospace;font-size:11.5px;background:#f1f5f9;padding:1px 5px;border-radius:3px;border:1px solid #e2e8f0}
+.cl2{display:flex;flex-direction:column;gap:5px}
+.ci2{display:flex;align-items:center;gap:7px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:7px;padding:7px 10px;font-size:12px;color:#475569}
+.cd{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.pw{border:1px solid #e2e8f0;border-radius:12px;padding:13px 15px;background:#fff}
+.pl{font-size:12px;color:#64748b;margin-bottom:7px;display:flex;justify-content:space-between}
+.pl strong{color:#1e293b;font-weight:600}
+.pb2{height:7px;background:#e2e8f0;border-radius:4px;overflow:hidden;margin-bottom:9px}
+.pf2{height:100%;background:#0284C7;border-radius:4px;transition:width .4s ease;width:0%}
+.pm{font-size:12px;color:#64748b;font-style:italic}
+.tr{display:flex;align-items:center;gap:9px;border:1px solid #e2e8f0;border-radius:12px;padding:11px 15px;background:#fff;flex-wrap:wrap}
+.tn{font-size:26px;font-weight:500;font-family:'Courier New',monospace;color:#1e293b;min-width:80px}
+.tn.warn{color:#d97706}.tn.danger{color:#dc2626}
+.ti{flex:1;min-width:130px}.ti p{font-size:12px;color:#64748b;margin-top:1px}
+.ti strong{font-size:13px;color:#1e293b;font-weight:600}
+.tb{font-size:12px;padding:6px 14px;border-radius:7px;border:1px solid #cbd5e1;background:#fff;color:#1e293b;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
+.tb:hover{background:#f1f5f9}.tb.start{background:#0284C7;color:#fff;border-color:#0284C7}.tb.start:hover{background:#0369a1}.tb:disabled{opacity:.4;pointer-events:none}
+.ent{border:1px solid #86efac;border-radius:12px;padding:13px 15px;background:#f0fdf4}
+.et{font-size:11px;font-weight:600;color:#15803d;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.ep{font-size:13px;color:#475569;line-height:1.6}
+.ep a{color:#0284C7}
+.sb{display:none;background:#f0fdf4;border:1px solid #86efac;border-radius:12px;padding:18px;text-align:center}
+.sb.show{display:block}
+.sb h3{font-size:15px;font-weight:600;color:#15803d;margin-bottom:5px}
+.sb p{font-size:13px;color:#475569}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brief-card">
+    <div class="bt">
+      <div class="bb2">Desafio autônomo · 60 minutos</div>
+      <div class="btitle">Página de Apresentação com CSS Profissional</div>
+      <div class="bsub">Crie do zero — sem copiar do colega. Use tudo que aprendeu hoje.</div>
+    </div>
+    <div class="bb">
+      <div class="ctx"><strong>Contexto real</strong>O gestor aprovou a estrutura HTML da semana passada. Agora ele pediu que você aplique a identidade visual da empresa: paleta de 3 cores, tipografia legível, hover nos links e cabeçalho estilizado.</div>
+      <div class="two">
+        <div>
+          <div class="colt">Requisitos — marque conforme conclui</div>
+          <div class="rl2" id="req-list"></div>
+        </div>
+        <div>
+          <div class="colt">Critérios de avaliação</div>
+          <div class="cl2">
+            <div class="ci2"><div class="cd" style="background:#0284C7"></div>Arquivo CSS externo linkado corretamente</div>
+            <div class="ci2"><div class="cd" style="background:#0284C7"></div>Reset global com box-sizing: border-box</div>
+            <div class="ci2"><div class="cd" style="background:#0284C7"></div>Paleta de 3 cores coerente e aplicada</div>
+            <div class="ci2"><div class="cd" style="background:#0284C7"></div>CSS comentado por seção</div>
+            <div class="ci2"><div class="cd" style="background:#0284C7"></div>Hover com transition em links e botões</div>
+            <div class="ci2"><div class="cd" style="background:#0284C7"></div>CSS validado no W3C (zero erros)</div>
+            <div class="ci2"><div class="cd" style="background:#22c55e"></div>Bônus: Google Fonts aplicada</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pw">
+    <div class="pl"><strong>Progresso do desafio</strong><span id="ptxt">0 de 9 concluídos</span></div>
+    <div class="pb2"><div class="pf2" id="pfg"></div></div>
+    <div class="pm" id="pmsg">Comece pelo arquivo CSS externo — é a fundação de tudo.</div>
+  </div>
+  <div class="tr">
+    <div class="tn" id="tnum">60:00</div>
+    <div class="ti"><strong>Cronômetro do desafio</strong><p id="tmsg">Inicie quando o docente autorizar</p></div>
+    <button class="tb start" id="tbtn" onclick="timerClick()">Iniciar</button>
+    <button class="tb" onclick="timerReset()">Zerar</button>
+  </div>
+  <div class="ent">
+    <div class="et">Entrega</div>
+    <div class="ep">Pasta <code>meu-site/</code> com <code>index.html</code> e <code>css/estilos.css</code>. CSS validado em <a href="https://jigsaw.w3.org/css-validator/#validate_by_input" target="_blank">jigsaw.w3.org/css-validator</a>. Mostre ao docente ao vivo antes das apresentações.</div>
+  </div>
+  <div class="sb" id="success"><h3>Desafio concluído!</h3><p>Valide o CSS, chame o docente e prepare-se para apresentar.</p></div>
+</div>
+<script>
+const REQS=[
+{t:"Arquivo <code>css/estilos.css</code> criado e linkado no <code>&lt;head&gt;</code> do HTML"},
+{t:"Reset global: <code>* { box-sizing: border-box; margin: 0; padding: 0; }</code>"},
+{t:"<code>body</code> estilizado com font-family, font-size, line-height e color"},
+{t:"<code>header</code> com background-color, color:white, text-align:center e padding"},
+{t:"<code>nav a</code> sem sublinhado, com cor e efeito <code>:hover</code> + <code>transition</code>"},
+{t:"<code>main</code> com max-width:800px e margin:0 auto (centralizado)"},
+{t:"<code>h2</code> com cor de destaque e <code>border-left</code> estilizado"},
+{t:"Listas <code>ul li</code> personalizadas (list-style:none + marcador CSS)"},
+{t:"<code>footer</code> estilizado + CSS comentado por seção + validação W3C"},
+];
+const MSGS=["Comece pelo arquivo CSS externo — é a fundação.","Reset feito? Agora estilize o body.","Ótimo! Avance para o header.","Header pronto — links da nav agora!","Metade do caminho! Salve e confira no browser.","Estilos de conteúdo quase prontos.","Quase lá — personalize as listas.","Falta só o footer e os comentários.","Tudo pronto! Valide e chame o docente."];
+let done=new Set(),ticking=false,tSec=60*60,tInterval=null;
+function buildReqs(){const el=document.getElementById('req-list');REQS.forEach((r,i)=>{const d=document.createElement('div');d.className='ri2';d.innerHTML=`<div class="rc" id="rc-${i}" onclick="checkReq(${i})"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1.5 5.5l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="rt2" id="rt-${i}">${r.t}</div>`;el.appendChild(d);});}
+function checkReq(i){if(done.has(i)){done.delete(i);document.getElementById('rc-'+i).classList.remove('on');document.getElementById('rt-'+i).classList.remove('done');}else{done.add(i);document.getElementById('rc-'+i).classList.add('on');document.getElementById('rt-'+i).classList.add('done');}const n=done.size;document.getElementById('pfg').style.width=Math.round((n/REQS.length)*100)+'%';document.getElementById('ptxt').textContent=n+' de '+REQS.length+' concluídos';document.getElementById('pmsg').textContent=MSGS[Math.min(n,MSGS.length-1)];if(n===REQS.length)document.getElementById('success').classList.add('show');else document.getElementById('success').classList.remove('show');}
+function timerClick(){if(!ticking){ticking=true;document.getElementById('tbtn').textContent='Pausar';document.getElementById('tbtn').className='tb';document.getElementById('tmsg').textContent='Cronômetro em andamento';tInterval=setInterval(()=>{tSec--;if(tSec<=0){tSec=0;clearInterval(tInterval);ticking=false;document.getElementById('tbtn').textContent='Encerrado';document.getElementById('tbtn').disabled=true;}const m=Math.floor(tSec/60),s=tSec%60;const el=document.getElementById('tnum');el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;el.className='tn'+(tSec<=600?' warn':'')+(tSec<=120?' danger':'');if(tSec===1800)document.getElementById('tmsg').textContent='Metade do tempo — confira o progresso';if(tSec===600)document.getElementById('tmsg').textContent='10 min restantes — finalize e valide!';if(tSec===120)document.getElementById('tmsg').textContent='2 min — salve e chame o docente';},1000);}else{ticking=false;clearInterval(tInterval);document.getElementById('tbtn').textContent='Continuar';document.getElementById('tbtn').className='tb start';document.getElementById('tmsg').textContent='Pausado';}}
+function timerReset(){clearInterval(tInterval);ticking=false;tSec=60*60;document.getElementById('tnum').textContent='60:00';document.getElementById('tnum').className='tn';document.getElementById('tbtn').textContent='Iniciar';document.getElementById('tbtn').className='tb start';document.getElementById('tbtn').disabled=false;document.getElementById('tmsg').textContent='Inicie quando o docente autorizar';}
+buildReqs();
+</script>
+</body>
+</html>
