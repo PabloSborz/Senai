@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desafio Autônomo — Aula 01 HTML</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;color:#1e293b;background:#f8fafc;min-height:100vh;padding:24px}
+
+.d-wrap{display:flex;flex-direction:column;gap:12px;max-width:900px;margin:0 auto}
+
+.brief-card{border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;background:#fff}
+.brief-top{background:#eff6ff;padding:18px 20px;border-bottom:1px solid #bfdbfe}
+.brief-badge{font-size:11px;font-weight:600;background:#fff;color:#1d4ed8;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:8px}
+.brief-title{font-size:20px;font-weight:600;color:#1e40af;margin-bottom:4px}
+.brief-sub{font-size:13px;color:#3b82f6}
+.brief-body{padding:16px 20px}
+
+.context-box{background:#f8fafc;border-radius:8px;padding:12px 14px;font-size:13px;color:#475569;line-height:1.6;margin-bottom:14px;border-left:3px solid #3b82f6}
+.context-box strong{color:#1e293b;font-weight:600;display:block;margin-bottom:4px}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.two-col{grid-template-columns:1fr}}
+
+.col-title{font-size:11px;font-weight:600;color:#64748b;margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em}
+
+.req-list{display:flex;flex-direction:column;gap:6px}
+.req-item{display:flex;gap:10px;align-items:flex-start}
+.req-check{width:20px;height:20px;border-radius:5px;border:1.5px solid #cbd5e1;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;margin-top:2px;transition:all .15s;background:#fff}
+.req-check:hover{border-color:#3b82f6;background:#eff6ff}
+.req-check.on{background:#22c55e;border-color:#22c55e}
+.req-check svg{display:none}
+.req-check.on svg{display:block}
+.req-text{font-size:13px;color:#475569;line-height:1.5}
+.req-text.done-txt{color:#94a3b8;text-decoration:line-through}
+
+code{font-family:'Courier New',monospace;font-size:12px;background:#f1f5f9;padding:1px 5px;border-radius:4px;border:1px solid #e2e8f0;color:#1e293b}
+
+.crit-list{display:flex;flex-direction:column;gap:6px}
+.crit-item{display:flex;align-items:center;gap:8px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:8px 10px;font-size:12px;color:#475569}
+.crit-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+.prog-wrap{border:1px solid #e2e8f0;border-radius:12px;padding:14px 16px;background:#fff}
+.prog-label{font-size:12px;color:#64748b;margin-bottom:8px;display:flex;justify-content:space-between}
+.prog-label strong{color:#1e293b;font-weight:600}
+.prog-bg{height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden;margin-bottom:10px}
+.prog-fg{height:100%;background:#22c55e;border-radius:4px;transition:width .4s ease;width:0%}
+.prog-msg{font-size:12px;color:#64748b;font-style:italic}
+
+.timer-row{display:flex;align-items:center;gap:10px;border:1px solid #e2e8f0;border-radius:12px;padding:12px 16px;background:#fff;flex-wrap:wrap}
+.timer-num{font-size:28px;font-weight:500;font-family:'Courier New',monospace;color:#1e293b;min-width:85px}
+.timer-num.warn{color:#d97706}
+.timer-num.danger{color:#dc2626}
+.timer-info{flex:1;min-width:140px}
+.timer-info p{font-size:12px;color:#64748b;margin-top:2px}
+.timer-info strong{font-size:13px;color:#1e293b;font-weight:600}
+.tbtn{font-size:12px;padding:7px 16px;border-radius:8px;border:1px solid #cbd5e1;background:#fff;color:#1e293b;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
+.tbtn:hover{background:#f1f5f9}
+.tbtn.start{background:#2563eb;color:#fff;border-color:#2563eb}
+.tbtn.start:hover{background:#1d4ed8}
+.tbtn:disabled{opacity:.4;pointer-events:none}
+
+.entrega{border:1px solid #86efac;border-radius:12px;padding:14px 16px;background:#f0fdf4}
+.entrega-title{font-size:11px;font-weight:600;color:#15803d;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.entrega p{font-size:13px;color:#475569;line-height:1.6}
+.entrega a{color:#2563eb}
+
+.success-banner{display:none;background:#f0fdf4;border:1px solid #86efac;border-radius:12px;padding:20px;text-align:center}
+.success-banner.show{display:block}
+.success-banner h3{font-size:16px;font-weight:600;color:#15803d;margin-bottom:6px}
+.success-banner p{font-size:13px;color:#475569}
+</style>
+</head>
+<body>
+
+<div class="d-wrap">
+
+  <div class="brief-card">
+    <div class="brief-top">
+      <div class="brief-badge">Desafio autônomo · 60 minutos</div>
+      <div class="brief-title">Minha Página de Apresentação</div>
+      <div class="brief-sub">Crie do zero — sem copiar do colega. Use o que você aprendeu hoje.</div>
+    </div>
+    <div class="brief-body">
+      <div class="context-box">
+        <strong>Contexto real</strong>
+        Você foi contratado como estagiário em uma empresa de tecnologia. Seu gestor pediu uma página HTML simples de apresentação para o site interno da equipe. Ela precisa ser semântica, válida e organizada.
+      </div>
+
+      <div class="two-col">
+        <div>
+          <div class="col-title">Requisitos — marque conforme conclui</div>
+          <div class="req-list" id="req-list"></div>
+        </div>
+        <div>
+          <div class="col-title">Critérios de avaliação</div>
+          <div class="crit-list">
+            <div class="crit-item"><div class="crit-dot" style="background:#3b82f6"></div>HTML válido no W3C (zero erros)</div>
+            <div class="crit-item"><div class="crit-dot" style="background:#3b82f6"></div>Tags semânticas usadas corretamente</div>
+            <div class="crit-item"><div class="crit-dot" style="background:#3b82f6"></div>Código indentado e organizado</div>
+            <div class="crit-item"><div class="crit-dot" style="background:#3b82f6"></div>Comentários em cada seção</div>
+            <div class="crit-item"><div class="crit-dot" style="background:#3b82f6"></div>Conteúdo real (sem texto de exemplo)</div>
+            <div class="crit-item"><div class="crit-dot" style="background:#3b82f6"></div>Todos os links funcionando</div>
+            <div class="crit-item"><div class="crit-dot" style="background:#22c55e"></div>Bônus: link externo com target + rel</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="prog-wrap">
+    <div class="prog-label">
+      <strong>Progresso do desafio</strong>
+      <span id="prog-txt">0 de 9 concluídos</span>
+    </div>
+    <div class="prog-bg"><div class="prog-fg" id="prog-fg"></div></div>
+    <div class="prog-msg" id="prog-msg">Comece pela estrutura básica — ela é a fundação de tudo.</div>
+  </div>
+
+  <div class="timer-row">
+    <div class="timer-num" id="t-num">60:00</div>
+    <div class="timer-info">
+      <strong>Cronômetro do desafio</strong>
+      <p id="t-msg">Inicie quando o docente autorizar</p>
+    </div>
+    <button class="tbtn start" id="t-btn" onclick="timerClick()">Iniciar</button>
+    <button class="tbtn" onclick="timerReset()">Zerar</button>
+  </div>
+
+  <div class="entrega">
+    <div class="entrega-title">Entrega</div>
+    <p>Arquivo <code>index.html</code> salvo na pasta <code>meu-site/</code>, aberto no browser e validado em <a href="https://validator.w3.org/#validate_by_input" target="_blank" rel="noopener">validator.w3.org</a>. Chame o docente para mostrar ao vivo antes da etapa de apresentações.</p>
+  </div>
+
+  <div class="success-banner" id="success-banner">
+    <h3>Desafio concluído!</h3>
+    <p>Todos os requisitos marcados. Valide o HTML no W3C e chame o docente para apresentar sua página.</p>
+  </div>
+
+</div>
+
+<script>
+const REQS = [
+  {t: "Estrutura completa: <code>!DOCTYPE</code>, <code>html lang='pt-BR'</code>, <code>head</code> com charset e title, <code>body</code>"},
+  {t: "<code>&lt;header&gt;</code> com seu nome em <code>&lt;h1&gt;</code> e uma frase de efeito em <code>&lt;p&gt;</code>"},
+  {t: "<code>&lt;nav&gt;</code> com pelo menos 3 links para páginas futuras do projeto"},
+  {t: "<code>&lt;main&gt;</code> com pelo menos 2 <code>&lt;section&gt;</code>, cada uma com <code>&lt;h2&gt;</code>"},
+  {t: "2 parágrafos reais sobre você (sem texto de exemplo)"},
+  {t: "Lista <code>&lt;ul&gt;</code> com 5 itens — tecnologias, hobbies ou curiosidades"},
+  {t: "Lista <code>&lt;ol&gt;</code> com 3 passos para acessar algum site"},
+  {t: "<code>&lt;footer&gt;</code> com seu nome e o símbolo <code>&amp;copy;</code>"},
+  {t: "Comentários em cada seção + código validado no W3C"},
+];
+
+const MSGS = [
+  "Comece pela estrutura básica — ela é a fundação de tudo.",
+  "Header e nav prontos? Abra no browser e confira.",
+  "Bom progresso! Agora vem o conteúdo de verdade.",
+  "Lembre: conteúdo real, não texto de exemplo.",
+  "Metade do caminho! Salve frequentemente.",
+  "Falta pouco — listas e footer te aguardam.",
+  "Quase lá! Revise a indentação do código.",
+  "Falta só validar no W3C — copie o HTML e cole lá.",
+  "Tudo concluído! Chame o docente para apresentar.",
+];
+
+let done = new Set();
+let ticking = false, tSec = 60 * 60, tInterval = null;
+
+function buildReqs() {
+  const el = document.getElementById('req-list');
+  REQS.forEach((r, i) => {
+    const d = document.createElement('div');
+    d.className = 'req-item';
+    d.innerHTML = `
+      <div class="req-check" id="rc-${i}" onclick="checkReq(${i})">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="req-text" id="rt-${i}">${r.t}</div>`;
+    el.appendChild(d);
+  });
+}
+
+function checkReq(i) {
+  if (done.has(i)) {
+    done.delete(i);
+    document.getElementById('rc-' + i).classList.remove('on');
+    document.getElementById('rt-' + i).classList.remove('done-txt');
+  } else {
+    done.add(i);
+    document.getElementById('rc-' + i).classList.add('on');
+    document.getElementById('rt-' + i).classList.add('done-txt');
+  }
+  const n = done.size;
+  const pct = Math.round((n / REQS.length) * 100);
+  document.getElementById('prog-fg').style.width = pct + '%';
+  document.getElementById('prog-txt').textContent = n + ' de ' + REQS.length + ' concluídos';
+  document.getElementById('prog-msg').textContent = MSGS[Math.min(n, MSGS.length - 1)];
+  if (n === REQS.length) {
+    document.getElementById('success-banner').classList.add('show');
+  } else {
+    document.getElementById('success-banner').classList.remove('show');
+  }
+}
+
+function timerClick() {
+  if (!ticking) {
+    ticking = true;
+    document.getElementById('t-btn').textContent = 'Pausar';
+    document.getElementById('t-btn').className = 'tbtn';
+    document.getElementById('t-msg').textContent = 'Cronômetro em andamento';
+    tInterval = setInterval(() => {
+      tSec--;
+      if (tSec <= 0) {
+        tSec = 0;
+        clearInterval(tInterval);
+        ticking = false;
+        document.getElementById('t-btn').textContent = 'Tempo esgotado';
+        document.getElementById('t-btn').disabled = true;
+      }
+      const m = Math.floor(tSec / 60), s = tSec % 60;
+      const el = document.getElementById('t-num');
+      el.textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+      el.className = 'timer-num' + (tSec <= 600 ? ' warn' : '') + (tSec <= 120 ? ' danger' : '');
+      if (tSec === 1800) document.getElementById('t-msg').textContent = 'Metade do tempo — confira o progresso';
+      if (tSec === 600) document.getElementById('t-msg').textContent = '10 minutos restantes — finalize e valide!';
+      if (tSec === 120) document.getElementById('t-msg').textContent = '2 minutos — salve e chame o docente';
+    }, 1000);
+  } else {
+    ticking = false;
+    clearInterval(tInterval);
+    document.getElementById('t-btn').textContent = 'Continuar';
+    document.getElementById('t-btn').className = 'tbtn start';
+    document.getElementById('t-msg').textContent = 'Pausado';
+  }
+}
+
+function timerReset() {
+  clearInterval(tInterval);
+  ticking = false;
+  tSec = 60 * 60;
+  document.getElementById('t-num').textContent = '60:00';
+  document.getElementById('t-num').className = 'timer-num';
+  document.getElementById('t-btn').textContent = 'Iniciar';
+  document.getElementById('t-btn').className = 'tbtn start';
+  document.getElementById('t-btn').disabled = false;
+  document.getElementById('t-msg').textContent = 'Inicie quando o docente autorizar';
+}
+
+buildReqs();
+</script>
+</body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prática Guiada — Aula 01 HTML</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;color:#1e293b;background:#f8fafc;min-height:100vh;padding:24px}
+
+.pg-wrap{max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+
+.pg-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.pg-title{font-size:18px;font-weight:600;color:#1e293b}
+.pg-meta{font-size:12px;color:#64748b;margin-top:2px}
+.pg-time{font-size:12px;font-weight:500;color:#64748b;background:#f1f5f9;border:1px solid #e2e8f0;padding:5px 12px;border-radius:8px}
+
+.prog-row{display:flex;align-items:center;gap:10px}
+.prog-bg{flex:1;height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden}
+.prog-fg{height:100%;background:#22c55e;border-radius:4px;transition:width .4s ease;width:0%}
+.prog-txt{font-size:12px;font-weight:600;color:#64748b;min-width:64px;text-align:right}
+
+.steps-list{display:flex;flex-direction:column;gap:8px}
+
+.step-card{border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;background:#fff;transition:border-color .2s}
+.step-card.done{border-color:#86efac}
+.step-card.active{border-color:#93c5fd}
+
+.step-head{display:flex;align-items:flex-start;gap:12px;padding:13px 14px;cursor:pointer;user-select:none;transition:background .15s}
+.step-head:hover{background:#f8fafc}
+.step-card.open .step-head{background:#f8fafc}
+
+.step-check{width:22px;height:22px;border-radius:6px;border:1.5px solid #cbd5e1;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .18s;cursor:pointer;background:#fff}
+.step-check:hover{border-color:#3b82f6;background:#eff6ff}
+.step-check.done{background:#22c55e;border-color:#22c55e}
+.step-check svg{display:none}
+.step-check.done svg{display:block}
+
+.step-info{flex:1;min-width:0}
+.step-num{font-size:11px;font-weight:600;color:#94a3b8;margin-bottom:2px;text-transform:uppercase;letter-spacing:.04em}
+.step-ttl{font-size:14px;font-weight:600;color:#1e293b;line-height:1.3}
+.step-time{font-size:11px;color:#94a3b8;margin-top:3px}
+
+.chevron{color:#94a3b8;font-size:12px;margin-top:5px;transition:transform .22s;flex-shrink:0}
+.step-card.open .chevron{transform:rotate(180deg)}
+
+.step-body{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.step-card.open .step-body{max-height:1200px}
+.step-body-inner{padding:0 14px 16px;border-top:1px solid #f1f5f9}
+
+.instr-list{display:flex;flex-direction:column;gap:7px;margin:12px 0}
+.instr-item{display:flex;gap:10px;font-size:13px;color:#475569;line-height:1.55;align-items:flex-start}
+.instr-n{width:20px;height:20px;min-width:20px;border-radius:5px;background:#eff6ff;color:#1d4ed8;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;margin-top:1px}
+
+code{font-family:'Courier New',monospace;font-size:12px;background:#f1f5f9;padding:2px 6px;border-radius:4px;border:1px solid #e2e8f0;color:#1e293b}
+
+.code-block{background:#1e293b;border-radius:8px;padding:14px 16px;font-family:'Courier New',monospace;font-size:12px;line-height:1.8;color:#94a3b8;margin:10px 0;overflow-x:auto;white-space:pre}
+.k{color:#93c5fd}.a{color:#fde68a}.s{color:#fda4af}.t{color:#e2e8f0}.c{color:#475569;font-style:italic}
+
+.tip{background:#fffbeb;border-left:3px solid #f59e0b;padding:9px 12px;font-size:12px;color:#78350f;line-height:1.55;margin-top:8px}
+.tip strong{color:#92400e;font-weight:600}
+
+.mark-btn{display:inline-flex;align-items:center;gap:6px;background:#f8fafc;border:1px solid #cbd5e1;color:#64748b;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .18s;margin-top:12px}
+.mark-btn:hover{background:#f0fdf4;color:#15803d;border-color:#86efac}
+.mark-btn.done-btn{background:#f0fdf4;color:#15803d;border-color:#86efac;pointer-events:none}
+
+.success-banner{background:#f0fdf4;border:1px solid #86efac;border-radius:12px;padding:20px;text-align:center;display:none}
+.success-banner.show{display:block}
+.success-banner h3{font-size:16px;font-weight:600;color:#15803d;margin-bottom:6px}
+.success-banner p{font-size:13px;color:#475569}
+
+a{color:#2563eb}
+</style>
+</head>
+<body>
+
+<div class="pg-wrap">
+
+  <div class="pg-header">
+    <div>
+      <div class="pg-title">Prática guiada — Aula 01</div>
+      <div class="pg-meta">Siga os passos. Marque cada um quando terminar.</div>
+    </div>
+    <span class="pg-time">60 min disponíveis</span>
+  </div>
+
+  <div class="prog-row">
+    <div class="prog-bg"><div class="prog-fg" id="pfg"></div></div>
+    <div class="prog-txt" id="ptxt">0 / 7</div>
+  </div>
+
+  <div class="steps-list" id="steps-list"></div>
+
+  <div class="success-banner" id="success">
+    <h3>Parabéns! Você completou todos os passos.</h3>
+    <p>Sua página HTML5 está pronta e semanticamente correta. Agora é hora do desafio autônomo!</p>
+  </div>
+
+</div>
+
+<script>
+const STEPS = [
+  {
+    title: "Criar a pasta e o arquivo",
+    time: "5 min",
+    instrs: [
+      "Crie uma pasta chamada <code>meu-site</code> na Área de Trabalho",
+      "Abra o VS Code e arraste a pasta para dentro dele (File &gt; Open Folder)",
+      "No painel lateral, clique no ícone de novo arquivo e crie: <code>index.html</code>",
+      "Salve com <code>Ctrl+S</code> — o VS Code vai colorir o código automaticamente"
+    ],
+    code: "",
+    tip: "<strong>Dica:</strong> no VS Code, a extensão Live Server (botão 'Go Live' no rodapé) atualiza o browser automaticamente toda vez que você salva."
+  },
+  {
+    title: "Estrutura mínima do HTML5",
+    time: "8 min",
+    instrs: [
+      "Digite <code>!</code> e pressione <code>Tab</code> — o VS Code gera a estrutura automaticamente!",
+      "Verifique se o <code>lang</code> está como <code>pt-BR</code> (mude se necessário)",
+      "Altere o conteúdo do <code>&lt;title&gt;</code> para seu nome",
+      "Salve e abra no browser: o título aparece na aba"
+    ],
+    code: `<span class="k">&lt;!DOCTYPE html&gt;</span>
+<span class="k">&lt;html</span> <span class="a">lang</span>=<span class="s">"pt-BR"</span><span class="k">&gt;</span>
+<span class="k">&lt;head&gt;</span>
+  <span class="k">&lt;meta</span> <span class="a">charset</span>=<span class="s">"UTF-8"</span><span class="k">&gt;</span>
+  <span class="k">&lt;meta</span> <span class="a">name</span>=<span class="s">"viewport"</span> <span class="a">content</span>=<span class="s">"width=device-width, initial-scale=1.0"</span><span class="k">&gt;</span>
+  <span class="k">&lt;title&gt;</span><span class="t">Seu Nome Aqui</span><span class="k">&lt;/title&gt;</span>
+<span class="k">&lt;/head&gt;</span>
+<span class="k">&lt;body&gt;</span>
+
+<span class="k">&lt;/body&gt;</span>
+<span class="k">&lt;/html&gt;</span>`,
+    tip: "<strong>Atalho VS Code:</strong> <code>!</code> + Tab gera o esqueleto completo. Economiza tempo e evita erros de digitação."
+  },
+  {
+    title: "Header — cabeçalho da página",
+    time: "7 min",
+    instrs: [
+      "Dentro do <code>&lt;body&gt;</code>, adicione um comentário: <code>&lt;!-- CABEÇALHO --&gt;</code>",
+      "Crie a tag <code>&lt;header&gt;</code> com seu nome dentro de um <code>&lt;h1&gt;</code>",
+      "Abaixo do <code>&lt;h1&gt;</code>, adicione um <code>&lt;p&gt;</code> com sua área de interesse",
+      "Salve e veja o resultado no browser — o h1 aparece grande"
+    ],
+    code: `  <span class="c">&lt;!-- CABEÇALHO --&gt;</span>
+  <span class="k">&lt;header&gt;</span>
+    <span class="k">&lt;h1&gt;</span><span class="t">Seu Nome</span><span class="k">&lt;/h1&gt;</span>
+    <span class="k">&lt;p&gt;</span><span class="t">Estudante de Desenvolvimento de Sistemas — SENAI</span><span class="k">&lt;/p&gt;</span>
+  <span class="k">&lt;/header&gt;</span>`,
+    tip: "<strong>Lembre:</strong> o h1 é único por página. Representa o título principal — como o título de um livro."
+  },
+  {
+    title: "Nav — barra de navegação",
+    time: "8 min",
+    instrs: [
+      "Após o <code>&lt;/header&gt;</code>, adicione o comentário <code>&lt;!-- NAVEGAÇÃO --&gt;</code>",
+      "Crie a tag <code>&lt;nav&gt;</code> com 3 links: Início, Sobre, Contato",
+      "Use <code>href='index.html'</code>, <code>href='sobre.html'</code>, <code>href='contato.html'</code>",
+      "Salve — os links ficam azuis e clicáveis (as páginas ainda não existem, mas os links sim)"
+    ],
+    code: `  <span class="c">&lt;!-- NAVEGAÇÃO --&gt;</span>
+  <span class="k">&lt;nav&gt;</span>
+    <span class="k">&lt;a</span> <span class="a">href</span>=<span class="s">"index.html"</span><span class="k">&gt;</span><span class="t">Início</span><span class="k">&lt;/a&gt;</span>
+    <span class="k">&lt;a</span> <span class="a">href</span>=<span class="s">"sobre.html"</span><span class="k">&gt;</span><span class="t">Sobre</span><span class="k">&lt;/a&gt;</span>
+    <span class="k">&lt;a</span> <span class="a">href</span>=<span class="s">"contato.html"</span><span class="k">&gt;</span><span class="t">Contato</span><span class="k">&lt;/a&gt;</span>
+  <span class="k">&lt;/nav&gt;</span>`,
+    tip: "<strong>Por enquanto</strong> os links aparecem sem estilo diferenciado — isso muda na Aula 02 quando aprendermos CSS."
+  },
+  {
+    title: "Main + section — conteúdo principal",
+    time: "10 min",
+    instrs: [
+      "Adicione <code>&lt;!-- CONTEÚDO PRINCIPAL --&gt;</code> e a tag <code>&lt;main&gt;</code>",
+      "Dentro do <code>&lt;main&gt;</code>, crie uma <code>&lt;section&gt;</code> com <code>&lt;h2&gt;Sobre mim&lt;/h2&gt;</code>",
+      "Escreva pelo menos 2 parágrafos reais sobre você (não deixe texto de exemplo!)",
+      "Crie uma segunda <code>&lt;section&gt;</code> com <code>&lt;h2&gt;</code> de outro assunto"
+    ],
+    code: `  <span class="c">&lt;!-- CONTEÚDO PRINCIPAL --&gt;</span>
+  <span class="k">&lt;main&gt;</span>
+
+    <span class="k">&lt;section&gt;</span>
+      <span class="k">&lt;h2&gt;</span><span class="t">Sobre mim</span><span class="k">&lt;/h2&gt;</span>
+      <span class="k">&lt;p&gt;</span><span class="t">Escreva aqui sobre você — quem é,
+      o que gosta, por que escolheu TI...</span><span class="k">&lt;/p&gt;</span>
+      <span class="k">&lt;p&gt;</span><span class="t">Segundo parágrafo com mais detalhes.</span><span class="k">&lt;/p&gt;</span>
+    <span class="k">&lt;/section&gt;</span>
+
+  <span class="k">&lt;/main&gt;</span>`,
+    tip: "<strong>Hierarquia:</strong> só 1 h1 por página. Seções usam h2. Subseções usariam h3. Nunca pule nível por questões visuais — use CSS para isso."
+  },
+  {
+    title: "Listas — ul, ol e li",
+    time: "10 min",
+    instrs: [
+      "Dentro de uma <code>&lt;section&gt;</code>, crie uma lista <code>&lt;ul&gt;</code> com 5 itens sobre você",
+      "Em outra seção, crie uma lista <code>&lt;ol&gt;</code> com 3 passos para acessar um site",
+      "Cada item usa a tag <code>&lt;li&gt;</code> dentro do <code>&lt;ul&gt;</code> ou <code>&lt;ol&gt;</code>",
+      "Salve e compare: a <code>&lt;ul&gt;</code> mostra bolinhas, a <code>&lt;ol&gt;</code> mostra números"
+    ],
+    code: `    <span class="k">&lt;section&gt;</span>
+      <span class="k">&lt;h2&gt;</span><span class="t">5 coisas sobre mim</span><span class="k">&lt;/h2&gt;</span>
+      <span class="k">&lt;ul&gt;</span>
+        <span class="k">&lt;li&gt;</span><span class="t">Gosto de tecnologia</span><span class="k">&lt;/li&gt;</span>
+        <span class="k">&lt;li&gt;</span><span class="t">Aprendo HTML no SENAI</span><span class="k">&lt;/li&gt;</span>
+        <span class="k">&lt;li&gt;</span><span class="t">...</span><span class="k">&lt;/li&gt;</span>
+      <span class="k">&lt;/ul&gt;</span>
+    <span class="k">&lt;/section&gt;</span>
+
+    <span class="k">&lt;section&gt;</span>
+      <span class="k">&lt;h2&gt;</span><span class="t">Como acessar o GitHub</span><span class="k">&lt;/h2&gt;</span>
+      <span class="k">&lt;ol&gt;</span>
+        <span class="k">&lt;li&gt;</span><span class="t">Abra o browser</span><span class="k">&lt;/li&gt;</span>
+        <span class="k">&lt;li&gt;</span><span class="t">Digite github.com</span><span class="k">&lt;/li&gt;</span>
+        <span class="k">&lt;li&gt;</span><span class="t">Crie sua conta grátis</span><span class="k">&lt;/li&gt;</span>
+      <span class="k">&lt;/ol&gt;</span>
+    <span class="k">&lt;/section&gt;</span>`,
+    tip: "<strong>Regra prática:</strong> ul = itens sem ordem (lista de compras, características). ol = itens com ordem obrigatória (passos, ranking)."
+  },
+  {
+    title: "Footer — rodapé e validação final",
+    time: "12 min",
+    instrs: [
+      "Após o <code>&lt;/main&gt;</code>, adicione <code>&lt;!-- RODAPÉ --&gt;</code> e a tag <code>&lt;footer&gt;</code>",
+      "Dentro coloque: <code>&lt;p&gt;&amp;copy; 2025 Seu Nome&lt;/p&gt;</code> — o <code>&amp;copy;</code> vira ©",
+      "Acesse <a href='https://validator.w3.org/#validate_by_input' target='_blank'>validator.w3.org</a>, cole seu HTML e clique em Check",
+      "Corrija todos os erros apontados — o documento deve ficar verde"
+    ],
+    code: `  <span class="c">&lt;!-- RODAPÉ --&gt;</span>
+  <span class="k">&lt;footer&gt;</span>
+    <span class="k">&lt;p&gt;</span><span class="t">&amp;copy; 2025 Seu Nome — SENAI</span><span class="k">&lt;/p&gt;</span>
+  <span class="k">&lt;/footer&gt;</span>`,
+    tip: "<strong>Entidades HTML úteis:</strong> <code>&amp;copy;</code> = © | <code>&amp;amp;</code> = &amp; | <code>&amp;lt;</code> = &lt; | <code>&amp;gt;</code> = &gt; | <code>&amp;eacute;</code> = é"
+  }
+];
+
+let done = new Set();
+
+function buildSteps() {
+  const list = document.getElementById('steps-list');
+  STEPS.forEach((s, i) => {
+    const card = document.createElement('div');
+    card.className = 'step-card active' + (i === 0 ? ' open' : '');
+    card.id = 'sc-' + i;
+
+    card.innerHTML = `
+      <div class="step-head" onclick="toggleStep(${i})">
+        <div class="step-check" id="chk-${i}" onclick="event.stopPropagation(); markDone(${i})">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+            <path d="M2 6.5l3.5 3.5 5.5-5.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="step-info">
+          <div class="step-num">Passo ${i + 1} de ${STEPS.length}</div>
+          <div class="step-ttl">${s.title}</div>
+          <div class="step-time">${s.time}</div>
+        </div>
+        <span class="chevron">${i === 0 ? '▲' : '▼'}</span>
+      </div>
+      <div class="step-body">
+        <div class="step-body-inner">
+          <div class="instr-list">
+            ${s.instrs.map((t, j) => `
+              <div class="instr-item">
+                <div class="instr-n">${j + 1}</div>
+                <span>${t}</span>
+              </div>`).join('')}
+          </div>
+          ${s.code ? `<div class="code-block">${s.code}</div>` : ''}
+          ${s.tip ? `<div class="tip">${s.tip}</div>` : ''}
+          <button class="mark-btn" id="mb-${i}" onclick="markDone(${i})">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M2 7l4 4 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Marcar como concluído
+          </button>
+        </div>
+      </div>`;
+    list.appendChild(card);
+  });
+}
+
+function toggleStep(i) {
+  const card = document.getElementById('sc-' + i);
+  const isOpen = card.classList.contains('open');
+  document.querySelectorAll('.step-card').forEach(c => {
+    c.classList.remove('open');
+    c.querySelector('.chevron').textContent = '▼';
+  });
+  if (!isOpen) {
+    card.classList.add('open');
+    card.querySelector('.chevron').textContent = '▲';
+  }
+}
+
+function markDone(i) {
+  if (done.has(i)) return;
+  done.add(i);
+
+  document.getElementById('chk-' + i).classList.add('done');
+  document.getElementById('sc-' + i).classList.add('done');
+
+  const mb = document.getElementById('mb-' + i);
+  mb.classList.add('done-btn');
+  mb.innerHTML = `
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M2 7l4 4 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Concluído!`;
+
+  updateProg();
+
+  if (i < STEPS.length - 1) {
+    document.querySelectorAll('.step-card').forEach(c => {
+      c.classList.remove('open');
+      c.querySelector('.chevron').textContent = '▼';
+    });
+    const next = document.getElementById('sc-' + (i + 1));
+    next.classList.add('open');
+    next.querySelector('.chevron').textContent = '▲';
+    setTimeout(() => next.scrollIntoView({behavior:'smooth', block:'nearest'}), 100);
+  }
+
+  if (done.size === STEPS.length) {
+    document.getElementById('success').classList.add('show');
+    setTimeout(() => document.getElementById('success').scrollIntoView({behavior:'smooth', block:'nearest'}), 200);
+  }
+}
+
+function updateProg() {
+  const pct = Math.round((done.size / STEPS.length) * 100);
+  document.getElementById('pfg').style.width = pct + '%';
+  document.getElementById('ptxt').textContent = done.size + ' / ' + STEPS.length;
+}
+
+buildSteps();
+updateProg();
+</script>
+</body>
+</html>

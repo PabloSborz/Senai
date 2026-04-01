@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo ao Vivo — CSS Flexbox · Aula 05</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;color:#1e293b;background:#fff7ed;min-height:100vh;padding:20px}
+.wrap{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.page-hdr{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;margin-bottom:2px}
+.page-hdr h1{font-size:16px;font-weight:600}.page-hdr p{font-size:12px;color:#94a3b8}
+.prog-track{grid-column:1/-1;height:3px;background:#e2e8f0;border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:#EA580C;border-radius:2px;transition:width .3s ease;width:0%}
+.panel{border:1px solid #fed7aa;border-radius:12px;overflow:hidden;background:#fff}
+.ph{display:flex;align-items:center;justify-content:space-between;padding:9px 13px;border-bottom:1px solid #fed7aa;background:#fff7ed}
+.pt{font-size:12px;font-weight:500;color:#92400e}
+.dots-r{display:flex;gap:5px}
+.dot{width:10px;height:10px;border-radius:50%}
+pre{background:#1e293b;color:#e2e8f0;padding:15px;font-family:'Courier New',monospace;font-size:12px;line-height:1.8;color:#94a3b8;min-height:300px;overflow:auto;white-space:pre}
+.cursor{display:inline-block;width:2px;height:14px;background:#fb923c;vertical-align:middle;animation:blink .9s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.preview-body{min-height:300px;overflow-y:auto;background:#f8fafc}
+.step-bar{grid-column:1/-1;border:1px solid #fed7aa;border-radius:12px;background:#fff;display:flex;align-items:center;gap:10px;padding:11px 15px;flex-wrap:wrap}
+.sbadge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap;background:#fff7ed;color:#EA580C;border:1px solid #fdba74}
+.slabel{font-size:12px;color:#64748b;flex:1;line-height:1.4}
+.cb{font-size:12px;font-weight:500;padding:6px 14px;border-radius:8px;border:1px solid #cbd5e1;background:#fff;color:#1e293b;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
+.cb:hover{background:#f1f5f9}.cb.go{background:#EA580C;color:#fff;border-color:#EA580C}.cb.go:hover{background:#c2410c}
+.cb:disabled{opacity:.35;pointer-events:none}
+.narr{grid-column:1/-1;border:1px solid #fed7aa;border-radius:10px;padding:11px 15px;background:#fff7ed;font-size:13px;color:#7c2d12;line-height:1.6;min-height:50px}
+.narr strong{color:#c2410c;font-weight:600}
+.k{color:#93c5fd}.p{color:#c4b5fd}.v{color:#6ee7b7}.s{color:#fda4af}.c{color:#475569;font-style:italic}
+@media(max-width:680px){.wrap{grid-template-columns:1fr}.panel:last-of-type{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="page-hdr"><h1>Demonstração ao vivo — CSS Flexbox</h1><p>Aula 05 · 45 min · Docente digita, alunos acompanham</p></div>
+  <div class="prog-track"><div class="prog-fill" id="prog"></div></div>
+  <div class="panel">
+    <div class="ph"><span class="pt">VS Code — css/estilos.css</span><div class="dots-r"><div class="dot" style="background:#ef4444"></div><div class="dot" style="background:#f59e0b"></div><div class="dot" style="background:#10b981"></div></div></div>
+    <pre><span id="code-out"></span><span class="cursor"></span></pre>
+  </div>
+  <div class="panel">
+    <div class="ph"><span class="pt">Navegador — resultado ao vivo</span><div class="dots-r"><div class="dot" style="background:#ef4444"></div><div class="dot" style="background:#f59e0b"></div><div class="dot" style="background:#10b981"></div></div></div>
+    <div class="preview-body" id="preview"></div>
+  </div>
+  <div class="narr" id="narr">Pronto para começar. Clique em <strong>Iniciar digitação</strong>.</div>
+  <div class="step-bar">
+    <span class="sbadge" id="sbadge">Etapa 1 / 8</span>
+    <span class="slabel" id="sdesc">Variáveis CSS com :root</span>
+    <button class="cb" id="bp" onclick="prevS()" disabled>← Anterior</button>
+    <button class="cb go" id="bplay" onclick="playS()">▶ Iniciar digitação</button>
+    <button class="cb" id="bn" onclick="nextS()" disabled>Próxima →</button>
+  </div>
+</div>
+<script>
+const STEPS=[
+{label:"Variáveis CSS — :root como design token",
+narr:"<strong>Docente:</strong> \"Antes de qualquer Flexbox, vamos criar as variáveis CSS. É o primeiro bloco de qualquer projeto profissional. Mude a cor primária aqui e ela muda em todo o site.\"",
+code:`<span class="c">/* css/estilos.css — Aula 05: Flexbox + Variáveis */</span>
+
+<span class="c">/* 1. VARIÁVEIS GLOBAIS */</span>
+<span class="k">:root</span> {
+  <span class="p">--primaria</span>:   <span class="v">#EA580C</span>;
+  <span class="p">--secundaria</span>: <span class="v">#c2410c</span>;
+  <span class="p">--fundo</span>:      <span class="v">#f8fafc</span>;
+  <span class="p">--superficie</span>: <span class="v">#ffffff</span>;
+  <span class="p">--texto</span>:      <span class="v">#1e293b</span>;
+  <span class="p">--texto-2</span>:    <span class="v">#64748b</span>;
+  <span class="p">--borda</span>:      <span class="v">#e2e8f0</span>;
+  <span class="p">--raio</span>:       <span class="v">10px</span>;
+  <span class="p">--sombra</span>:     <span class="v">0 2px 12px rgba(0,0,0,.08)</span>;
+}
+
+<span class="c">/* Reset */</span>
+<span class="k">*</span>, <span class="k">*::before</span>, <span class="k">*::after</span> {
+  <span class="p">box-sizing</span>: <span class="v">border-box</span>;
+  <span class="p">margin</span>: <span class="v">0</span>;
+  <span class="p">padding</span>: <span class="v">0</span>;
+}`,
+prev:`<div style="padding:16px;font-family:system-ui;font-size:13px;color:#475569"><p style="margin-bottom:8px">Variáveis definidas:</p>${['--primaria: #EA580C','--fundo: #f8fafc','--texto: #1e293b','--raio: 10px','--sombra: ...'].map(v=>`<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><div style="width:12px;height:12px;border-radius:3px;background:${v.includes('#EA580C')?'#EA580C':v.includes('#f8fafc')?'#f8fafc':v.includes('#1e293b')?'#1e293b':'#e2e8f0'};border:1px solid #e2e8f0"></div><code style="font-size:11px;background:#f1f5f9;padding:1px 6px;border-radius:3px">${v}</code></div>`).join('')}</div>`},
+{label:"Body + layout global com Flexbox",
+narr:"<strong>Docente:</strong> \"A técnica do footer grudado: body com display:flex e flex-direction:column e min-height:100vh. O main recebe flex:1 e cresce para preencher o espaço — o footer fica sempre no fundo, mesmo em páginas curtas.\"",
+code:`<span class="c">/* 2. LAYOUT GLOBAL */</span>
+<span class="k">body</span> {
+  <span class="p">font-family</span>:    <span class="s">system-ui, sans-serif</span>;
+  <span class="p">background</span>:     <span class="v">var(--fundo)</span>;
+  <span class="p">color</span>:          <span class="v">var(--texto)</span>;
+  <span class="p">line-height</span>:    <span class="v">1.6</span>;
+
+  <span class="c">/* Footer grudado no rodapé */</span>
+  <span class="p">display</span>:        <span class="v">flex</span>;
+  <span class="p">flex-direction</span>: <span class="v">column</span>;
+  <span class="p">min-height</span>:     <span class="v">100vh</span>;
+}
+
+<span class="k">main</span> {
+  <span class="p">flex</span>:    <span class="v">1</span>; <span class="c">/* cresce e empurra footer */</span>
+  <span class="p">padding</span>: <span class="v">40px 20px</span>;
+  <span class="p">max-width</span>: <span class="v">1100px</span>;
+  <span class="p">margin</span>:   <span class="v">0 auto</span>;
+  <span class="p">width</span>:    <span class="v">100%</span>;
+}`,
+prev:`<div style="font-family:system-ui;background:#f8fafc;border-radius:8px;overflow:hidden;border:1px solid #e2e8f0;display:flex;flex-direction:column;min-height:200px"><div style="background:#EA580C;color:white;padding:12px 16px;font-size:13px;font-weight:600">Header</div><main style="flex:1;padding:16px;font-size:12px;color:#64748b">main { flex: 1 } — ocupa todo o espaço disponível, empurrando o footer para baixo.</main><footer style="background:#1e293b;color:rgba(255,255,255,.7);padding:10px 16px;font-size:11px;text-align:center">Footer sempre no rodapé ✓</footer></div>`},
+{label:"Header com Flexbox — logo + nav",
+narr:"<strong>Docente:</strong> \"O padrão mais usado no mercado: header com display:flex, justify-content:space-between e align-items:center. Logo à esquerda, nav à direita — alinhados verticalmente ao centro. Sem float, sem hack.\"",
+code:`<span class="c">/* 3. HEADER FLEXBOX */</span>
+<span class="k">header</span> {
+  <span class="p">background</span>:      <span class="v">var(--primaria)</span>;
+  <span class="p">color</span>:           <span class="v">white</span>;
+  <span class="p">padding</span>:         <span class="v">0 24px</span>;
+  <span class="p">height</span>:          <span class="v">60px</span>;
+
+  <span class="c">/* Flexbox: logo esq, nav dir */</span>
+  <span class="p">display</span>:         <span class="v">flex</span>;
+  <span class="p">justify-content</span>: <span class="v">space-between</span>;
+  <span class="p">align-items</span>:     <span class="v">center</span>;
+}
+
+<span class="k">.logo</span> {
+  <span class="p">font-size</span>:   <span class="v">1.3rem</span>;
+  <span class="p">font-weight</span>: <span class="v">700</span>;
+}
+
+<span class="k">nav</span> { <span class="p">display</span>: <span class="v">flex</span>; <span class="p">gap</span>: <span class="v">4px</span>; }
+
+<span class="k">nav a</span> {
+  <span class="p">color</span>:           <span class="v">rgba(255,255,255,.85)</span>;
+  <span class="p">text-decoration</span>: <span class="v">none</span>;
+  <span class="p">padding</span>:         <span class="v">8px 14px</span>;
+  <span class="p">border-radius</span>:   <span class="v">var(--raio)</span>;
+  <span class="p">font-weight</span>:     <span class="v">600</span>;
+  <span class="p">font-size</span>:       <span class="v">.9rem</span>;
+  <span class="p">transition</span>:      <span class="v">background .2s</span>;
+}
+<span class="k">nav a:hover</span> { <span class="p">background</span>: <span class="v">rgba(255,255,255,.15)</span>; }`,
+prev:`<header style="background:#EA580C;color:white;padding:0 20px;height:52px;display:flex;justify-content:space-between;align-items:center;font-family:system-ui"><div style="font-size:15px;font-weight:700">MeuSite</div><nav style="display:flex;gap:4px"><a href="#" style="color:rgba(255,255,255,.85);text-decoration:none;padding:6px 12px;border-radius:8px;font-weight:600;font-size:12px;background:rgba(255,255,255,.15)">Início</a><a href="#" style="color:rgba(255,255,255,.85);text-decoration:none;padding:6px 12px;border-radius:8px;font-weight:600;font-size:12px">Sobre</a><a href="#" style="color:rgba(255,255,255,.85);text-decoration:none;padding:6px 12px;border-radius:8px;font-weight:600;font-size:12px">Contato</a></nav></header>`},
+{label:"Grid de cards responsivo",
+narr:"<strong>Docente:</strong> \"flex: 1 1 250px é a fórmula mágica para cards responsivos. Cada card tem base de 250px mas cresce para preencher o espaço. Com flex-wrap:wrap, eles quebram linha automaticamente em telas menores. Zero media query!\"",
+code:`<span class="c">/* 4. GRID DE CARDS */</span>
+<span class="k">.cards-grid</span> {
+  <span class="p">display</span>:    <span class="v">flex</span>;
+  <span class="p">flex-wrap</span>:  <span class="v">wrap</span>; <span class="c">/* quebra linha */</span>
+  <span class="p">gap</span>:        <span class="v">16px</span>;
+  <span class="p">margin-top</span>: <span class="v">32px</span>;
+}
+
+<span class="k">.card</span> {
+  <span class="p">flex</span>:          <span class="v">1 1 250px</span>; <span class="c">/* grow|shrink|basis */</span>
+  <span class="p">background</span>:    <span class="v">var(--superficie)</span>;
+  <span class="p">border</span>:        <span class="v">1px solid var(--borda)</span>;
+  <span class="p">border-radius</span>: <span class="v">var(--raio)</span>;
+  <span class="p">box-shadow</span>:    <span class="v">var(--sombra)</span>;
+  <span class="p">overflow</span>:      <span class="v">hidden</span>;
+  <span class="p">transition</span>:    <span class="v">transform .2s, box-shadow .2s</span>;
+}
+
+<span class="k">.card:hover</span> {
+  <span class="p">transform</span>:  <span class="v">translateY(-4px)</span>;
+  <span class="p">box-shadow</span>: <span class="v">0 8px 24px rgba(0,0,0,.12)</span>;
+}`,
+prev:`<div style="display:flex;flex-wrap:wrap;gap:12px;padding:14px;font-family:system-ui">${['📚 HTML & CSS','⚡ JavaScript','🎨 Design UI'].map((t,i)=>`<div style="flex:1 1 140px;background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06)"><div style="height:70px;background:linear-gradient(135deg,#fff7ed,#fdba74);display:flex;align-items:center;justify-content:center;font-size:24px">${t.split(' ')[0]}</div><div style="padding:10px"><div style="font-size:12px;font-weight:600;margin-bottom:3px">${t.slice(2)}</div><div style="font-size:11px;color:#64748b">Aula ${i+1}</div></div></div>`).join('')}</div>`},
+{label:"Conteúdo interno do card com Flexbox",
+narr:"<strong>Docente:</strong> \"Dentro do card, mais Flexbox. A parte interna usa flex-direction:column. O parágrafo de descrição recebe flex:1 para empurrar o botão para o rodapé — todos os botões ficam alinhados independente do tamanho do texto.\"",
+code:`<span class="c">/* 5. INTERIOR DO CARD */</span>
+<span class="k">.card-img</span> {
+  <span class="p">height</span>:          <span class="v">160px</span>;
+  <span class="p">background</span>:      <span class="v">linear-gradient(135deg, #fff7ed, #fdba74)</span>;
+  <span class="p">display</span>:         <span class="v">flex</span>;
+  <span class="p">align-items</span>:     <span class="v">center</span>;
+  <span class="p">justify-content</span>: <span class="v">center</span>;
+  <span class="p">font-size</span>:       <span class="v">2.5rem</span>;
+}
+
+<span class="k">.card-body</span> {
+  <span class="p">display</span>:        <span class="v">flex</span>;
+  <span class="p">flex-direction</span>: <span class="v">column</span>;
+  <span class="p">padding</span>:        <span class="v">16px</span>;
+  <span class="p">flex</span>:           <span class="v">1</span>; <span class="c">/* cresce para igualar altura */</span>
+}
+
+<span class="k">.card-desc</span> {
+  <span class="p">flex</span>:          <span class="v">1</span>; <span class="c">/* empurra botão para baixo */</span>
+  <span class="p">font-size</span>:     <span class="v">.9rem</span>;
+  <span class="p">color</span>:         <span class="v">var(--texto-2)</span>;
+  <span class="p">margin-bottom</span>: <span class="v">14px</span>;
+}
+
+<span class="k">.btn-card</span> {
+  <span class="p">background</span>:    <span class="v">var(--primaria)</span>;
+  <span class="p">color</span>:         <span class="v">white</span>;
+  <span class="p">padding</span>:       <span class="v">9px 16px</span>;
+  <span class="p">border-radius</span>: <span class="v">8px</span>;
+  <span class="p">text-align</span>:    <span class="v">center</span>;
+  <span class="p">font-weight</span>:   <span class="v">600</span>;
+  <span class="p">font-size</span>:     <span class="v">.9rem</span>;
+  <span class="p">transition</span>:    <span class="v">background .2s</span>;
+}
+<span class="k">.btn-card:hover</span> { <span class="p">background</span>: <span class="v">var(--secundaria)</span>; }`,
+prev:`<div style="display:flex;flex-wrap:wrap;gap:10px;padding:12px;font-family:system-ui">${[['📚','HTML & CSS','Aprenda a estruturar e estilizar páginas web.'],['⚡','JavaScript','Adicione interatividade e dinamismo ao seu site.']].map(([ico,t,d])=>`<div style="flex:1 1 160px;background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);display:flex;flex-direction:column"><div style="height:90px;background:linear-gradient(135deg,#fff7ed,#fdba74);display:flex;align-items:center;justify-content:center;font-size:28px">${ico}</div><div style="padding:12px;display:flex;flex-direction:column;flex:1"><div style="font-size:12px;font-weight:700;margin-bottom:5px">${t}</div><div style="font-size:11px;color:#64748b;flex:1;line-height:1.5">${d}</div><div style="background:#EA580C;color:white;padding:7px;border-radius:7px;text-align:center;font-size:11px;font-weight:600;margin-top:10px">Saiba mais</div></div></div>`).join('')}</div>`},
+{label:"Seção hero centralizada",
+narr:"<strong>Docente:</strong> \"A hero é o exemplo mais claro de centralização com Flexbox. display:flex + align-items:center + justify-content:center + flex-direction:column e o conteúdo fica perfeitamente centralizado horizontal e verticalmente.\"",
+code:`<span class="c">/* 6. HERO CENTRALIZADO */</span>
+<span class="k">.hero</span> {
+  <span class="p">background</span>: <span class="v">linear-gradient(135deg, var(--primaria), var(--secundaria))</span>;
+  <span class="p">color</span>:      <span class="v">white</span>;
+  <span class="p">padding</span>:    <span class="v">80px 20px</span>;
+
+  <span class="c">/* Centralização perfeita */</span>
+  <span class="p">display</span>:         <span class="v">flex</span>;
+  <span class="p">flex-direction</span>:  <span class="v">column</span>;
+  <span class="p">align-items</span>:     <span class="v">center</span>;
+  <span class="p">justify-content</span>: <span class="v">center</span>;
+  <span class="p">text-align</span>:      <span class="v">center</span>;
+  <span class="p">gap</span>:             <span class="v">16px</span>;
+}
+
+<span class="k">.hero h1</span> { <span class="p">font-size</span>: <span class="v">2.5rem</span>; <span class="p">font-weight</span>: <span class="v">700</span>; }
+<span class="k">.hero p</span>  { <span class="p">opacity</span>: <span class="v">.85</span>; <span class="p">max-width</span>: <span class="v">500px</span>; }
+<span class="k">.hero-btns</span> {
+  <span class="p">display</span>: <span class="v">flex</span>;
+  <span class="p">gap</span>:     <span class="v">12px</span>;
+}`,
+prev:`<div style="background:linear-gradient(135deg,#EA580C,#c2410c);color:white;padding:40px 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;font-family:system-ui"><h1 style="font-size:22px;font-weight:700">Aprenda desenvolvimento web</h1><p style="opacity:.85;font-size:13px;max-width:320px;line-height:1.6">Construa sites modernos com HTML, CSS e JavaScript do zero ao portfólio profissional.</p><div style="display:flex;gap:10px"><a href="#" style="background:white;color:#EA580C;padding:8px 18px;border-radius:8px;font-weight:700;font-size:12px;text-decoration:none">Começar agora</a><a href="#" style="background:rgba(255,255,255,.15);color:white;padding:8px 18px;border-radius:8px;font-weight:600;font-size:12px;text-decoration:none">Ver projetos</a></div></div>`},
+{label:"Footer e resultado completo",
+narr:"<strong>Docente:</strong> \"O footer recebe o mesmo padrão do header: Flexbox com space-between. Vejam o resultado final — header, hero, grid de cards e footer sticky, tudo com Flexbox. Nenhum float foi usado. Isso é CSS moderno.\"",
+code:`<span class="c">/* 7. FOOTER */</span>
+<span class="k">footer</span> {
+  <span class="p">background</span>:      <span class="v">#1e293b</span>;
+  <span class="p">color</span>:           <span class="v">rgba(255,255,255,.7)</span>;
+  <span class="p">padding</span>:         <span class="v">24px</span>;
+
+  <span class="c">/* Flex: conteúdo esq, copyright dir */</span>
+  <span class="p">display</span>:         <span class="v">flex</span>;
+  <span class="p">justify-content</span>: <span class="v">space-between</span>;
+  <span class="p">align-items</span>:     <span class="v">center</span>;
+  <span class="p">flex-wrap</span>:       <span class="v">wrap</span>;
+  <span class="p">gap</span>:             <span class="v">12px</span>;
+}
+
+<span class="k">.footer-links</span> {
+  <span class="p">display</span>: <span class="v">flex</span>;
+  <span class="p">gap</span>:     <span class="v">16px</span>;
+}
+<span class="k">.footer-links a</span> {
+  <span class="p">color</span>:           <span class="v">rgba(255,255,255,.6)</span>;
+  <span class="p">text-decoration</span>: <span class="v">none</span>;
+  <span class="p">font-size</span>:       <span class="v">.85rem</span>;
+  <span class="p">transition</span>:      <span class="v">color .2s</span>;
+}
+<span class="k">.footer-links a:hover</span> { <span class="p">color</span>: <span class="v">white</span>; }`,
+prev:`<div style="font-family:system-ui;display:flex;flex-direction:column;min-height:280px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden"><header style="background:#EA580C;color:white;padding:0 14px;height:44px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;font-weight:700">MeuSite</span><nav style="display:flex;gap:4px">${['Início','Sobre','Contato'].map(n=>`<a href="#" style="color:rgba(255,255,255,.85);font-size:11px;font-weight:600;padding:4px 9px;border-radius:6px;text-decoration:none">${n}</a>`).join('')}</nav></header><div style="background:linear-gradient(135deg,#EA580C,#c2410c);color:white;padding:22px;text-align:center"><div style="font-size:15px;font-weight:700;margin-bottom:5px">Aprenda HTML, CSS e JS</div><div style="font-size:11px;opacity:.85">Do zero ao portfólio profissional</div></div><main style="flex:1;padding:14px;display:flex;flex-wrap:wrap;gap:8px">${['📚 HTML','⚡ JS','🎨 CSS'].map(t=>`<div style="flex:1 1 80px;background:white;border:1px solid #e2e8f0;border-radius:8px;padding:10px;text-align:center;font-size:11px"><div style="font-size:18px;margin-bottom:4px">${t.split(' ')[0]}</div>${t.slice(2)}</div>`).join('')}</main><footer style="background:#1e293b;color:rgba(255,255,255,.7);padding:10px 14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span style="font-size:10px">© 2025 MeuSite</span><div style="display:flex;gap:10px">${['Início','Sobre'].map(n=>`<a href="#" style="color:rgba(255,255,255,.6);font-size:10px;text-decoration:none">${n}</a>`).join('')}</div></footer></div>`},
+{label:"Layout de 2 colunas (Sobre)",
+narr:"<strong>Docente:</strong> \"O layout de 2 colunas clássico: container flex com gap. A imagem fica em uma div com width:280px. O texto fica em outra div com flex:1 — cresce para preencher o restante. Simples e profissional.\"",
+code:`<span class="c">/* 8. LAYOUT 2 COLUNAS — página 'Sobre' */</span>
+<span class="k">.sobre-layout</span> {
+  <span class="p">display</span>: <span class="v">flex</span>;
+  <span class="p">gap</span>:     <span class="v">40px</span>;
+  <span class="p">align-items</span>: <span class="v">flex-start</span>;
+}
+
+<span class="k">.sobre-img</span> {
+  <span class="p">width</span>:         <span class="v">280px</span>;
+  <span class="p">flex-shrink</span>:   <span class="v">0</span>; <span class="c">/* não encolhe */</span>
+  <span class="p">border-radius</span>: <span class="v">var(--raio)</span>;
+  <span class="p">overflow</span>:      <span class="v">hidden</span>;
+}
+
+<span class="k">.sobre-img img</span> {
+  <span class="p">width</span>:      <span class="v">100%</span>;
+  <span class="p">height</span>:     <span class="v">320px</span>;
+  <span class="p">object-fit</span>: <span class="v">cover</span>;
+}
+
+<span class="k">.sobre-texto</span> {
+  <span class="p">flex</span>: <span class="v">1</span>; <span class="c">/* ocupa o espaço restante */</span>
+}
+
+<span class="k">.sobre-texto h2</span> {
+  <span class="p">color</span>:         <span class="v">var(--primaria)</span>;
+  <span class="p">margin-bottom</span>: <span class="v">16px</span>;
+}`,
+prev:`<div style="display:flex;gap:20px;padding:16px;font-family:system-ui;align-items:flex-start"><div style="width:140px;flex-shrink:0;border-radius:10px;overflow:hidden"><div style="width:140px;height:170px;background:linear-gradient(135deg,#fff7ed,#fdba74);display:flex;align-items:center;justify-content:center;font-size:40px">👤</div></div><div style="flex:1"><h2 style="font-size:15px;font-weight:700;color:#EA580C;margin-bottom:8px">Sobre mim</h2><p style="font-size:12px;color:#475569;line-height:1.6;margin-bottom:8px">Sou estudante de Desenvolvimento de Sistemas no SENAI/SC. Apaixonado por tecnologia e design web.</p><p style="font-size:12px;color:#475569;line-height:1.6">Esta página foi criada com Flexbox — um layout de 2 colunas sem float, sem hack, sem sofrimento.</p></div></div>`}
+];
+let cur=0,typing=false,typeTimer=null;
+function render(){const s=STEPS[cur];document.getElementById('sbadge').textContent=`Etapa ${cur+1} / ${STEPS.length}`;document.getElementById('sdesc').textContent=s.label;document.getElementById('prog').style.width=`${Math.round(((cur+1)/STEPS.length)*100)}%`;document.getElementById('bp').disabled=cur===0;document.getElementById('bn').disabled=cur===STEPS.length-1;document.getElementById('narr').innerHTML=s.narr;document.getElementById('preview').innerHTML=s.prev||'';}
+function playS(){if(typing)return;typing=true;const s=STEPS[cur];const out=document.getElementById('code-out');out.innerHTML='';document.getElementById('bplay').disabled=true;document.getElementById('bp').disabled=true;document.getElementById('bn').disabled=true;const full=s.code;const parts=[];let i=0;while(i<full.length){if(full[i]==='<'){const end=full.indexOf('>',i);if(end!==-1){parts.push({type:'tag',val:full.slice(i,end+1)});i=end+1;continue;}}parts.push({type:'char',val:full[i]});i++;}let pi=0;function tick(){if(pi>=parts.length){typing=false;document.getElementById('bplay').textContent='Rever';document.getElementById('bplay').disabled=false;document.getElementById('bn').disabled=cur===STEPS.length-1;document.getElementById('bp').disabled=false;return;}const p=parts[pi];if(p.type==='tag'){out.innerHTML+=p.val;pi++;tick();return;}out.innerHTML+=p.val;pi++;const delay=p.val==='\n'?55:p.val===' '?18:Math.random()*22+16;typeTimer=setTimeout(tick,delay);}tick();}
+function nextS(){if(typing){clearTimeout(typeTimer);typing=false;}cur=Math.min(cur+1,STEPS.length-1);render();document.getElementById('code-out').innerHTML=STEPS[cur].code;document.getElementById('bplay').textContent='Rever';document.getElementById('bplay').disabled=false;}
+function prevS(){if(typing){clearTimeout(typeTimer);typing=false;}cur=Math.max(cur-1,0);render();document.getElementById('code-out').innerHTML=STEPS[cur].code;document.getElementById('bplay').textContent='Rever';document.getElementById('bplay').disabled=false;}
+render();document.getElementById('code-out').innerHTML='';
+</script>
+</body>
+</html>

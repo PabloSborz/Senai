@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prática Guiada — Formulários & Tabelas · Aula 04</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;color:#1e293b;background:#f8fafc;min-height:100vh;padding:22px}
+.wrap{max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:11px}
+.pg-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.pg-title{font-size:17px;font-weight:600}.pg-meta{font-size:12px;color:#64748b;margin-top:2px}
+.pg-time{font-size:12px;font-weight:500;background:#f1f5f9;border:1px solid #e2e8f0;padding:4px 12px;border-radius:8px;color:#64748b}
+.prog-row{display:flex;align-items:center;gap:9px}
+.pb{flex:1;height:7px;background:#e2e8f0;border-radius:4px;overflow:hidden}
+.pf{height:100%;background:#7C3AED;border-radius:4px;transition:width .4s ease;width:0%}
+.pt{font-size:12px;font-weight:600;color:#64748b;min-width:60px;text-align:right}
+.steps{display:flex;flex-direction:column;gap:8px}
+.sc{border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;background:#fff;transition:border-color .2s}
+.sc.done-c{border-color:#86efac}.sc.open-c{border-color:#a78bfa}
+.sh{display:flex;align-items:flex-start;gap:11px;padding:12px 13px;cursor:pointer;user-select:none;transition:background .15s}
+.sh:hover{background:#f8fafc}.sc.open-c .sh{background:#faf5ff}
+.chk{width:21px;height:21px;border-radius:6px;border:1.5px solid #cbd5e1;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .18s;cursor:pointer;background:#fff}
+.chk:hover{border-color:#7C3AED;background:#ede9fe}.chk.done{background:#22c55e;border-color:#22c55e}
+.chk svg{display:none}.chk.done svg{display:block}
+.si{flex:1}.sn2{font-size:11px;font-weight:600;color:#94a3b8;margin-bottom:2px;text-transform:uppercase;letter-spacing:.04em}
+.st{font-size:13px;font-weight:600;color:#1e293b;line-height:1.3}.stm{font-size:11px;color:#94a3b8;margin-top:2px}
+.cv{color:#94a3b8;font-size:11px;margin-top:4px;transition:transform .22s;flex-shrink:0}
+.sc.open-c .cv{transform:rotate(180deg)}
+.sb{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.sc.open-c .sb{max-height:1400px}
+.sbi{padding:0 13px 14px;border-top:1px solid #f1f5f9}
+.il{display:flex;flex-direction:column;gap:6px;margin:11px 0}
+.ii{display:flex;gap:9px;font-size:13px;color:#475569;line-height:1.55;align-items:flex-start}
+.in{width:19px;height:19px;min-width:19px;border-radius:5px;background:#ede9fe;color:#7C3AED;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;margin-top:1px}
+code{font-family:'Courier New',monospace;font-size:12px;background:#f1f5f9;padding:1px 5px;border-radius:3px;border:1px solid #e2e8f0}
+.cb2{background:#1e293b;border-radius:8px;padding:12px 15px;font-family:'Courier New',monospace;font-size:12px;line-height:1.8;color:#94a3b8;margin:9px 0;overflow-x:auto;white-space:pre}
+.k{color:#93c5fd}.p{color:#c4b5fd}.v{color:#6ee7b7}.s{color:#fda4af}.c{color:#475569;font-style:italic}
+.tip{background:#faf5ff;border-left:3px solid #7C3AED;padding:8px 12px;font-size:12px;color:#4c1d95;line-height:1.5;margin-top:8px}
+.tip strong{color:#5b21b6;font-weight:600}
+.mb{display:inline-flex;align-items:center;gap:5px;background:#f8fafc;border:1px solid #cbd5e1;color:#64748b;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .18s;margin-top:10px}
+.mb:hover{background:#f0fdf4;color:#15803d;border-color:#86efac}
+.mb.done-btn{background:#f0fdf4;color:#15803d;border-color:#86efac;pointer-events:none}
+.success-b{background:#f0fdf4;border:1px solid #86efac;border-radius:12px;padding:18px;text-align:center;display:none}
+.success-b.show{display:block}
+.success-b h3{font-size:15px;font-weight:600;color:#15803d;margin-bottom:5px}
+.success-b p{font-size:13px;color:#475569}
+a{color:#7C3AED}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="pg-header">
+    <div><div class="pg-title">Prática guiada — Formulários & Tabelas</div><div class="pg-meta">Siga os passos. Marque cada um quando terminar.</div></div>
+    <span class="pg-time">60 min disponíveis</span>
+  </div>
+  <div class="prog-row"><div class="pb"><div class="pf" id="pf"></div></div><div class="pt" id="pt">0 / 7</div></div>
+  <div class="steps" id="steps"></div>
+  <div class="success-b" id="success-el"><h3>Formulário e tabela prontos!</h3><p>Sua contato.html está profissional e acessível. Hora do desafio autônomo!</p></div>
+</div>
+<script>
+const STEPS=[
+{title:"Criar o arquivo contato.html",time:"5 min",
+instrs:["Na pasta <code>meu-site/</code>, crie o arquivo <code>contato.html</code>","Use <code>!</code> + Tab para gerar a estrutura. Mude o lang para <code>pt-BR</code> e o title para 'Contato — Meu Site'","Copie o <code>&lt;header&gt;</code> e <code>&lt;nav&gt;</code> do index.html — as páginas precisam ter navegação idêntica","Adicione o link para contato.html no nav de todas as páginas do projeto"],
+code:"",tip:"<strong>Consistência é chave:</strong> o header e nav devem ser idênticos em todas as páginas. No futuro (com JavaScript) isso virá de um componente reutilizável — por enquanto copie e cole."},
+{title:"Criar o form com dois fieldsets",time:"7 min",
+instrs:["Dentro do <code>&lt;main&gt;</code>, crie a tag <code>&lt;form action='obrigado.html' method='get'&gt;</code>","Dentro do form, crie dois <code>&lt;fieldset&gt;</code> com <code>&lt;legend&gt;</code>: 'Dados pessoais' e 'Mensagem'","Salve e veja no browser — os fieldsets aparecem com bordas e o legend como título de grupo","Observe: ao apertar Tab no browser, o foco vai de um campo a outro automaticamente"],
+code:`<span class="k">&lt;form</span> <span class="s">action</span>=<span class="v">"obrigado.html"</span> <span class="s">method</span>=<span class="v">"get"</span><span class="k">&gt;</span>
+  <span class="k">&lt;fieldset&gt;</span>
+    <span class="k">&lt;legend&gt;</span><span class="v">Dados pessoais</span><span class="k">&lt;/legend&gt;</span>
+    <span class="c">&lt;!-- campos aqui --&gt;</span>
+  <span class="k">&lt;/fieldset&gt;</span>
+  <span class="k">&lt;fieldset&gt;</span>
+    <span class="k">&lt;legend&gt;</span><span class="v">Mensagem</span><span class="k">&lt;/legend&gt;</span>
+    <span class="c">&lt;!-- campos aqui --&gt;</span>
+  <span class="k">&lt;/fieldset&gt;</span>
+<span class="k">&lt;/form&gt;</span>`,tip:"<strong>method='get' vs 'post':</strong> get adiciona os dados na URL (visível). post envia no corpo (invisível). Para dados sensíveis como senhas, sempre use post. Para este projeto simples, get serve."},
+{title:"Campos do fieldset 'Dados pessoais'",time:"10 min",
+instrs:["Dentro do primeiro fieldset, crie um campo para nome: <code>&lt;label for='nome'&gt;</code> + <code>&lt;input type='text' id='nome' name='nome' required minlength='3'&gt;</code>","Crie campo para e-mail: <code>type='email' id='email' required</code>","Crie campo para telefone: <code>type='tel' id='telefone'</code> com placeholder '(11) 99999-9999'","Teste: tente enviar o form sem preencher o nome. O browser deve bloquear com mensagem de erro"],
+code:`<span class="k">&lt;div</span> <span class="s">class</span>=<span class="v">"campo"</span><span class="k">&gt;</span>
+  <span class="k">&lt;label</span> <span class="s">for</span>=<span class="v">"nome"</span><span class="k">&gt;</span>Nome completo *<span class="k">&lt;/label&gt;</span>
+  <span class="k">&lt;input</span> <span class="s">type</span>=<span class="v">"text"</span> <span class="s">id</span>=<span class="v">"nome"</span> <span class="s">name</span>=<span class="v">"nome"</span>
+         <span class="s">placeholder</span>=<span class="v">"Seu nome completo"</span>
+         <span class="s">required</span> <span class="s">minlength</span>=<span class="v">"3"</span><span class="k">&gt;</span>
+<span class="k">&lt;/div&gt;</span>`,tip:"<strong>Dica de acessibilidade:</strong> adicione * após o label de campos obrigatórios e uma legenda '* Campo obrigatório' no final do formulário. É uma convenção universal que usuários reconhecem."},
+{title:"Campos do fieldset 'Mensagem'",time:"8 min",
+instrs:["Crie um <code>&lt;select id='assunto'&gt;</code> com pelo menos 4 options (use value='' para a opção vazio e required no select)","Crie um <code>&lt;textarea id='mensagem' rows='5' minlength='20' required&gt;</code>","Adicione checkbox de aceite de termos com label associado e required","Teste a validação: tente enviar sem preencher a mensagem — o browser exige mínimo de 20 caracteres"],
+code:`<span class="k">&lt;select</span> <span class="s">id</span>=<span class="v">"assunto"</span> <span class="s">name</span>=<span class="v">"assunto"</span> <span class="s">required</span><span class="k">&gt;</span>
+  <span class="k">&lt;option</span> <span class="s">value</span>=<span class="v">""</span><span class="k">&gt;</span>Selecione o assunto<span class="k">&lt;/option&gt;</span>
+  <span class="k">&lt;option</span> <span class="s">value</span>=<span class="v">"orcamento"</span><span class="k">&gt;</span>Orçamento<span class="k">&lt;/option&gt;</span>
+  <span class="k">&lt;option</span> <span class="s">value</span>=<span class="v">"suporte"</span><span class="k">&gt;</span>Suporte técnico<span class="k">&lt;/option&gt;</span>
+  <span class="k">&lt;option</span> <span class="s">value</span>=<span class="v">"parceria"</span><span class="k">&gt;</span>Parceria<span class="k">&lt;/option&gt;</span>
+<span class="k">&lt;/select&gt;</span>
+
+<span class="k">&lt;textarea</span> <span class="s">id</span>=<span class="v">"mensagem"</span> <span class="s">name</span>=<span class="v">"mensagem"</span>
+           <span class="s">rows</span>=<span class="v">"5"</span> <span class="s">minlength</span>=<span class="v">"20"</span> <span class="s">required</span>
+           <span class="s">placeholder</span>=<span class="v">"Descreva seu projeto..."</span>
+<span class="k">&gt;&lt;/textarea&gt;</span>`,tip:"<strong>textarea vs input:</strong> textarea aceita múltiplas linhas e pode ser redimensionado pelo usuário. Para controlar o redimensionamento: <code>resize: none</code> (proíbe), <code>resize: vertical</code> (só vertical)."},
+{title:"Botões de envio e reset",time:"5 min",
+instrs:["Após os fieldsets, adicione dois botões: <code>&lt;button type='reset'&gt;Limpar&lt;/button&gt;</code> e <code>&lt;button type='submit'&gt;Enviar&lt;/button&gt;</code>","Teste o botão reset — ele deve limpar todos os campos","Teste o submit — com campos preenchidos corretamente, deve ir para obrigado.html","No CSS, estilize os botões com cores diferentes: reset mais suave, submit com a cor primária"],
+code:`<span class="k">&lt;div</span> <span class="s">class</span>=<span class="v">"botoes"</span><span class="k">&gt;</span>
+  <span class="k">&lt;button</span> <span class="s">type</span>=<span class="v">"reset"</span><span class="k">&gt;</span>Limpar formulário<span class="k">&lt;/button&gt;</span>
+  <span class="k">&lt;button</span> <span class="s">type</span>=<span class="v">"submit"</span><span class="k">&gt;</span>Enviar mensagem<span class="k">&lt;/button&gt;</span>
+<span class="k">&lt;/div&gt;</span>`,tip:"<strong>type='button' vs 'submit':</strong> sem o atributo type, todo button dentro de um form se comporta como submit por padrão. Sempre especifique o type para evitar envios acidentais."},
+{title:"Criar a tabela de horários",time:"10 min",
+instrs:["Após o formulário, crie uma <code>&lt;table&gt;</code> com <code>&lt;caption&gt;</code>, <code>&lt;thead&gt;</code>, <code>&lt;tbody&gt;</code> e <code>&lt;tfoot&gt;</code>","No thead, use <code>&lt;th scope='col'&gt;</code> para cada coluna (Dia, Horário, Contato)","No tbody, adicione 3 linhas de dados reais","No tfoot, use <code>&lt;td colspan='3'&gt;</code> para uma nota que ocupa todas as colunas"],
+code:`<span class="k">&lt;table&gt;</span>
+  <span class="k">&lt;caption&gt;</span><span class="v">Horários de atendimento</span><span class="k">&lt;/caption&gt;</span>
+  <span class="k">&lt;thead&gt;</span>
+    <span class="k">&lt;tr&gt;</span><span class="k">&lt;th</span> <span class="s">scope</span>=<span class="v">"col"</span><span class="k">&gt;</span>Dia<span class="k">&lt;/th&gt;&lt;th</span> <span class="s">scope</span>=<span class="v">"col"</span><span class="k">&gt;</span>Horário<span class="k">&lt;/th&gt;&lt;/tr&gt;</span>
+  <span class="k">&lt;/thead&gt;</span>
+  <span class="k">&lt;tbody&gt;</span>
+    <span class="k">&lt;tr&gt;&lt;td&gt;</span>Seg–Sex<span class="k">&lt;/td&gt;&lt;td&gt;</span>8h–18h<span class="k">&lt;/td&gt;&lt;/tr&gt;</span>
+    <span class="k">&lt;tr&gt;&lt;td&gt;</span>Sábado<span class="k">&lt;/td&gt;&lt;td&gt;</span>9h–13h<span class="k">&lt;/td&gt;&lt;/tr&gt;</span>
+  <span class="k">&lt;/tbody&gt;</span>
+  <span class="k">&lt;tfoot&gt;</span>
+    <span class="k">&lt;tr&gt;&lt;td</span> <span class="s">colspan</span>=<span class="v">"2"</span><span class="k">&gt;</span>Domingo: fechado<span class="k">&lt;/td&gt;&lt;/tr&gt;</span>
+  <span class="k">&lt;/tfoot&gt;</span>
+<span class="k">&lt;/table&gt;</span>`,tip:"<strong>caption:</strong> é como o título da tabela. Leitores de tela anunciam o caption ao focar na tabela. Sempre use — é importante para acessibilidade de dados tabulares."},
+{title:"CSS do formulário e validação final",time:"10 min",
+instrs:["No CSS, adicione estilos para <code>input, select, textarea</code>: padding, border, border-radius, font-family: inherit","Adicione o estado <code>:focus</code> com border-color colorida e box-shadow suave","Adicione <code>table { border-collapse: collapse }</code> e estilize thead com a cor primária","Valide o HTML em <a href='https://validator.w3.org/#validate_by_input' target='_blank'>validator.w3.org</a> — zero erros"],
+code:`<span class="k">input, select, textarea</span> {
+  <span class="p">width</span>: <span class="v">100%</span>;
+  <span class="p">padding</span>: <span class="v">10px 14px</span>;
+  <span class="p">border</span>: <span class="v">1px solid #e2e8f0</span>;
+  <span class="p">border-radius</span>: <span class="v">8px</span>;
+  <span class="p">font-size</span>: <span class="v">1rem</span>;
+  <span class="p">font-family</span>: <span class="v">inherit</span>;
+  <span class="p">transition</span>: <span class="v">border-color .2s, box-shadow .2s</span>;
+}
+<span class="k">input:focus, select:focus, textarea:focus</span> {
+  <span class="p">outline</span>: <span class="v">none</span>;
+  <span class="p">border-color</span>: <span class="v">#7C3AED</span>;
+  <span class="p">box-shadow</span>: <span class="v">0 0 0 3px rgba(124,58,237,.15)</span>;
+}`,tip:"<strong>font-family: inherit</strong> é essencial nos campos — sem isso os inputs usam a fonte do sistema (geralmente diferente do seu CSS). Sempre herde a fonte do body."}
+];
+let done=new Set();
+function build(){const list=document.getElementById('steps');STEPS.forEach((s,i)=>{const card=document.createElement('div');card.className='sc'+(i===0?' open-c':'');card.id='sc-'+i;card.innerHTML=`<div class="sh" onclick="tog(${i})"><div class="chk" id="chk-${i}" onclick="event.stopPropagation();mk(${i})"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="si"><div class="sn2">Passo ${i+1} de ${STEPS.length}</div><div class="st">${s.title}</div><div class="stm">${s.time}</div></div><span class="cv">${i===0?'▲':'▼'}</span></div><div class="sb"><div class="sbi"><div class="il">${s.instrs.map((t,j)=>`<div class="ii"><div class="in">${j+1}</div><span>${t}</span></div>`).join('')}</div>${s.code?`<div class="cb2">${s.code}</div>`:''}<div class="tip">${s.tip}</div><button class="mb" id="mb-${i}" onclick="mk(${i})"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3.5 3.5 5.5-5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Marcar como concluído</button></div></div>`;list.appendChild(card);});}
+function tog(i){const c=document.getElementById('sc-'+i);const o=c.classList.contains('open-c');document.querySelectorAll('.sc').forEach(x=>{x.classList.remove('open-c');x.querySelector('.cv').textContent='▼';});if(!o){c.classList.add('open-c');c.querySelector('.cv').textContent='▲';}}
+function mk(i){if(done.has(i))return;done.add(i);document.getElementById('chk-'+i).classList.add('done');document.getElementById('sc-'+i).classList.add('done-c');const mb=document.getElementById('mb-'+i);mb.classList.add('done-btn');mb.innerHTML='<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3.5 3.5 5.5-5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Concluído!';upd();if(i<STEPS.length-1){document.querySelectorAll('.sc').forEach(x=>{x.classList.remove('open-c');x.querySelector('.cv').textContent='▼';});const nx=document.getElementById('sc-'+(i+1));nx.classList.add('open-c');nx.querySelector('.cv').textContent='▲';setTimeout(()=>nx.scrollIntoView({behavior:'smooth',block:'nearest'}),100);}if(done.size===STEPS.length)document.getElementById('success-el').classList.add('show');}
+function upd(){document.getElementById('pf').style.width=Math.round((done.size/STEPS.length)*100)+'%';document.getElementById('pt').textContent=done.size+' / '+STEPS.length;}
+build();upd();
+</script>
+</body>
+</html>
