@@ -1,0 +1,2191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HTML & CSS — Plano de Aulas SENAI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════
+   RESET & VARIÁVEIS
+══════════════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg:        #F7F9FC;
+  --surface:   #FFFFFF;
+  --surface2:  #EEF3FB;
+  --border:    #DDE6F5;
+
+  --blue:      #2563EB;
+  --blue-lt:   #DBEAFE;
+  --blue-mid:  #3B82F6;
+  --sky:       #38BDF8;
+  --sky-lt:    #E0F7FF;
+
+  --teal:      #0D9488;
+  --teal-lt:   #CCFBF1;
+  --green:     #16A34A;
+  --green-lt:  #DCFCE7;
+  --purple:    #7C3AED;
+  --purple-lt: #EDE9FE;
+  --orange:    #EA580C;
+  --orange-lt: #FFF7ED;
+  --pink:      #DB2777;
+  --pink-lt:   #FCE7F3;
+  --amber:     #D97706;
+  --amber-lt:  #FEF3C7;
+
+  --txt:       #1E293B;
+  --txt-2:     #475569;
+  --txt-3:     #94A3B8;
+
+  --nav-w:     260px;
+  --radius:    14px;
+  --shadow:    0 4px 20px rgba(37,99,235,.08);
+  --shadow-lg: 0 8px 40px rgba(37,99,235,.14);
+
+  --font:      'Nunito', sans-serif;
+  --mono:      'Fira Code', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--txt);
+  display: flex;
+  min-height: 100vh;
+  line-height: 1.65;
+}
+
+/* ══════════════════════════════════════════════
+   SIDEBAR NAV
+══════════════════════════════════════════════ */
+#sidebar {
+  width: var(--nav-w);
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  position: fixed;
+  top: 0; left: 0;
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  z-index: 200;
+  transition: transform .3s ease;
+}
+
+.sidebar-brand {
+  padding: 26px 22px 18px;
+  border-bottom: 1px solid var(--border);
+}
+.brand-badge {
+  display: inline-block;
+  background: var(--blue);
+  color: #fff;
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+.brand-title {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--txt);
+  line-height: 1.25;
+}
+.brand-title span { color: var(--blue); }
+.brand-sub {
+  font-size: .78rem;
+  color: var(--txt-3);
+  margin-top: 4px;
+}
+
+.nav-section-label {
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  color: var(--txt-3);
+  text-transform: uppercase;
+  padding: 16px 22px 6px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px 10px 22px;
+  border-radius: 0;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--txt-2);
+  font-size: .88rem;
+  font-weight: 600;
+  transition: background .18s, color .18s;
+  border-left: 3px solid transparent;
+  position: relative;
+}
+.nav-item:hover { background: var(--surface2); color: var(--blue); }
+.nav-item.active {
+  background: var(--blue-lt);
+  color: var(--blue);
+  border-left-color: var(--blue);
+}
+.nav-dot {
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .75rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+.nav-check {
+  margin-left: auto;
+  font-size: .7rem;
+  opacity: 0;
+  transition: opacity .2s;
+}
+.nav-item.done .nav-check { opacity: 1; color: var(--green); }
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 16px 22px;
+  border-top: 1px solid var(--border);
+  font-size: .76rem;
+  color: var(--txt-3);
+}
+.progress-bar-wrap {
+  background: var(--surface2);
+  border-radius: 20px;
+  height: 6px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue), var(--sky));
+  border-radius: 20px;
+  transition: width .4s ease;
+}
+
+/* ══════════════════════════════════════════════
+   MAIN CONTENT
+══════════════════════════════════════════════ */
+#main {
+  margin-left: var(--nav-w);
+  flex: 1;
+  min-height: 100vh;
+}
+
+/* ── TOP BAR ── */
+.topbar {
+  position: sticky; top: 0;
+  background: rgba(247,249,252,.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100;
+}
+.topbar-left { display: flex; align-items: center; gap: 12px; }
+.topbar-crumb {
+  font-size: .82rem;
+  color: var(--txt-3);
+  font-weight: 600;
+}
+.topbar-crumb span { color: var(--blue); }
+.topbar-right { display: flex; gap: 8px; }
+.btn-nav {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--txt-2);
+  padding: 7px 16px;
+  border-radius: 8px;
+  font-size: .82rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: all .18s;
+  display: flex; align-items: center; gap: 6px;
+}
+.btn-nav:hover { background: var(--blue); color: #fff; border-color: var(--blue); }
+.btn-nav.primary { background: var(--blue); color: #fff; border-color: var(--blue); }
+.btn-nav.primary:hover { background: #1D4ED8; }
+#menu-toggle {
+  display: none;
+  background: none; border: none;
+  font-size: 1.3rem; cursor: pointer; color: var(--txt);
+}
+
+/* ── PÁGINAS ── */
+.page { display: none; padding: 40px; max-width: 900px; animation: fadeIn .35s ease; }
+.page.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ══════════════════════════════════════════════
+   HOME PAGE
+══════════════════════════════════════════════ */
+.hero-home {
+  background: linear-gradient(135deg, #EFF6FF 0%, #F0FDFF 50%, #F0FDF4 100%);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 48px 44px;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-home::before {
+  content: '</>';
+  position: absolute;
+  right: 40px; top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--mono);
+  font-size: 7rem;
+  color: rgba(37,99,235,.07);
+  font-weight: 500;
+  user-select: none;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--blue-lt);
+  color: var(--blue);
+  font-size: .8rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+.hero-home h1 {
+  font-size: 2.6rem;
+  font-weight: 900;
+  line-height: 1.15;
+  color: var(--txt);
+  margin-bottom: 14px;
+}
+.hero-home h1 span { color: var(--blue); }
+.hero-home p { font-size: 1.05rem; color: var(--txt-2); max-width: 560px; margin-bottom: 28px; }
+
+.hero-stats {
+  display: flex; gap: 20px; flex-wrap: wrap;
+}
+.stat-pill {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 9px 18px;
+  border-radius: 12px;
+  font-size: .88rem;
+  font-weight: 700;
+  color: var(--txt);
+  box-shadow: var(--shadow);
+}
+.stat-pill .icon { font-size: 1.1rem; }
+
+/* ── GRID DE AULAS ── */
+.section-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--txt);
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.aulas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.aula-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s, border-color .2s;
+  position: relative;
+  overflow: hidden;
+}
+.aula-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.aula-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: transparent;
+}
+.aula-card-num {
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.aula-card-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  display: block;
+}
+.aula-card h3 {
+  font-size: .97rem;
+  font-weight: 800;
+  color: var(--txt);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.aula-card p {
+  font-size: .82rem;
+  color: var(--txt-2);
+  line-height: 1.5;
+}
+.aula-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.tag-nivel {
+  font-size: .72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+.aula-card-arrow { font-size: .9rem; color: var(--txt-3); }
+
+/* Módulo II card */
+.modulo2-card {
+  background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+  border: none;
+  border-radius: var(--radius);
+  padding: 28px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.modulo2-card::after {
+  content: 'JS';
+  position: absolute;
+  right: 20px; bottom: -10px;
+  font-family: var(--mono);
+  font-size: 5rem;
+  font-weight: 700;
+  color: rgba(255,255,255,.05);
+}
+.modulo2-card h3 { font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; }
+.modulo2-card p { font-size: .85rem; color: rgba(255,255,255,.65); margin-bottom: 16px; }
+.js-topics {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px;
+}
+.js-chip {
+  background: rgba(255,255,255,.1);
+  color: rgba(255,255,255,.8);
+  font-size: .74rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,.12);
+}
+
+/* ══════════════════════════════════════════════
+   AULA PAGE
+══════════════════════════════════════════════ */
+.aula-hero {
+  border-radius: 20px;
+  padding: 40px 40px 36px;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+}
+.aula-hero-eyebrow {
+  font-size: .76rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  opacity: .7;
+  margin-bottom: 8px;
+}
+.aula-hero h1 {
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 12px;
+  color: var(--txt);
+}
+.aula-hero p {
+  font-size: 1rem;
+  color: var(--txt-2);
+  max-width: 600px;
+  margin-bottom: 22px;
+}
+.aula-meta-row {
+  display: flex; gap: 10px; flex-wrap: wrap;
+}
+.meta-chip {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.7);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--txt);
+  backdrop-filter: blur(4px);
+}
+
+/* ── SEÇÕES DA AULA ── */
+.content-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.section-header {
+  padding: 16px 22px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid transparent;
+  transition: background .15s;
+}
+.section-header:hover { background: var(--surface2); }
+.section-header.open { border-bottom-color: var(--border); }
+.section-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.section-label {
+  font-size: .97rem;
+  font-weight: 800;
+  color: var(--txt);
+  flex: 1;
+}
+.section-chevron {
+  color: var(--txt-3);
+  transition: transform .25s;
+  font-size: .9rem;
+}
+.section-header.open .section-chevron { transform: rotate(180deg); }
+.section-body {
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .35s ease, padding .35s;
+}
+.section-body.open {
+  padding: 20px 22px 22px;
+  max-height: 2000px;
+}
+
+/* ── LISTAS ── */
+.item-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.item-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: .9rem;
+  color: var(--txt-2);
+  line-height: 1.55;
+}
+.item-list li::before {
+  content: '›';
+  font-size: 1.1rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.steps-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.steps-list li {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  font-size: .9rem;
+  color: var(--txt-2);
+  line-height: 1.55;
+}
+.step-num {
+  width: 26px; height: 26px;
+  border-radius: 8px;
+  background: var(--blue-lt);
+  color: var(--blue);
+  font-size: .78rem;
+  font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ── RECURSOS ── */
+.recursos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+.recurso-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  text-decoration: none;
+  color: var(--txt);
+  transition: all .2s;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.recurso-card:hover {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-lt);
+  transform: translateY(-2px);
+}
+.recurso-icon { font-size: 1.5rem; }
+.recurso-title {
+  font-size: .88rem;
+  font-weight: 800;
+  color: var(--txt);
+  line-height: 1.3;
+}
+.recurso-desc {
+  font-size: .78rem;
+  color: var(--txt-3);
+}
+.recurso-link {
+  display: flex; align-items: center; gap: 5px;
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--blue);
+  margin-top: 4px;
+}
+
+/* ── APROFUNDAMENTO ── */
+.deep-list { display: flex; flex-direction: column; gap: 8px; }
+.deep-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 11px 16px;
+  text-decoration: none;
+  color: var(--txt);
+  font-size: .88rem;
+  font-weight: 600;
+  transition: all .18s;
+}
+.deep-link:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  background: var(--blue-lt);
+}
+.deep-link-arrow { margin-left: auto; color: var(--txt-3); font-size: .85rem; transition: transform .18s; }
+.deep-link:hover .deep-link-arrow { transform: translateX(4px); color: var(--blue); }
+
+/* ── DESAFIO ── */
+.desafio-box {
+  border-radius: 16px;
+  border: 2px solid;
+  overflow: hidden;
+}
+.desafio-header {
+  padding: 20px 24px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.desafio-emoji { font-size: 2.2rem; line-height: 1; }
+.desafio-header-text h3 {
+  font-size: 1.1rem;
+  font-weight: 900;
+  margin-bottom: 4px;
+}
+.desafio-header-text p {
+  font-size: .88rem;
+  opacity: .75;
+  line-height: 1.5;
+}
+.desafio-body { padding: 0 24px 24px; }
+.desafio-checklist {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.desafio-checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: .9rem;
+  line-height: 1.55;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+.check-box {
+  width: 20px; height: 20px;
+  border-radius: 5px;
+  border: 2px solid;
+  flex-shrink: 0;
+  margin-top: 2px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .7rem;
+  transition: all .15s;
+}
+.check-box.checked { content: '✓'; }
+.desafio-entrega {
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: .88rem;
+  margin-bottom: 16px;
+}
+.desafio-entrega strong { display: block; font-size: .8rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 4px; }
+.criterios-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.criterio-chip {
+  background: rgba(255,255,255,.5);
+  border: 1px solid;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: .8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── MUNDO DO TRABALHO ── */
+.mundo-box {
+  background: linear-gradient(135deg, #EFF6FF, #F0FDFF);
+  border: 1px solid var(--blue-lt);
+  border-radius: 14px;
+  padding: 22px 24px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.mundo-icon { font-size: 2rem; flex-shrink: 0; }
+.mundo-box h4 { font-size: .88rem; font-weight: 800; color: var(--blue); margin-bottom: 6px; text-transform: uppercase; letter-spacing: .06em; }
+.mundo-box p { font-size: .9rem; color: var(--txt-2); line-height: 1.6; }
+
+/* ── PROGRESSO DA AULA ── */
+.aula-progress {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.progress-ring { font-size: 2rem; }
+.progress-text { flex: 1; }
+.progress-text h4 { font-size: .88rem; font-weight: 800; color: var(--txt); margin-bottom: 2px; }
+.progress-text p { font-size: .78rem; color: var(--txt-3); }
+.btn-complete {
+  background: var(--green);
+  color: #fff;
+  border: none;
+  padding: 9px 20px;
+  border-radius: 9px;
+  font-size: .85rem;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: all .18s;
+  display: flex; align-items: center; gap: 6px;
+}
+.btn-complete:hover { background: #15803D; transform: scale(1.03); }
+.btn-complete.done { background: var(--surface2); color: var(--green); border: 2px solid var(--green); }
+
+/* ── CÓDIGO INLINE ── */
+code {
+  font-family: var(--mono);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--blue);
+  padding: 2px 7px;
+  border-radius: 5px;
+  font-size: .82em;
+}
+
+/* ══════════════════════════════════════════════
+   AULA CORES TEMÁTICAS
+══════════════════════════════════════════════ */
+/* Aula 1 — Azul */
+.t1 { --ac: var(--blue); --ac-lt: var(--blue-lt); --ac-mid: var(--blue-mid); }
+/* Aula 2 — Sky */
+.t2 { --ac: #0284C7; --ac-lt: #E0F2FE; --ac-mid: #0EA5E9; }
+/* Aula 3 — Teal */
+.t3 { --ac: var(--teal); --ac-lt: var(--teal-lt); --ac-mid: #14B8A6; }
+/* Aula 4 — Roxo */
+.t4 { --ac: var(--purple); --ac-lt: var(--purple-lt); --ac-mid: #8B5CF6; }
+/* Aula 5 — Orange */
+.t5 { --ac: var(--orange); --ac-lt: var(--orange-lt); --ac-mid: #F97316; }
+/* Aula 6 — Pink */
+.t6 { --ac: var(--pink); --ac-lt: var(--pink-lt); --ac-mid: #EC4899; }
+
+/* Aplicação das cores */
+[class*="t"] .aula-hero { background: linear-gradient(135deg, var(--ac-lt), #F7F9FC); border: 1px solid var(--border); }
+[class*="t"] .aula-hero h1 { color: var(--txt); }
+[class*="t"] .aula-hero-eyebrow { color: var(--ac); }
+[class*="t"] .section-icon { background: var(--ac-lt); color: var(--ac); }
+[class*="t"] .item-list li::before { color: var(--ac); }
+[class*="t"] .step-num { background: var(--ac-lt); color: var(--ac); }
+
+/* Cards na home */
+.c1::before { background: var(--blue); }
+.c2::before { background: #0284C7; }
+.c3::before { background: var(--teal); }
+.c4::before { background: var(--purple); }
+.c5::before { background: var(--orange); }
+.c6::before { background: var(--pink); }
+
+.c1 .aula-card-num { color: var(--blue); }
+.c2 .aula-card-num { color: #0284C7; }
+.c3 .aula-card-num { color: var(--teal); }
+.c4 .aula-card-num { color: var(--purple); }
+.c5 .aula-card-num { color: var(--orange); }
+.c6 .aula-card-num { color: var(--pink); }
+
+.c1 .tag-nivel { background: var(--blue-lt); color: var(--blue); }
+.c2 .tag-nivel { background: #E0F2FE; color: #0284C7; }
+.c3 .tag-nivel { background: var(--teal-lt); color: var(--teal); }
+.c4 .tag-nivel { background: var(--purple-lt); color: var(--purple); }
+.c5 .tag-nivel { background: var(--orange-lt); color: var(--orange); }
+.c6 .tag-nivel { background: var(--pink-lt); color: var(--pink); }
+
+/* Sidebar nav dots */
+.nd1 { background: var(--blue-lt); color: var(--blue); }
+.nd2 { background: #E0F2FE; color: #0284C7; }
+.nd3 { background: var(--teal-lt); color: var(--teal); }
+.nd4 { background: var(--purple-lt); color: var(--purple); }
+.nd5 { background: var(--orange-lt); color: var(--orange); }
+.nd6 { background: var(--pink-lt); color: var(--pink); }
+
+/* Desafio boxes */
+.t1 .desafio-box { border-color: var(--blue-lt); }
+.t1 .desafio-header { background: var(--blue-lt); }
+.t1 .desafio-header-text h3 { color: var(--blue); }
+.t1 .desafio-checklist li { background: #F0F7FF; }
+.t1 .check-box { border-color: var(--blue); color: var(--blue); }
+.t1 .check-box.checked { background: var(--blue); color: #fff; }
+.t1 .desafio-entrega { background: var(--blue-lt); color: var(--blue); }
+.t1 .criterio-chip { border-color: var(--blue-lt); background: var(--blue-lt); color: var(--blue); }
+
+.t2 .desafio-box { border-color: #BAE6FD; }
+.t2 .desafio-header { background: #E0F2FE; }
+.t2 .desafio-header-text h3 { color: #0284C7; }
+.t2 .desafio-checklist li { background: #F0F9FF; }
+.t2 .check-box { border-color: #0284C7; color: #0284C7; }
+.t2 .check-box.checked { background: #0284C7; color: #fff; }
+.t2 .desafio-entrega { background: #E0F2FE; color: #0284C7; }
+.t2 .criterio-chip { border-color: #BAE6FD; background: #E0F2FE; color: #0284C7; }
+
+.t3 .desafio-box { border-color: var(--teal-lt); }
+.t3 .desafio-header { background: var(--teal-lt); }
+.t3 .desafio-header-text h3 { color: var(--teal); }
+.t3 .desafio-checklist li { background: #F0FDFA; }
+.t3 .check-box { border-color: var(--teal); color: var(--teal); }
+.t3 .check-box.checked { background: var(--teal); color: #fff; }
+.t3 .desafio-entrega { background: var(--teal-lt); color: var(--teal); }
+.t3 .criterio-chip { border-color: var(--teal-lt); background: var(--teal-lt); color: var(--teal); }
+
+.t4 .desafio-box { border-color: var(--purple-lt); }
+.t4 .desafio-header { background: var(--purple-lt); }
+.t4 .desafio-header-text h3 { color: var(--purple); }
+.t4 .desafio-checklist li { background: #FAF5FF; }
+.t4 .check-box { border-color: var(--purple); color: var(--purple); }
+.t4 .check-box.checked { background: var(--purple); color: #fff; }
+.t4 .desafio-entrega { background: var(--purple-lt); color: var(--purple); }
+.t4 .criterio-chip { border-color: var(--purple-lt); background: var(--purple-lt); color: var(--purple); }
+
+.t5 .desafio-box { border-color: #FED7AA; }
+.t5 .desafio-header { background: var(--orange-lt); }
+.t5 .desafio-header-text h3 { color: var(--orange); }
+.t5 .desafio-checklist li { background: #FFF7ED; }
+.t5 .check-box { border-color: var(--orange); color: var(--orange); }
+.t5 .check-box.checked { background: var(--orange); color: #fff; }
+.t5 .desafio-entrega { background: var(--orange-lt); color: var(--orange); }
+.t5 .criterio-chip { border-color: #FED7AA; background: var(--orange-lt); color: var(--orange); }
+
+.t6 .desafio-box { border-color: #FBCFE8; }
+.t6 .desafio-header { background: var(--pink-lt); }
+.t6 .desafio-header-text h3 { color: var(--pink); }
+.t6 .desafio-checklist li { background: #FFF1F5; }
+.t6 .check-box { border-color: var(--pink); color: var(--pink); }
+.t6 .check-box.checked { background: var(--pink); color: #fff; }
+.t6 .desafio-entrega { background: var(--pink-lt); color: var(--pink); }
+.t6 .criterio-chip { border-color: #FBCFE8; background: var(--pink-lt); color: var(--pink); }
+
+/* ══════════════════════════════════════════════
+   MOBILE
+══════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  #sidebar { transform: translateX(-100%); }
+  #sidebar.open { transform: translateX(0); }
+  #main { margin-left: 0; }
+  #menu-toggle { display: flex; }
+  .page { padding: 24px 18px; }
+  .hero-home { padding: 28px 22px; }
+  .hero-home h1 { font-size: 1.9rem; }
+  .hero-home::before { display: none; }
+  .criterios-grid { grid-template-columns: 1fr; }
+  .topbar { padding: 12px 18px; }
+  .aula-hero { padding: 26px 22px; }
+  .aula-hero h1 { font-size: 1.5rem; }
+}
+
+/* Overlay mobile */
+#overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.35);
+  z-index: 150;
+}
+#overlay.show { display: block; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     SIDEBAR
+══════════════════════════════════════════ -->
+<nav id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-badge">SENAI · TADS</div>
+    <div class="brand-title">HTML &amp; <span>CSS</span></div>
+    <div class="brand-sub">Módulo I · 6 aulas · 24h</div>
+  </div>
+
+  <div class="nav-section-label">Início</div>
+  <a class="nav-item active" onclick="goTo('home')" href="#">
+    <span class="nav-dot" style="background:#EEF3FB;color:#64748B;">🏠</span>
+    Visão Geral
+  </a>
+
+  <div class="nav-section-label">Aulas</div>
+  <a class="nav-item" onclick="goTo('a1')" href="#" data-page="a1">
+    <span class="nav-dot nd1">01</span>
+    Estrutura HTML
+    <span class="nav-check">✓</span>
+  </a>
+  <a class="nav-item" onclick="goTo('a2')" href="#" data-page="a2">
+    <span class="nav-dot nd2">02</span>
+    CSS Fundamentos
+    <span class="nav-check">✓</span>
+  </a>
+  <a class="nav-item" onclick="goTo('a3')" href="#" data-page="a3">
+    <span class="nav-dot nd3">03</span>
+    Imagens &amp; Links
+    <span class="nav-check">✓</span>
+  </a>
+  <a class="nav-item" onclick="goTo('a4')" href="#" data-page="a4">
+    <span class="nav-dot nd4">04</span>
+    Formulários &amp; Tabelas
+    <span class="nav-check">✓</span>
+  </a>
+  <a class="nav-item" onclick="goTo('a5')" href="#" data-page="a5">
+    <span class="nav-dot nd5">05</span>
+    CSS Flexbox
+    <span class="nav-check">✓</span>
+  </a>
+  <a class="nav-item" onclick="goTo('a6')" href="#" data-page="a6">
+    <span class="nav-dot nd6">06</span>
+    Projeto Final
+    <span class="nav-check">✓</span>
+  </a>
+
+  <div class="sidebar-footer">
+    <div style="font-weight:700;color:var(--txt-2);margin-bottom:4px;">Seu progresso</div>
+    <div style="color:var(--txt-3);font-size:.75rem;" id="progress-label">0 de 6 aulas concluídas</div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+  </div>
+</nav>
+
+<div id="overlay" onclick="closeSidebar()"></div>
+
+<!-- ══════════════════════════════════════════
+     MAIN
+══════════════════════════════════════════ -->
+<div id="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <button id="menu-toggle" onclick="toggleSidebar()">☰</button>
+      <span class="topbar-crumb" id="topbar-crumb">HTML &amp; CSS · <span>Visão Geral</span></span>
+    </div>
+    <div class="topbar-right">
+      <button class="btn-nav" id="btn-prev" onclick="prevPage()" style="display:none">← Anterior</button>
+      <button class="btn-nav primary" id="btn-next" onclick="nextPage()">Próxima aula →</button>
+    </div>
+  </div>
+
+  <!-- ════════════════ HOME ════════════════ -->
+  <div class="page active" id="page-home">
+    <div class="hero-home">
+      <div class="hero-eyebrow">📘 Módulo I</div>
+      <h1>HTML &amp; <span>CSS</span><br>do Zero ao Projeto Final</h1>
+      <p>Aprenda a construir páginas web profissionais, semânticas e bem estilizadas. Ao final das 6 aulas você terá um site completo de 5 páginas no portfólio.</p>
+      <div class="hero-stats">
+        <div class="stat-pill"><span class="icon">📅</span> 6 aulas</div>
+        <div class="stat-pill"><span class="icon">⏱️</span> 4h cada</div>
+        <div class="stat-pill"><span class="icon">🎯</span> 24h totais</div>
+        <div class="stat-pill"><span class="icon">🚀</span> Módulo II: JavaScript</div>
+      </div>
+    </div>
+
+    <div class="section-title">📚 Aulas do Módulo I</div>
+    <div class="aulas-grid">
+      <div class="aula-card c1" onclick="goTo('a1')">
+        <div class="aula-card-num">Aula 01</div>
+        <span class="aula-card-icon">🏗️</span>
+        <h3>Estrutura HTML</h3>
+        <p>Tags semânticas, hierarquia de elementos, listas, links e boas práticas.</p>
+        <div class="aula-card-footer">
+          <span class="tag-nivel">Introdutório</span>
+          <span class="aula-card-arrow">→</span>
+        </div>
+      </div>
+      <div class="aula-card c2" onclick="goTo('a2')">
+        <div class="aula-card-num">Aula 02</div>
+        <span class="aula-card-icon">🎨</span>
+        <h3>CSS Fundamentos</h3>
+        <p>Seletores, Box Model, cores, tipografia, hover e transições.</p>
+        <div class="aula-card-footer">
+          <span class="tag-nivel">Básico</span>
+          <span class="aula-card-arrow">→</span>
+        </div>
+      </div>
+      <div class="aula-card c3" onclick="goTo('a3')">
+        <div class="aula-card-num">Aula 03</div>
+        <span class="aula-card-icon">🖼️</span>
+        <h3>Imagens &amp; Links</h3>
+        <p>Formatos, acessibilidade, otimização, figure/figcaption e links especiais.</p>
+        <div class="aula-card-footer">
+          <span class="tag-nivel">Básico</span>
+          <span class="aula-card-arrow">→</span>
+        </div>
+      </div>
+      <div class="aula-card c4" onclick="goTo('a4')">
+        <div class="aula-card-num">Aula 04</div>
+        <span class="aula-card-icon">📋</span>
+        <h3>Formulários &amp; Tabelas</h3>
+        <p>Campos, labels, validação HTML5, tabelas semânticas e estilização.</p>
+        <div class="aula-card-footer">
+          <span class="tag-nivel">Intermediário</span>
+          <span class="aula-card-arrow">→</span>
+        </div>
+      </div>
+      <div class="aula-card c5" onclick="goTo('a5')">
+        <div class="aula-card-num">Aula 05</div>
+        <span class="aula-card-icon">📐</span>
+        <h3>CSS Flexbox</h3>
+        <p>Layout moderno, alinhamento, múltiplas colunas e variáveis CSS.</p>
+        <div class="aula-card-footer">
+          <span class="tag-nivel">Intermediário</span>
+          <span class="aula-card-arrow">→</span>
+        </div>
+      </div>
+      <div class="aula-card c6" onclick="goTo('a6')">
+        <div class="aula-card-num">Aula 06</div>
+        <span class="aula-card-icon">🚀</span>
+        <h3>Projeto Final</h3>
+        <p>Site completo com 5 páginas, CSS externo, validação W3C e apresentação.</p>
+        <div class="aula-card-footer">
+          <span class="tag-nivel">Integrador</span>
+          <span class="aula-card-arrow">→</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">🔜 O que vem a seguir</div>
+    <div class="modulo2-card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <span style="background:rgba(255,255,255,.12);border-radius:8px;padding:6px 12px;font-size:.78rem;font-weight:800;color:rgba(255,255,255,.7);letter-spacing:.06em;">MÓDULO II</span>
+        <span style="color:rgba(255,255,255,.4);font-size:.8rem;">Após concluir este módulo</span>
+      </div>
+      <h3>JavaScript — 13 aulas · 52 horas</h3>
+      <p>Com o HTML e CSS dominados, você aprenderá a tornar as páginas interativas e dinâmicas com JavaScript.</p>
+      <div class="js-topics">
+        <span class="js-chip">Variáveis &amp; Tipos</span>
+        <span class="js-chip">Funções</span>
+        <span class="js-chip">DOM</span>
+        <span class="js-chip">Eventos</span>
+        <span class="js-chip">Validação</span>
+        <span class="js-chip">Arrays &amp; Objetos</span>
+        <span class="js-chip">Fetch &amp; APIs</span>
+        <span class="js-chip">localStorage</span>
+        <span class="js-chip">Projeto Final</span>
+      </div>
+    </div>
+  </div><!-- /home -->
+
+
+<!-- ════════════════════════════════════════════════════════════
+     AULA 01 — HTML
+════════════════════════════════════════════════════════════ -->
+<div class="page t1" id="page-a1">
+  <div class="aula-progress">
+    <span class="progress-ring">📖</span>
+    <div class="progress-text">
+      <h4>Aula 01 de 06</h4>
+      <p>Marque como concluída quando terminar o desafio</p>
+    </div>
+    <button class="btn-complete" id="complete-a1" onclick="markDone('a1')">✓ Marcar como concluída</button>
+  </div>
+  <div class="aula-hero">
+    <div class="aula-hero-eyebrow">Aula 01 · Introdutório · 4 horas</div>
+    <h1>🏗️ Estrutura HTML</h1>
+    <p>A espinha dorsal de qualquer página web. Aprenda a escrever HTML semântico, organizado e acessível — a base de tudo que vem depois.</p>
+    <div class="aula-meta-row">
+      <span class="meta-chip">⏱️ 4 horas</span>
+      <span class="meta-chip">📁 1 arquivo HTML</span>
+      <span class="meta-chip">🎯 Nível introdutório</span>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header open" onclick="toggle(this)">
+      <span class="section-icon">🎯</span>
+      <span class="section-label">Objetivo Geral</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body open">
+      <p style="font-size:.95rem;color:var(--txt-2);line-height:1.7;">Desenvolver a capacidade de construir a estrutura básica de uma página HTML5, compreendendo a hierarquia de elementos, semântica e boas práticas de codificação — fundamentos que serão usados em todas as aulas seguintes.</p>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header open" onclick="toggle(this)">
+      <span class="section-icon">💡</span>
+      <span class="section-label">O que você vai aprender</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body open">
+      <ul class="item-list">
+        <li>A estrutura obrigatória de todo documento HTML5: <code>!DOCTYPE</code>, <code>html</code>, <code>head</code>, <code>body</code></li>
+        <li>Tags de conteúdo: <code>h1–h6</code>, <code>p</code>, <code>strong</code>, <code>em</code>, <code>span</code>, <code>div</code></li>
+        <li>Tags semânticas do HTML5: <code>header</code>, <code>nav</code>, <code>main</code>, <code>section</code>, <code>article</code>, <code>aside</code>, <code>footer</code></li>
+        <li>Listas: <code>ul</code> (marcadores), <code>ol</code> (numerada), <code>li</code> (item)</li>
+        <li>Hyperlinks: <code>&lt;a href&gt;</code>, atributos <code>target="_blank"</code> e <code>rel="noopener"</code></li>
+        <li>Comentários no código: <code>&lt;!-- comentário --&gt;</code></li>
+        <li>Boas práticas: indentação, nomenclatura de arquivos, organização</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header" onclick="toggle(this)">
+      <span class="section-icon">📋</span>
+      <span class="section-label">Roteiro da Aula</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <ol class="steps-list">
+        <li><span class="step-num">1</span><span><strong>Exposição dialogada — 30 min:</strong> História do HTML e evolução até o HTML5, com linha do tempo visual no projetor.</span></li>
+        <li><span class="step-num">2</span><span><strong>Demonstração ao vivo — 45 min:</strong> Docente cria uma página do zero no VS Code, explicando cada tag enquanto digita. Alunos acompanham sem digitar.</span></li>
+        <li><span class="step-num">3</span><span><strong>Prática guiada — 60 min:</strong> Alunos replicam a página no próprio computador com acompanhamento do docente.</span></li>
+        <li><span class="step-num">4</span><span><strong>Desafio autônomo — 60 min:</strong> Cada aluno cria sua própria página de apresentação (ver Desafio).</span></li>
+        <li><span class="step-num">5</span><span><strong>Apresentação e feedback — 45 min:</strong> Alunos exibem as páginas no navegador; feedback coletivo sobre semântica e organização.</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header" onclick="toggle(this)">
+      <span class="section-icon">🔗</span>
+      <span class="section-label">Ferramentas e Recursos</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="recursos-grid">
+        <a href="https://code.visualstudio.com/" target="_blank" class="recurso-card">
+          <span class="recurso-icon">🛠️</span>
+          <div class="recurso-title">VS Code</div>
+          <div class="recurso-desc">Editor de código gratuito da Microsoft</div>
+          <div class="recurso-link">Download gratuito ↗</div>
+        </a>
+        <a href="https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer" target="_blank" class="recurso-card">
+          <span class="recurso-icon">🔌</span>
+          <div class="recurso-title">Live Server</div>
+          <div class="recurso-desc">Extensão para ver o HTML ao vivo no navegador</div>
+          <div class="recurso-link">VS Code Marketplace ↗</div>
+        </a>
+        <a href="https://developer.mozilla.org/pt-BR/docs/Web/HTML/Element" target="_blank" class="recurso-card">
+          <span class="recurso-icon">📖</span>
+          <div class="recurso-title">MDN — Todas as Tags</div>
+          <div class="recurso-desc">Referência oficial e completa do HTML</div>
+          <div class="recurso-link">Abrir referência ↗</div>
+        </a>
+        <a href="https://www.w3schools.com/html/default.asp" target="_blank" class="recurso-card">
+          <span class="recurso-icon">🎓</span>
+          <div class="recurso-title">W3Schools HTML</div>
+          <div class="recurso-desc">Tutorial interativo passo a passo</div>
+          <div class="recurso-link">Acessar tutorial ↗</div>
+        </a>
+        <a href="https://validator.w3.org/" target="_blank" class="recurso-card">
+          <span class="recurso-icon">✅</span>
+          <div class="recurso-title">W3C Validator</div>
+          <div class="recurso-desc">Verifique se seu HTML está correto</div>
+          <div class="recurso-link">Validar HTML ↗</div>
+        </a>
+        <a href="https://htmldog.com/guides/html/beginner/" target="_blank" class="recurso-card">
+          <span class="recurso-icon">🐶</span>
+          <div class="recurso-title">HTML Dog — Guia</div>
+          <div class="recurso-desc">Exercícios práticos para iniciantes</div>
+          <div class="recurso-link">Abrir guia ↗</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header" onclick="toggle(this)">
+      <span class="section-icon">📚</span>
+      <span class="section-label">Para se Aprofundar</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="deep-list">
+        <a href="https://css-tricks.com/why-how-and-when-to-use-semantic-html-and-aria/" target="_blank" class="deep-link">
+          Por que HTML Semântico importa — CSS-Tricks <span class="deep-link-arrow">→</span>
+        </a>
+        <a href="https://web.dev/learn/html/document-structure/" target="_blank" class="deep-link">
+          Estrutura de documentos HTML5 — web.dev (Google) <span class="deep-link-arrow">→</span>
+        </a>
+        <a href="https://github.com/hail2u/html-best-practices" target="_blank" class="deep-link">
+          Boas práticas de HTML — repositório GitHub <span class="deep-link-arrow">→</span>
+        </a>
+        <a href="https://www.w3.org/WAI/fundamentals/accessibility-intro/pt-br" target="_blank" class="deep-link">
+          Introdução à Acessibilidade na Web — W3C/WAI <span class="deep-link-arrow">→</span>
+        </a>
+        <a href="https://developer.mozilla.org/pt-BR/docs/Learn/HTML/Introduction_to_HTML" target="_blank" class="deep-link">
+          Guia introdutório ao HTML — MDN Learning Area <span class="deep-link-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="desafio-box t1" style="margin-bottom:20px;">
+    <div class="desafio-header">
+      <span class="desafio-emoji">🎯</span>
+      <div class="desafio-header-text">
+        <h3>Desafio — Minha Página de Apresentação</h3>
+        <p>Crie uma página HTML completa que apresente você ao mundo. Use tudo que aprendeu nesta aula.</p>
+      </div>
+    </div>
+    <div class="desafio-body">
+      <ul class="desafio-checklist" id="check-a1">
+        <li><span class="check-box" onclick="checkItem(this)"></span>Estrutura completa e válida: <code>!DOCTYPE</code>, <code>html lang="pt-BR"</code>, <code>head</code> com charset e title, <code>body</code></li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Cabeçalho <code>&lt;header&gt;</code> com seu nome em <code>&lt;h1&gt;</code> e uma frase de efeito em <code>&lt;p&gt;</code></li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Navegação <code>&lt;nav&gt;</code> com pelo menos 3 links para páginas futuras do projeto</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Seção principal <code>&lt;main&gt;</code> com <code>h2</code>, dois parágrafos sobre você e suas áreas de interesse</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Lista não-ordenada <code>&lt;ul&gt;</code> com 5 tecnologias ou curiosidades</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Lista ordenada <code>&lt;ol&gt;</code> com os passos para acessar um site de sua escolha</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Link externo para um site de tecnologia que você usa (abre em nova aba com <code>target="_blank"</code>)</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Rodapé <code>&lt;footer&gt;</code> com seu nome e o ano</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Comentários no código indicando cada seção</li>
+      </ul>
+      <div class="desafio-entrega">
+        <strong>📦 Entrega</strong>
+        Arquivo <code>index.html</code> salvo na pasta do projeto, exibido no navegador e validado no W3C Validator (zero erros).
+      </div>
+      <div class="criterios-grid">
+        <div class="criterio-chip">✓ HTML válido no W3C</div>
+        <div class="criterio-chip">✓ Tags semânticas corretas</div>
+        <div class="criterio-chip">✓ Código indentado</div>
+        <div class="criterio-chip">✓ Todos os links funcionando</div>
+        <div class="criterio-chip">✓ Comentários em cada seção</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mundo-box">
+    <span class="mundo-icon">🌐</span>
+    <div>
+      <h4>Conexão com o Mundo do Trabalho</h4>
+      <p>Empresas como Totvs, CI&amp;T e Stefanini exigem HTML semântico em todos os projetos. A semântica correta melhora o SEO (posicionamento no Google) e a acessibilidade — dois requisitos obrigatórios em contratos corporativos. Saber escrever HTML limpo é o primeiro passo para qualquer vaga de desenvolvedor web.</p>
+    </div>
+  </div>
+</div><!-- /a1 -->
+
+
+<!-- ════════════════════════════════════════════════════════════
+     AULA 02 — CSS
+════════════════════════════════════════════════════════════ -->
+<div class="page t2" id="page-a2">
+  <div class="aula-progress">
+    <span class="progress-ring">📖</span>
+    <div class="progress-text"><h4>Aula 02 de 06</h4><p>Marque como concluída quando terminar o desafio</p></div>
+    <button class="btn-complete" id="complete-a2" onclick="markDone('a2')">✓ Marcar como concluída</button>
+  </div>
+  <div class="aula-hero">
+    <div class="aula-hero-eyebrow">Aula 02 · Básico · 4 horas</div>
+    <h1>🎨 CSS Fundamentos</h1>
+    <p>Transforme páginas sem estilo em interfaces atraentes. Domine seletores, cores, tipografia e o Box Model — a lógica por trás de todo layout CSS.</p>
+    <div class="aula-meta-row">
+      <span class="meta-chip">⏱️ 4 horas</span>
+      <span class="meta-chip">📁 + arquivo CSS externo</span>
+      <span class="meta-chip">🎯 Nível básico</span>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header open" onclick="toggle(this)">
+      <span class="section-icon">💡</span>
+      <span class="section-label">O que você vai aprender</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body open">
+      <ul class="item-list">
+        <li>As 3 formas de aplicar CSS: inline (<code>style=""</code>), interno (<code>&lt;style&gt;</code>) e externo (arquivo <code>.css</code>)</li>
+        <li>Seletores: por tag, <code>.classe</code>, <code>#id</code>, agrupado (<code>A, B</code>), descendente (<code>A B</code>), filho direto (<code>A &gt; B</code>)</li>
+        <li>Cores: palavras-chave, hexadecimal (<code>#1a73e8</code>), RGB e RGBA com transparência</li>
+        <li>Box Model: <code>box-sizing</code>, <code>width</code>, <code>height</code>, <code>padding</code>, <code>margin</code>, <code>border</code></li>
+        <li>Tipografia: <code>font-family</code>, <code>font-size</code>, <code>font-weight</code>, <code>line-height</code>, <code>text-align</code></li>
+        <li>Pseudo-classes: <code>:hover</code>, <code>:focus</code>, <code>:active</code>, <code>:nth-child</code></li>
+        <li>Transições: <code>transition: property duration timing-function</code></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header" onclick="toggle(this)">
+      <span class="section-icon">📋</span>
+      <span class="section-label">Roteiro da Aula</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <ol class="steps-list">
+        <li><span class="step-num">1</span><span><strong>Exposição dialogada — 30 min:</strong> CSS com exemplos ao vivo no DevTools do Chrome: alterar estilos em tempo real.</span></li>
+        <li><span class="step-num">2</span><span><strong>Atividade Box Model — 25 min:</strong> Alunos desenham no papel o Box Model de um elemento, depois inspecionam um site real no Chrome DevTools.</span></li>
+        <li><span class="step-num">3</span><span><strong>Prática guiada — 60 min:</strong> Criar o <code>estilos.css</code> externo e estilizar a página da Aula 01 juntos, passo a passo.</span></li>
+        <li><span class="step-num">4</span><span><strong>Exploração livre — 30 min:</strong> Alunos testam variações de cores, fontes e espaçamentos no próprio projeto.</span></li>
+        <li><span class="step-num">5</span><span><strong>Desafio autônomo — 55 min:</strong> Estilização completa com foco em Box Model e seletores.</span></li>
+        <li><span class="step-num">6</span><span><strong>Code review coletivo — 20 min:</strong> 3 alunos exibem o CSS no projetor; turma discute as escolhas.</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header" onclick="toggle(this)">
+      <span class="section-icon">🔗</span>
+      <span class="section-label">Ferramentas e Recursos</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="recursos-grid">
+        <a href="https://coolors.co/" target="_blank" class="recurso-card">
+          <span class="recurso-icon">🎨</span>
+          <div class="recurso-title">Coolors.co</div>
+          <div class="recurso-desc">Gerador de paletas de cores profissionais</div>
+          <div class="recurso-link">Criar paleta ↗</div>
+        </a>
+        <a href="https://fonts.google.com/" target="_blank" class="recurso-card">
+          <span class="recurso-icon">🔤</span>
+          <div class="recurso-title">Google Fonts</div>
+          <div class="recurso-desc">Centenas de fontes gratuitas para web</div>
+          <div class="recurso-link">Escolher fonte ↗</div>
+        </a>
+        <a href="https://developer.mozilla.org/pt-BR/docs/Web/CSS/Reference" target="_blank" class="recurso-card">
+          <span class="recurso-icon">📖</span>
+          <div class="recurso-title">MDN — Referência CSS</div>
+          <div class="recurso-desc">Todas as propriedades CSS documentadas</div>
+          <div class="recurso-link">Abrir referência ↗</div>
+        </a>
+        <a href="https://developer.chrome.com/docs/devtools/css/box-model/" target="_blank" class="recurso-card">
+          <span class="recurso-icon">🔍</span>
+          <div class="recurso-title">Chrome DevTools</div>
+          <div class="recurso-desc">Inspecionar o Box Model ao vivo</div>
+          <div class="recurso-link">Ver tutorial ↗</div>
+        </a>
+        <a href="https://www.w3schools.com/colors/colors_picker.asp" target="_blank" class="recurso-card">
+          <span class="recurso-icon">🌈</span>
+          <div class="recurso-title">Color Picker</div>
+          <div class="recurso-desc">Conversor interativo RGB / HEX / HSL</div>
+          <div class="recurso-link">Abrir ferramenta ↗</div>
+        </a>
+        <a href="https://www.w3schools.com/css/default.asp" target="_blank" class="recurso-card">
+          <span class="recurso-icon">🎓</span>
+          <div class="recurso-title">W3Schools CSS</div>
+          <div class="recurso-desc">Tutorial interativo com exercícios</div>
+          <div class="recurso-link">Acessar tutorial ↗</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header" onclick="toggle(this)">
+      <span class="section-icon">📚</span>
+      <span class="section-label">Para se Aprofundar</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="deep-list">
+        <a href="https://developer.mozilla.org/pt-BR/docs/Web/CSS/CSS_box_model/Introduction_to_the_CSS_box_model" target="_blank" class="deep-link">Box Model em detalhes — MDN <span class="deep-link-arrow">→</span></a>
+        <a href="https://css-tricks.com/specifics-on-css-specificity/" target="_blank" class="deep-link">Especificidade CSS — como a cascata decide qual estilo vence <span class="deep-link-arrow">→</span></a>
+        <a href="https://web.dev/articles/css-variables" target="_blank" class="deep-link">Variáveis CSS (Custom Properties) — web.dev <span class="deep-link-arrow">→</span></a>
+        <a href="https://developer.mozilla.org/pt-BR/docs/Web/CSS/Pseudo-classes" target="_blank" class="deep-link">Guia completo de pseudo-classes — MDN <span class="deep-link-arrow">→</span></a>
+        <a href="https://developer.mozilla.org/pt-BR/docs/Web/CSS/CSS_transitions/Using_CSS_transitions" target="_blank" class="deep-link">Transições CSS — MDN <span class="deep-link-arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="desafio-box t2" style="margin-bottom:20px;">
+    <div class="desafio-header">
+      <span class="desafio-emoji">🎯</span>
+      <div class="desafio-header-text">
+        <h3>Desafio — Página Estilizada com CSS Externo</h3>
+        <p>Crie o <code>estilos.css</code> e aplique à página da Aula 01. Deixe-a irreconhecível (no bom sentido)!</p>
+      </div>
+    </div>
+    <div class="desafio-body">
+      <ul class="desafio-checklist">
+        <li><span class="check-box" onclick="checkItem(this)"></span>Arquivo <code>estilos.css</code> externo linkado com <code>&lt;link rel="stylesheet"&gt;</code></li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Paleta de 3 cores comentada no topo do CSS (primária, secundária, destaque)</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Cabeçalho com cor de fundo, padding generoso e texto centralizado</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Navegação com links sem sublinhado, com padding e efeito <code>:hover</code> + <code>transition</code></li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Pelo menos 3 classes CSS criadas por você e aplicadas no HTML</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Box Model explorado: margin, padding e border visíveis e intencionais</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Fonte do Google Fonts aplicada, com tamanhos diferentes para h1, h2 e p</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>CSS comentado por seção: <code>/* === HEADER === */</code></li>
+      </ul>
+      <div class="desafio-entrega">
+        <strong>📦 Entrega</strong>
+        Pasta com <code>index.html</code> + <code>estilos.css</code>. Mostrar no navegador e explicar ao docente uma escolha de estilo.
+      </div>
+      <div class="criterios-grid">
+        <div class="criterio-chip">✓ CSS externo sem erros</div>
+        <div class="criterio-chip">✓ Seletores tag, classe e ID</div>
+        <div class="criterio-chip">✓ Box Model visível</div>
+        <div class="criterio-chip">✓ CSS comentado</div>
+        <div class="criterio-chip">✓ Identidade visual coerente</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mundo-box">
+    <span class="mundo-icon">🌐</span>
+    <div>
+      <h4>Conexão com o Mundo do Trabalho</h4>
+      <p>Todo sistema web — de aplicativos bancários a e-commerces — tem um CSS que define sua identidade visual. Equipes de front-end em empresas como iFood, Nubank e Magazine Luiza mantêm design systems completos construídos em CSS. Saber escrever CSS organizado é diferencial em qualquer vaga.</p>
+    </div>
+  </div>
+</div><!-- /a2 -->
+
+
+<!-- ════════════════════════════════════════════════════════════
+     AULA 03 — IMAGENS & LINKS
+════════════════════════════════════════════════════════════ -->
+<div class="page t3" id="page-a3">
+  <div class="aula-progress">
+    <span class="progress-ring">📖</span>
+    <div class="progress-text"><h4>Aula 03 de 06</h4><p>Marque como concluída quando terminar o desafio</p></div>
+    <button class="btn-complete" id="complete-a3" onclick="markDone('a3')">✓ Marcar como concluída</button>
+  </div>
+  <div class="aula-hero">
+    <div class="aula-hero-eyebrow">Aula 03 · Básico · 4 horas</div>
+    <h1>🖼️ Imagens &amp; Links</h1>
+    <p>Enriqueça suas páginas com imagens otimizadas, ícones e links de todos os tipos. Aprenda acessibilidade e performance desde o início.</p>
+    <div class="aula-meta-row">
+      <span class="meta-chip">⏱️ 4 horas</span>
+      <span class="meta-chip">📁 pasta img/</span>
+      <span class="meta-chip">🎯 Nível básico</span>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header open" onclick="toggle(this)">
+      <span class="section-icon">💡</span>
+      <span class="section-label">O que você vai aprender</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body open">
+      <ul class="item-list">
+        <li>Tag <code>&lt;img&gt;</code>: atributos <code>src</code>, <code>alt</code>, <code>width</code>, <code>height</code>, <code>loading="lazy"</code></li>
+        <li>Formatos de imagem: JPG (fotos), PNG (transparência), WebP (moderno e leve), SVG (vetorial)</li>
+        <li>Tags semânticas <code>&lt;figure&gt;</code> e <code>&lt;figcaption&gt;</code> para imagens com legenda</li>
+        <li>Links especiais: <code>mailto:</code>, <code>tel:</code>, âncoras com <code>id</code> (<code>#secao</code>), links relativos e absolutos</li>
+        <li>Ícones com Font Awesome via CDN</li>
+        <li>CSS para imagens: <code>object-fit</code>, <code>border-radius</code>, <code>box-shadow</code>, <code>opacity</code> com <code>transition</code></li>
+        <li>Otimização: imagens com menos de 300 KB, lazy loading nativo</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header" onclick="toggle(this)">
+      <span class="section-icon">📋</span>
+      <span class="section-label">Roteiro da Aula</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <ol class="steps-list">
+        <li><span class="step-num">1</span><span><strong>Exposição — 25 min:</strong> Comparação visual de formatos de imagem lado a lado (JPG vs PNG vs WebP). Diferença no tamanho do arquivo.</span></li>
+        <li><span class="step-num">2</span><span><strong>Análise em sites reais — 20 min:</strong> Alunos inspecionam imagens de um site popular no DevTools: atributos alt, src, loading.</span></li>
+        <li><span class="step-num">3</span><span><strong>Prática guiada — 60 min:</strong> Montar uma galeria com figure/figcaption, baixar imagens do Unsplash e otimizar no Squoosh.</span></li>
+        <li><span class="step-num">4</span><span><strong>Atividade de links — 30 min:</strong> Criar uma página de links com todos os tipos: externo, âncora, e-mail, telefone.</span></li>
+        <li><span class="step-num">5</span><span><strong>Desafio autônomo — 50 min:</strong> Seção hero e galeria do projeto.</span></li>
+        <li><span class="step-num">6</span><span><strong>Feedback — 35 min:</strong> Exibir projetos e discutir acessibilidade, tamanho de arquivo e organização.</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header" onclick="toggle(this)">
+      <span class="section-icon">🔗</span>
+      <span class="section-label">Ferramentas e Recursos</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="recursos-grid">
+        <a href="https://unsplash.com/" target="_blank" class="recurso-card">
+          <span class="recurso-icon">📸</span>
+          <div class="recurso-title">Unsplash</div>
+          <div class="recurso-desc">Fotos gratuitas de alta qualidade</div>
+          <div class="recurso-link">Baixar fotos ↗</div>
+        </a>
+        <a href="https://www.pexels.com/pt-br/" target="_blank" class="recurso-card">
+          <span class="recurso-icon">🖼️</span>
+          <div class="recurso-title">Pexels</div>
+          <div class="recurso-desc">Fotos e vídeos gratuitos para projetos</div>
+          <div class="recurso-link">Explorar ↗</div>
+        </a>
+        <a href="https://squoosh.app/" target="_blank" class="recurso-card">
+          <span class="recurso-icon">📉</span>
+          <div class="recurso-title">Squoosh</div>
+          <div class="recurso-desc">Comprimir imagens sem perder qualidade</div>
+          <div class="recurso-link">Otimizar imagem ↗</div>
+        </a>
+        <a href="https://fontawesome.com/start" target="_blank" class="recurso-card">
+          <span class="recurso-icon">⭐</span>
+          <div class="recurso-title">Font Awesome</div>
+          <div class="recurso-desc">Ícones gratuitos via CDN no HTML</div>
+          <div class="recurso-link">Ver ícones ↗</div>
+        </a>
+        <a href="https://developer.mozilla.org/pt-BR/docs/Web/HTML/Element/img" target="_blank" class="recurso-card">
+          <span class="recurso-icon">📖</span>
+          <div class="recurso-title">MDN — tag &lt;img&gt;</div>
+          <div class="recurso-desc">Todos os atributos da tag de imagem</div>
+          <div class="recurso-link">Ler documentação ↗</div>
+        </a>
+        <a href="https://developer.mozilla.org/pt-BR/docs/Web/CSS/object-fit" target="_blank" class="recurso-card">
+          <span class="recurso-icon">🎛️</span>
+          <div class="recurso-title">CSS object-fit</div>
+          <div class="recurso-desc">Controlar o recorte de imagens com CSS</div>
+          <div class="recurso-link">Ver exemplos ↗</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header" onclick="toggle(this)">
+      <span class="section-icon">📚</span>
+      <span class="section-label">Para se Aprofundar</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="deep-list">
+        <a href="https://web.dev/articles/lazy-loading-images" target="_blank" class="deep-link">Lazy loading de imagens — web.dev <span class="deep-link-arrow">→</span></a>
+        <a href="https://web.dev/articles/choose-the-right-image-format" target="_blank" class="deep-link">Como escolher o formato de imagem certo — web.dev <span class="deep-link-arrow">→</span></a>
+        <a href="https://developer.mozilla.org/pt-BR/docs/Learn/Accessibility/HTML" target="_blank" class="deep-link">Acessibilidade em HTML — atributo alt e mais — MDN <span class="deep-link-arrow">→</span></a>
+        <a href="https://css-tricks.com/almanac/properties/b/background-image/" target="_blank" class="deep-link">background-image no CSS — CSS-Tricks <span class="deep-link-arrow">→</span></a>
+        <a href="https://developer.mozilla.org/pt-BR/docs/Web/HTML/Element/figure" target="_blank" class="deep-link">Tags figure e figcaption — MDN <span class="deep-link-arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="desafio-box t3" style="margin-bottom:20px;">
+    <div class="desafio-header">
+      <span class="desafio-emoji">🎯</span>
+      <div class="desafio-header-text">
+        <h3>Desafio — Seção Hero e Galeria de Imagens</h3>
+        <p>Crie a seção de destaque e uma galeria para o projeto final, com imagens otimizadas e acessíveis.</p>
+      </div>
+    </div>
+    <div class="desafio-body">
+      <ul class="desafio-checklist">
+        <li><span class="check-box" onclick="checkItem(this)"></span>Seção hero com <code>background-image</code> no CSS, título e parágrafo em sobreposição</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Galeria com pelo menos 6 imagens usando <code>&lt;figure&gt;</code> e <code>&lt;figcaption&gt;</code> para cada</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Todas as imagens com <code>alt</code> descritivo e <code>loading="lazy"</code></li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Nenhuma imagem maior que 300 KB (use o Squoosh para comprimir)</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Ícones do Font Awesome em pelo menos 3 elementos da página</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Links de todos os tipos: externo, âncora (<code>#secao</code>), e-mail (<code>mailto:</code>), telefone (<code>tel:</code>)</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>CSS: imagens com <code>border-radius</code>, <code>box-shadow</code> e efeito hover com <code>opacity</code> e <code>transition</code></li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Pasta <code>img/</code> criada com nomes de arquivo padronizados (sem espaços, em minúsculas)</li>
+      </ul>
+      <div class="desafio-entrega">
+        <strong>📦 Entrega</strong>
+        Pasta do projeto atualizada. Apresentar a galeria no navegador e explicar a escolha de formato de imagem e por que otimizou.
+      </div>
+      <div class="criterios-grid">
+        <div class="criterio-chip">✓ alt em todas as imagens</div>
+        <div class="criterio-chip">✓ figure/figcaption corretos</div>
+        <div class="criterio-chip">✓ Imagens otimizadas</div>
+        <div class="criterio-chip">✓ Links de todos os tipos</div>
+        <div class="criterio-chip">✓ Hover + transition no CSS</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mundo-box">
+    <span class="mundo-icon">🌐</span>
+    <div>
+      <h4>Conexão com o Mundo do Trabalho</h4>
+      <p>A performance de carregamento de imagens impacta diretamente a taxa de conversão de e-commerces — estudos do Google mostram que cada segundo a mais de carregamento custa vendas. Sites do Mercado Livre e Amazon investem muito em otimização de imagens. É habilidade cobrada em toda vaga front-end.</p>
+    </div>
+  </div>
+</div><!-- /a3 -->
+
+
+<!-- ════════════════════════════════════════════════════════════
+     AULA 04 — FORMULÁRIOS & TABELAS
+════════════════════════════════════════════════════════════ -->
+<div class="page t4" id="page-a4">
+  <div class="aula-progress">
+    <span class="progress-ring">📖</span>
+    <div class="progress-text"><h4>Aula 04 de 06</h4><p>Marque como concluída quando terminar o desafio</p></div>
+    <button class="btn-complete" id="complete-a4" onclick="markDone('a4')">✓ Marcar como concluída</button>
+  </div>
+  <div class="aula-hero">
+    <div class="aula-hero-eyebrow">Aula 04 · Intermediário · 4 horas</div>
+    <h1>📋 Formulários &amp; Tabelas</h1>
+    <p>Formulários são a porta de entrada de dados em qualquer sistema. Aprenda a construí-los corretamente, com acessibilidade e validação nativa do HTML5.</p>
+    <div class="aula-meta-row">
+      <span class="meta-chip">⏱️ 4 horas</span>
+      <span class="meta-chip">📄 contato.html</span>
+      <span class="meta-chip">🎯 Nível intermediário</span>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header open" onclick="toggle(this)">
+      <span class="section-icon">💡</span>
+      <span class="section-label">O que você vai aprender</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body open">
+      <ul class="item-list">
+        <li>Tag <code>&lt;form&gt;</code> com atributos <code>action</code>, <code>method</code> (get/post)</li>
+        <li>Tipos de input: <code>text</code>, <code>email</code>, <code>password</code>, <code>number</code>, <code>date</code>, <code>tel</code>, <code>url</code>, <code>color</code>, <code>range</code></li>
+        <li>Inputs especiais: <code>radio</code>, <code>checkbox</code>, <code>file</code>, <code>submit</code>, <code>reset</code></li>
+        <li><code>&lt;label for&gt;</code>, <code>&lt;select&gt;</code> + <code>&lt;option&gt;</code>, <code>&lt;textarea&gt;</code>, <code>&lt;fieldset&gt;</code>, <code>&lt;legend&gt;</code></li>
+        <li>Validação HTML5: <code>required</code>, <code>minlength</code>, <code>maxlength</code>, <code>min</code>, <code>max</code>, <code>pattern</code>, <code>placeholder</code></li>
+        <li>Tabelas: <code>&lt;table&gt;</code>, <code>&lt;caption&gt;</code>, <code>&lt;thead&gt;</code>, <code>&lt;tbody&gt;</code>, <code>&lt;tfoot&gt;</code>, <code>colspan</code>, <code>rowspan</code></li>
+        <li>CSS: <code>:focus</code> com <code>box-shadow</code>, linhas alternadas com <code>:nth-child</code>, hover em linhas</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header" onclick="toggle(this)">
+      <span class="section-icon">📋</span>
+      <span class="section-label">Roteiro da Aula</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <ol class="steps-list">
+        <li><span class="step-num">1</span><span><strong>Exposição — 25 min:</strong> Análise de formulários reais (Google Forms, iFood, login bancário) identificando tipos de campo.</span></li>
+        <li><span class="step-num">2</span><span><strong>Análise em duplas — 20 min:</strong> Cada dupla recebe um formulário real impresso e identifica todos os tipos de campo e atributos.</span></li>
+        <li><span class="step-num">3</span><span><strong>Prática guiada — 55 min:</strong> Construção de formulário de cadastro completo com todos os tipos de campo.</span></li>
+        <li><span class="step-num">4</span><span><strong>Prática guiada — 25 min:</strong> Tabela de dados com mescla de células (colspan/rowspan).</span></li>
+        <li><span class="step-num">5</span><span><strong>Desafio autônomo — 55 min:</strong> Criar a página de contato completa do projeto.</span></li>
+        <li><span class="step-num">6</span><span><strong>Feedback — 40 min:</strong> Testar os formulários dos colegas e dar feedback sobre usabilidade.</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header" onclick="toggle(this)">
+      <span class="section-icon">🔗</span>
+      <span class="section-label">Ferramentas e Recursos</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="recursos-grid">
+        <a href="https://developer.mozilla.org/pt-BR/docs/Learn/Forms" target="_blank" class="recurso-card">
+          <span class="recurso-icon">📖</span>
+          <div class="recurso-title">MDN — Formulários Web</div>
+          <div class="recurso-desc">Guia completo de formulários HTML</div>
+          <div class="recurso-link">Ler guia ↗</div>
+        </a>
+        <a href="https://www.w3schools.com/html/html_form_input_types.asp" target="_blank" class="recurso-card">
+          <span class="recurso-icon">📋</span>
+          <div class="recurso-title">W3Schools — Input Types</div>
+          <div class="recurso-desc">Todos os tipos de input com exemplos</div>
+          <div class="recurso-link">Ver tipos ↗</div>
+        </a>
+        <a href="https://webaim.org/techniques/forms/" target="_blank" class="recurso-card">
+          <span class="recurso-icon">♿</span>
+          <div class="recurso-title">WebAIM — Forms</div>
+          <div class="recurso-desc">Acessibilidade em formulários web</div>
+          <div class="recurso-link">Ler artigo ↗</div>
+        </a>
+        <a href="https://developer.mozilla.org/pt-BR/docs/Web/HTML/Element/table" target="_blank" class="recurso-card">
+          <span class="recurso-icon">📊</span>
+          <div class="recurso-title">MDN — Tabelas HTML</div>
+          <div class="recurso-desc">Referência completa da tag table</div>
+          <div class="recurso-link">Ver referência ↗</div>
+        </a>
+        <a href="https://developer.mozilla.org/pt-BR/docs/Learn/Forms/Form_validation" target="_blank" class="recurso-card">
+          <span class="recurso-icon">✅</span>
+          <div class="recurso-title">Validação HTML5</div>
+          <div class="recurso-desc">required, pattern, minlength e mais</div>
+          <div class="recurso-link">Ler guia ↗</div>
+        </a>
+        <a href="https://developer.mozilla.org/pt-BR/docs/Web/HTML/Element/fieldset" target="_blank" class="recurso-card">
+          <span class="recurso-icon">🗂️</span>
+          <div class="recurso-title">Fieldset e Legend</div>
+          <div class="recurso-desc">Quando e como agrupar campos</div>
+          <div class="recurso-link">Ver MDN ↗</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header" onclick="toggle(this)">
+      <span class="section-icon">📚</span>
+      <span class="section-label">Para se Aprofundar</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="deep-list">
+        <a href="https://www.smashingmagazine.com/2011/11/extensive-guide-web-form-usability/" target="_blank" class="deep-link">Guia de usabilidade em formulários — Smashing Magazine <span class="deep-link-arrow">→</span></a>
+        <a href="https://www.w3.org/WAI/tutorials/tables/" target="_blank" class="deep-link">Tabelas HTML acessíveis — W3C WAI <span class="deep-link-arrow">→</span></a>
+        <a href="https://developer.mozilla.org/pt-BR/docs/Web/CSS/border-collapse" target="_blank" class="deep-link">CSS border-collapse e estilização de tabelas — MDN <span class="deep-link-arrow">→</span></a>
+        <a href="https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/" target="_blank" class="deep-link">Estilizando formulários com CSS — CSS-Tricks <span class="deep-link-arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="desafio-box t4" style="margin-bottom:20px;">
+    <div class="desafio-header">
+      <span class="desafio-emoji">🎯</span>
+      <div class="desafio-header-text">
+        <h3>Desafio — Página de Contato Profissional</h3>
+        <p>Crie a <code>contato.html</code> do projeto com formulário completo e tabela de informações.</p>
+      </div>
+    </div>
+    <div class="desafio-body">
+      <ul class="desafio-checklist">
+        <li><span class="check-box" onclick="checkItem(this)"></span>Formulário com: nome (<code>text, required</code>), e-mail (<code>email, required</code>), telefone (<code>tel</code>), assunto (<code>select</code> com 4 opções) e mensagem (<code>textarea, required, minlength="20"</code>)</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Todos os campos com <code>&lt;label for&gt;</code> associado ao <code>id</code> do campo</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Agrupamento com <code>&lt;fieldset&gt;</code> e <code>&lt;legend&gt;</code> (ex: "Dados pessoais" e "Mensagem")</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Botão enviar e botão limpar com estilos CSS diferentes</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Tabela com endereço, telefone, e-mail e horário de atendimento</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Tabela com <code>&lt;thead&gt;</code>, <code>&lt;tbody&gt;</code> e pelo menos 1 uso de <code>colspan</code></li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>CSS: campos com <code>:focus</code> + <code>box-shadow</code> colorido, linhas com <code>:hover</code>, botões com <code>:active</code></li>
+      </ul>
+      <div class="desafio-entrega">
+        <strong>📦 Entrega</strong>
+        <code>contato.html</code> completo e integrado à navegação. Testar preenchimento e validação nativa dos campos obrigatórios.
+      </div>
+      <div class="criterios-grid">
+        <div class="criterio-chip">✓ Labels associados</div>
+        <div class="criterio-chip">✓ Validação HTML5</div>
+        <div class="criterio-chip">✓ Fieldset/Legend usados</div>
+        <div class="criterio-chip">✓ Tabela com thead/tbody</div>
+        <div class="criterio-chip">✓ :focus e :hover no CSS</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mundo-box">
+    <span class="mundo-icon">🌐</span>
+    <div>
+      <h4>Conexão com o Mundo do Trabalho</h4>
+      <p>Formulários são a principal interface de entrada de dados em qualquer sistema. Todo ERP, CRM e e-commerce depende de formulários HTML bem construídos. A acessibilidade é exigida por lei no Brasil — Lei Brasileira de Inclusão, Art. 63.</p>
+    </div>
+  </div>
+</div><!-- /a4 -->
+
+
+<!-- ════════════════════════════════════════════════════════════
+     AULA 05 — FLEXBOX
+════════════════════════════════════════════════════════════ -->
+<div class="page t5" id="page-a5">
+  <div class="aula-progress">
+    <span class="progress-ring">📖</span>
+    <div class="progress-text"><h4>Aula 05 de 06</h4><p>Marque como concluída quando terminar o desafio</p></div>
+    <button class="btn-complete" id="complete-a5" onclick="markDone('a5')">✓ Marcar como concluída</button>
+  </div>
+  <div class="aula-hero">
+    <div class="aula-hero-eyebrow">Aula 05 · Intermediário · 4 horas</div>
+    <h1>📐 CSS Flexbox</h1>
+    <p>Esqueça os floats — aprenda o jeito moderno de criar layouts. Com Flexbox, alinhar, distribuir e organizar elementos se torna intuitivo e preciso.</p>
+    <div class="aula-meta-row">
+      <span class="meta-chip">⏱️ 4 horas</span>
+      <span class="meta-chip">📁 estilos.css atualizado</span>
+      <span class="meta-chip">🎯 Nível intermediário</span>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header open" onclick="toggle(this)">
+      <span class="section-icon">💡</span>
+      <span class="section-label">O que você vai aprender</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body open">
+      <ul class="item-list">
+        <li>Conceito de flex container vs. flex items</li>
+        <li><code>display: flex</code> — ativando o contexto Flexbox</li>
+        <li><code>flex-direction</code>: <code>row</code> | <code>column</code> | <code>row-reverse</code> | <code>column-reverse</code></li>
+        <li><code>justify-content</code>: <code>flex-start</code> | <code>center</code> | <code>flex-end</code> | <code>space-between</code> | <code>space-evenly</code></li>
+        <li><code>align-items</code>: <code>stretch</code> | <code>center</code> | <code>flex-start</code> | <code>flex-end</code> | <code>baseline</code></li>
+        <li><code>gap</code>: espaçamento uniforme entre itens</li>
+        <li><code>flex: 1</code> e <code>flex-grow</code>, <code>flex-shrink</code>, <code>flex-basis</code></li>
+        <li><code>flex-wrap: wrap</code> — layout que se adapta à tela</li>
+        <li>Variáveis CSS: <code>--cor-primaria: #2563eb</code> + uso com <code>var()</code></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header" onclick="toggle(this)">
+      <span class="section-icon">📋</span>
+      <span class="section-label">Roteiro da Aula</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <ol class="steps-list">
+        <li><span class="step-num">1</span><span><strong>Comparação — 20 min:</strong> Layout com float (código antigo e cheio de hacks) vs. Flexbox (simples e limpo). Diferença visual imediata.</span></li>
+        <li><span class="step-num">2</span><span><strong>Flexbox Froggy — 30 min:</strong> Alunos jogam no próprio computador para aprender as propriedades de forma gamificada.</span></li>
+        <li><span class="step-num">3</span><span><strong>Prática guiada — 65 min:</strong> Recriação de um layout real (cabeçalho + cards + rodapé) usando Flexbox.</span></li>
+        <li><span class="step-num">4</span><span><strong>Refatoração — 30 min:</strong> Aplicar Flexbox na navegação e nos cards das páginas já criadas.</span></li>
+        <li><span class="step-num">5</span><span><strong>Desafio autônomo — 55 min:</strong> Layout completo com variáveis CSS.</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header" onclick="toggle(this)">
+      <span class="section-icon">🔗</span>
+      <span class="section-label">Ferramentas e Recursos</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="recursos-grid">
+        <a href="https://flexboxfroggy.com/#pt-br" target="_blank" class="recurso-card">
+          <span class="recurso-icon">🐸</span>
+          <div class="recurso-title">Flexbox Froggy</div>
+          <div class="recurso-desc">Aprenda Flexbox jogando — em português!</div>
+          <div class="recurso-link">Jogar agora ↗</div>
+        </a>
+        <a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank" class="recurso-card">
+          <span class="recurso-icon">📐</span>
+          <div class="recurso-title">CSS-Tricks — Guia Flexbox</div>
+          <div class="recurso-desc">O guia visual mais completo da internet</div>
+          <div class="recurso-link">Abrir guia ↗</div>
+        </a>
+        <a href="http://www.flexboxdefense.com/" target="_blank" class="recurso-card">
+          <span class="recurso-icon">🎮</span>
+          <div class="recurso-title">Flexbox Defense</div>
+          <div class="recurso-desc">Outro jogo para praticar Flexbox</div>
+          <div class="recurso-link">Jogar ↗</div>
+        </a>
+        <a href="https://yoksel.github.io/flex-cheatsheet/" target="_blank" class="recurso-card">
+          <span class="recurso-icon">📑</span>
+          <div class="recurso-title">Flexbox Cheatsheet</div>
+          <div class="recurso-desc">Referência visual interativa de todas as propriedades</div>
+          <div class="recurso-link">Abrir cheatsheet ↗</div>
+        </a>
+        <a href="https://loading.io/flexbox/" target="_blank" class="recurso-card">
+          <span class="recurso-icon">🔧</span>
+          <div class="recurso-title">Flexbox Generator</div>
+          <div class="recurso-desc">Gere código Flexbox visualmente</div>
+          <div class="recurso-link">Usar ferramenta ↗</div>
+        </a>
+        <a href="https://developer.mozilla.org/pt-BR/docs/Learn/CSS/CSS_layout/Flexbox" target="_blank" class="recurso-card">
+          <span class="recurso-icon">📖</span>
+          <div class="recurso-title">MDN — Flexbox</div>
+          <div class="recurso-desc">Documentação oficial com exemplos</div>
+          <div class="recurso-link">Ler docs ↗</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header" onclick="toggle(this)">
+      <span class="section-icon">📚</span>
+      <span class="section-label">Para se Aprofundar</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="deep-list">
+        <a href="https://css-tricks.com/quick-whats-the-difference-between-flexbox-and-grid/" target="_blank" class="deep-link">Flexbox vs CSS Grid — quando usar cada um <span class="deep-link-arrow">→</span></a>
+        <a href="https://developer.mozilla.org/pt-BR/docs/Web/CSS/Using_CSS_custom_properties" target="_blank" class="deep-link">Variáveis CSS (Custom Properties) em profundidade — MDN <span class="deep-link-arrow">→</span></a>
+        <a href="https://flexbox.io/" target="_blank" class="deep-link">What The Flexbox! — Curso gratuito de Wes Bos <span class="deep-link-arrow">→</span></a>
+        <a href="https://developer.mozilla.org/pt-BR/docs/Web/CSS/align-self" target="_blank" class="deep-link">align-self e order — controle individual de itens — MDN <span class="deep-link-arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="desafio-box t5" style="margin-bottom:20px;">
+    <div class="desafio-header">
+      <span class="desafio-emoji">🎯</span>
+      <div class="desafio-header-text">
+        <h3>Desafio — Layout Completo com Flexbox</h3>
+        <p>Recrie ou finalize o layout das páginas do projeto usando <strong>exclusivamente Flexbox</strong> — zero floats.</p>
+      </div>
+    </div>
+    <div class="desafio-body">
+      <ul class="desafio-checklist">
+        <li><span class="check-box" onclick="checkItem(this)"></span>Cabeçalho: logo alinhado à esquerda e nav à direita — tudo com Flexbox</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Seção hero: texto e imagem lado a lado, verticalmente centralizados com <code>align-items: center</code></li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Grade de cards: mínimo 4 cards em linha com <code>gap</code> uniforme e <code>flex-wrap: wrap</code></li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Layout de 2 colunas: <code>flex: 2</code> (principal) + <code>flex: 1</code> (lateral)</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Rodapé: 3 colunas distribuídas com <code>justify-content: space-between</code></li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Variáveis CSS no topo: <code>--cor-primaria</code>, <code>--cor-secundaria</code>, <code>--cor-destaque</code>, <code>--fonte-principal</code></li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Nenhum <code>float</code>, <code>position: absolute</code> ou tabela para layout</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>CSS comentado por componente: <code>/* === HEADER === */</code></li>
+      </ul>
+      <div class="desafio-entrega">
+        <strong>📦 Entrega</strong>
+        <code>index.html</code> e <code>sobre.html</code> com layout Flexbox completo. CSS com variáveis. Apresentar e explicar o uso de flex em cada contexto.
+      </div>
+      <div class="criterios-grid">
+        <div class="criterio-chip">✓ Flexbox em 5+ contextos</div>
+        <div class="criterio-chip">✓ Zero floats</div>
+        <div class="criterio-chip">✓ flex-wrap nos cards</div>
+        <div class="criterio-chip">✓ Variáveis CSS</div>
+        <div class="criterio-chip">✓ CSS comentado</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mundo-box">
+    <span class="mundo-icon">🌐</span>
+    <div>
+      <h4>Conexão com o Mundo do Trabalho</h4>
+      <p>Flexbox é a tecnologia padrão de layout em todas as equipes de front-end modernas. É cobrado diretamente em entrevistas técnicas de empresas como PicPay, QuintoAndar e Totvs. Gmail, Trello e GitHub usam Flexbox em suas interfaces.</p>
+    </div>
+  </div>
+</div><!-- /a5 -->
+
+
+<!-- ════════════════════════════════════════════════════════════
+     AULA 06 — PROJETO FINAL
+════════════════════════════════════════════════════════════ -->
+<div class="page t6" id="page-a6">
+  <div class="aula-progress">
+    <span class="progress-ring">📖</span>
+    <div class="progress-text"><h4>Aula 06 de 06</h4><p>A aula final! Entregue seu projeto e celebre o aprendizado.</p></div>
+    <button class="btn-complete" id="complete-a6" onclick="markDone('a6')">🎉 Concluir Módulo I!</button>
+  </div>
+  <div class="aula-hero">
+    <div class="aula-hero-eyebrow">Aula 06 · Integrador · 4 horas</div>
+    <h1>🚀 Projeto Final</h1>
+    <p>A hora de juntar tudo. Crie, integre e apresente seu site completo com 5 páginas — o primeiro projeto do seu portfólio como desenvolvedor web.</p>
+    <div class="aula-meta-row">
+      <span class="meta-chip">⏱️ 4 horas</span>
+      <span class="meta-chip">📁 5 páginas HTML</span>
+      <span class="meta-chip">🎯 Integrador</span>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header open" onclick="toggle(this)">
+      <span class="section-icon">💡</span>
+      <span class="section-label">O que esta aula consolida</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body open">
+      <ul class="item-list">
+        <li>HTML5 semântico e acessível em múltiplas páginas com consistência</li>
+        <li>CSS externo compartilhado com variáveis e Flexbox</li>
+        <li>Formulário completo com validação HTML nativa</li>
+        <li>Imagens otimizadas, com alt e lazy loading</li>
+        <li>Organização de projeto: <code>css/</code>, <code>img/</code>, <code>pages/</code>, nomenclatura padronizada</li>
+        <li>Validação W3C para HTML e CSS antes da entrega</li>
+        <li>Apresentação oral: explicar decisões técnicas e criativas</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header" onclick="toggle(this)">
+      <span class="section-icon">📋</span>
+      <span class="section-label">Roteiro da Aula</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <ol class="steps-list">
+        <li><span class="step-num">1</span><span><strong>Revisão e planejamento — 30 min:</strong> Docente apresenta o checklist do projeto final. Alunos planejam páginas restantes e definem a temática.</span></li>
+        <li><span class="step-num">2</span><span><strong>Desenvolvimento autônomo — 120 min:</strong> Alunos finalizam o projeto com suporte do docente.</span></li>
+        <li><span class="step-num">3</span><span><strong>Integração e testes — 30 min:</strong> Verificar links, validar HTML e CSS no W3C, testar em janela redimensionada.</span></li>
+        <li><span class="step-num">4</span><span><strong>Apresentações — 40 min:</strong> Cada aluno apresenta o site por 3 min, explicando pelo menos uma decisão técnica.</span></li>
+        <li><span class="step-num">5</span><span><strong>Retrospectiva — 20 min:</strong> Feedback do docente e conexão com o Módulo II (JavaScript).</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header" onclick="toggle(this)">
+      <span class="section-icon">🔗</span>
+      <span class="section-label">Ferramentas e Recursos</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="recursos-grid">
+        <a href="https://validator.w3.org/" target="_blank" class="recurso-card">
+          <span class="recurso-icon">✅</span>
+          <div class="recurso-title">W3C HTML Validator</div>
+          <div class="recurso-desc">Valide o HTML antes de entregar</div>
+          <div class="recurso-link">Validar HTML ↗</div>
+        </a>
+        <a href="https://jigsaw.w3.org/css-validator/" target="_blank" class="recurso-card">
+          <span class="recurso-icon">✅</span>
+          <div class="recurso-title">W3C CSS Validator</div>
+          <div class="recurso-desc">Valide o CSS antes de entregar</div>
+          <div class="recurso-link">Validar CSS ↗</div>
+        </a>
+        <a href="https://app.netlify.com/drop" target="_blank" class="recurso-card">
+          <span class="recurso-icon">🚀</span>
+          <div class="recurso-title">Netlify Drop</div>
+          <div class="recurso-desc">Publique o site online arrastando a pasta</div>
+          <div class="recurso-link">Publicar grátis ↗</div>
+        </a>
+        <a href="https://pages.github.com/" target="_blank" class="recurso-card">
+          <span class="recurso-icon">🐱</span>
+          <div class="recurso-title">GitHub Pages</div>
+          <div class="recurso-desc">Hospede o site grátis no GitHub</div>
+          <div class="recurso-link">Ver como ↗</div>
+        </a>
+        <a href="https://responsively.app/" target="_blank" class="recurso-card">
+          <span class="recurso-icon">📱</span>
+          <div class="recurso-title">Responsively App</div>
+          <div class="recurso-desc">Veja o site em vários tamanhos ao mesmo tempo</div>
+          <div class="recurso-link">Baixar grátis ↗</div>
+        </a>
+        <a href="https://dribbble.com/tags/web-design" target="_blank" class="recurso-card">
+          <span class="recurso-icon">💡</span>
+          <div class="recurso-title">Dribbble</div>
+          <div class="recurso-desc">Inspiração de layouts e design web</div>
+          <div class="recurso-link">Explorar ↗</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header" onclick="toggle(this)">
+      <span class="section-icon">📚</span>
+      <span class="section-label">Para se Aprofundar</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="deep-list">
+        <a href="https://web.dev/explore/fast" target="_blank" class="deep-link">Checklist de performance web — web.dev <span class="deep-link-arrow">→</span></a>
+        <a href="https://developer.mozilla.org/pt-BR/docs/Web/CSS/CSS_grid_layout" target="_blank" class="deep-link">Próximo passo: CSS Grid — MDN <span class="deep-link-arrow">→</span></a>
+        <a href="https://developer.mozilla.org/pt-BR/docs/Learn/JavaScript/First_steps" target="_blank" class="deep-link">Próximo passo: JavaScript para iniciantes — MDN <span class="deep-link-arrow">→</span></a>
+        <a href="https://docs.github.com/pt/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes" target="_blank" class="deep-link">Como criar um README para o projeto — GitHub Docs <span class="deep-link-arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="desafio-box t6" style="margin-bottom:20px;">
+    <div class="desafio-header">
+      <span class="desafio-emoji">🚀</span>
+      <div class="desafio-header-text">
+        <h3>Projeto Final — Site Completo com 5 Páginas</h3>
+        <p>Tema livre: portfólio, loja, restaurante, ONG, escola, etc. Mostre o que aprendeu!</p>
+      </div>
+    </div>
+    <div class="desafio-body">
+      <ul class="desafio-checklist">
+        <li><span class="check-box" onclick="checkItem(this)"></span><strong>index.html:</strong> hero com background-image, grade de cards Flexbox e chamada para ação</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span><strong>sobre.html:</strong> layout de 2 colunas Flexbox, imagem + texto</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span><strong>produtos.html</strong> (ou serviços): grade de cards com imagem, título, descrição e botão</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span><strong>contato.html:</strong> formulário completo + tabela de informações + ícones Font Awesome</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span><strong>obrigado.html:</strong> confirmação de envio com link de retorno ao início</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Cabeçalho e rodapé idênticos nas 5 páginas</li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Um único <code>css/estilos.css</code> compartilhado com variáveis CSS no <code>:root</code></li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>Pelo menos 8 imagens otimizadas em <code>img/</code> com <code>alt</code> e <code>loading="lazy"</code></li>
+        <li><span class="check-box" onclick="checkItem(this)"></span>HTML validado no W3C (zero erros em todas as páginas)</li>
+      </ul>
+      <div class="desafio-entrega">
+        <strong>📦 Entrega</strong>
+        Pasta do projeto compactada em .zip. Apresentação de 3 min para a turma, abrindo pelo menos 3 páginas no navegador.
+      </div>
+      <div class="criterios-grid">
+        <div class="criterio-chip">✓ 5 páginas interligadas</div>
+        <div class="criterio-chip">✓ HTML W3C válido</div>
+        <div class="criterio-chip">✓ CSS + Flexbox + Variáveis</div>
+        <div class="criterio-chip">✓ Formulário validado</div>
+        <div class="criterio-chip">✓ Imagens otimizadas</div>
+        <div class="criterio-chip">✓ Consistência visual</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mundo-box">
+    <span class="mundo-icon">🌐</span>
+    <div>
+      <h4>Conexão com o Mundo do Trabalho</h4>
+      <p>Este projeto representa o portfólio básico exigido em vagas de desenvolvedor web júnior. Plataformas como LinkedIn, Indeed e Workana publicam centenas de vagas semanalmente que pedem como requisito mínimo a criação de sites estáticos com HTML e CSS — exatamente o que você acaba de aprender.</p>
+    </div>
+  </div>
+</div><!-- /a6 -->
+
+</div><!-- /main -->
+
+<script>
+// ══════════════════════════════════════════════
+// ESTADO
+// ══════════════════════════════════════════════
+const PAGES = ['home','a1','a2','a3','a4','a5','a6'];
+const PAGE_LABELS = {
+  home: 'Visão Geral',
+  a1: 'Aula 01 — Estrutura HTML',
+  a2: 'Aula 02 — CSS Fundamentos',
+  a3: 'Aula 03 — Imagens & Links',
+  a4: 'Aula 04 — Formulários & Tabelas',
+  a5: 'Aula 05 — CSS Flexbox',
+  a6: 'Aula 06 — Projeto Final',
+};
+let current = 'home';
+const done = new Set(JSON.parse(localStorage.getItem('senai-done') || '[]'));
+
+// ── NAVEGAÇÃO ──────────────────────────────────
+function goTo(id) {
+  // esconde tudo
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+  document.getElementById('page-' + id).classList.add('active');
+  const navEl = document.querySelector(`.nav-item[data-page="${id}"]`);
+  if (navEl) navEl.classList.add('active');
+  else document.querySelectorAll('.nav-item')[0].classList.add('active');
+
+  current = id;
+  document.getElementById('topbar-crumb').innerHTML =
+    `HTML &amp; CSS · <span>${PAGE_LABELS[id]}</span>`;
+
+  // botões anterior/próximo
+  const idx = PAGES.indexOf(id);
+  document.getElementById('btn-prev').style.display = idx > 0 ? 'flex' : 'none';
+  document.getElementById('btn-next').style.display = idx < PAGES.length - 1 ? 'flex' : 'none';
+  document.getElementById('btn-next').textContent =
+    idx === 0 ? 'Começar Aula 01 →' : 'Próxima →';
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  closeSidebar();
+  syncDoneState();
+}
+
+function prevPage() {
+  const i = PAGES.indexOf(current);
+  if (i > 0) goTo(PAGES[i - 1]);
+}
+function nextPage() {
+  const i = PAGES.indexOf(current);
+  if (i < PAGES.length - 1) goTo(PAGES[i + 1]);
+}
+
+// ── ACCORDION ─────────────────────────────────
+function toggle(header) {
+  header.classList.toggle('open');
+  const body = header.nextElementSibling;
+  body.classList.toggle('open');
+}
+
+// ── CHECKLIST ─────────────────────────────────
+function checkItem(box) {
+  box.classList.toggle('checked');
+  box.textContent = box.classList.contains('checked') ? '✓' : '';
+}
+
+// ── MARCAR AULA COMO CONCLUÍDA ────────────────
+function markDone(id) {
+  done.add(id);
+  localStorage.setItem('senai-done', JSON.stringify([...done]));
+  syncDoneState();
+
+  const btn = document.getElementById('complete-' + id);
+  btn.classList.add('done');
+  btn.textContent = '✓ Aula concluída!';
+
+  // feedback visual
+  btn.parentElement.style.background = 'var(--green-lt)';
+  btn.parentElement.style.borderColor = 'var(--green-lt)';
+}
+
+function syncDoneState() {
+  const count = done.size;
+  document.getElementById('progress-label').textContent =
+    `${count} de 6 aulas concluídas`;
+  document.getElementById('progress-fill').style.width =
+    `${(count / 6) * 100}%`;
+
+  done.forEach(id => {
+    const navEl = document.querySelector(`.nav-item[data-page="${id}"]`);
+    if (navEl) navEl.classList.add('done');
+
+    const btn = document.getElementById('complete-' + id);
+    if (btn) {
+      btn.classList.add('done');
+      btn.textContent = id === 'a6' ? '🎉 Módulo I concluído!' : '✓ Aula concluída!';
+      btn.parentElement.style.background = 'var(--green-lt)';
+    }
+  });
+}
+
+// ── SIDEBAR MOBILE ─────────────────────────────
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+// ── INIT ──────────────────────────────────────
+goTo('home');
+syncDoneState();
+</script>
+</body>
+</html>
