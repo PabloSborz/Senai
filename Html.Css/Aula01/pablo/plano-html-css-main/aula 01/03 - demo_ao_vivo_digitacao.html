@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demonstração ao vivo — Aula 01 HTML</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;color:#1e293b;background:#f8fafc;min-height:100vh;padding:24px}
+
+.demo-wrap{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:1100px;margin:0 auto}
+
+.panel{border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;background:#fff}
+
+.panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid #e2e8f0;background:#f8fafc}
+.panel-title{font-size:12px;font-weight:500;color:#64748b}
+.dots-row{display:flex;gap:5px}
+.dot{width:10px;height:10px;border-radius:50%}
+
+.editor-body{background:#1E293B;min-height:340px;padding:16px;font-family:'Courier New',monospace;font-size:12px;line-height:1.75;color:#94A3B8;overflow:hidden;position:relative}
+#code-output{white-space:pre-wrap;word-break:break-all}
+.cursor{display:inline-block;width:2px;height:14px;background:#60A5FA;vertical-align:middle;animation:blink .9s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+.preview-body{background:#ffffff;min-height:340px;padding:16px;overflow-y:auto}
+
+.step-bar{padding:12px 16px;border-top:1px solid #e2e8f0;background:#f8fafc;display:flex;align-items:center;gap:10px;grid-column:1/-1}
+.step-label{font-size:12px;color:#64748b;flex:1;line-height:1.4}
+.step-badge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;white-space:nowrap;background:#eff6ff;color:#1d4ed8}
+.ctrl-btn{font-size:12px;font-weight:500;padding:6px 14px;border-radius:8px;border:1px solid #cbd5e1;background:#ffffff;color:#1e293b;cursor:pointer;font-family:inherit;transition:background .15s;white-space:nowrap}
+.ctrl-btn:hover{background:#f1f5f9}
+.ctrl-btn.go{background:#1d4ed8;color:#fff;border-color:#1d4ed8}
+.ctrl-btn.go:hover{background:#1e40af}
+.ctrl-btn:disabled{opacity:.35;pointer-events:none}
+
+.narr-box{grid-column:1/-1;border:1px solid #e2e8f0;border-radius:8px;padding:12px 16px;background:#f8fafc;font-size:13px;color:#475569;line-height:1.6;min-height:52px}
+.narr-box strong{color:#1e293b;font-weight:600}
+
+.prog-track{height:3px;background:#e2e8f0;border-radius:2px;grid-column:1/-1;overflow:hidden}
+.prog-fill{height:100%;background:#3b82f6;border-radius:2px;transition:width .3s ease;width:0%}
+
+.page-title{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.page-title h1{font-size:16px;font-weight:600;color:#1e293b}
+.page-title p{font-size:12px;color:#94a3b8}
+
+.k{color:#93C5FD}
+.kv{color:#6EE7B7}
+.a{color:#FDE68A}
+.s{color:#FDA4AF}
+.t{color:#E2E8F0}
+.c{color:#475569;font-style:italic}
+
+@media(max-width:700px){
+  .demo-wrap{grid-template-columns:1fr}
+  .panel:last-of-type{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="demo-wrap">
+  <div class="page-title">
+    <h1>Demonstração ao vivo — Aula 01</h1>
+    <p>Docente digita · Alunos acompanham</p>
+  </div>
+
+  <div class="prog-track"><div class="prog-fill" id="prog"></div></div>
+
+  <div class="panel">
+    <div class="panel-hdr">
+      <span class="panel-title">VS Code — index.html</span>
+      <div class="dots-row">
+        <div class="dot" style="background:#ef4444"></div>
+        <div class="dot" style="background:#f59e0b"></div>
+        <div class="dot" style="background:#10b981"></div>
+      </div>
+    </div>
+    <div class="editor-body"><span id="code-output"></span><span class="cursor" id="cur"></span></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-hdr">
+      <span class="panel-title">Navegador — resultado ao vivo</span>
+      <div class="dots-row">
+        <div class="dot" style="background:#ef4444"></div>
+        <div class="dot" style="background:#f59e0b"></div>
+        <div class="dot" style="background:#10b981"></div>
+      </div>
+    </div>
+    <div class="preview-body" id="preview"></div>
+  </div>
+
+  <div class="narr-box" id="narr">Pronto para começar. Clique em <strong>Iniciar digitação</strong> para ver o docente construir a página do zero.</div>
+
+  <div class="step-bar">
+    <span class="step-badge" id="step-badge">Etapa 1 / 9</span>
+    <span class="step-label" id="step-desc">Estrutura mínima do HTML5</span>
+    <button class="ctrl-btn" id="btn-prev" onclick="prevStep()" disabled>&#8592; Anterior</button>
+    <button class="ctrl-btn go" id="btn-play" onclick="playStep()">Iniciar digitação</button>
+    <button class="ctrl-btn" id="btn-next" onclick="nextStep()" disabled>Próxima &#8594;</button>
+  </div>
+</div>
+
+<script>
+const STEPS = [
+  {
+    label: "Estrutura mínima — !DOCTYPE e raiz",
+    narr: "<strong>Docente:</strong> \"Toda página HTML começa com estas 3 linhas. O <code>!DOCTYPE html</code> avisa o browser que é HTML5. O <code>lang='pt-BR'</code> ajuda leitores de tela e o Google a saber que é português. Sem isso, o browser fica em 'modo quirks' — comportamento imprevisível.\"",
+    code: `<span class="c">&lt;!-- Aula 01 — Minha primeira página --&gt;</span>\n<span class="k">&lt;!DOCTYPE html&gt;</span>\n<span class="k">&lt;html</span> <span class="a">lang</span>=<span class="s">"pt-BR"</span><span class="k">&gt;</span>\n<span class="k">&lt;/html&gt;</span>`,
+    preview: ``
+  },
+  {
+    label: "Head — informações invisíveis",
+    narr: "<strong>Docente:</strong> \"O <code>&lt;head&gt;</code> guarda o que o browser precisa saber, mas o usuário não vê. O <code>charset UTF-8</code> permite acentos e o ç. Sem ele você veria 'caf&#xFFFD;' em vez de 'café'. O <code>viewport</code> faz o site funcionar no celular.\"",
+    code: `<span class="k">&lt;!DOCTYPE html&gt;</span>\n<span class="k">&lt;html</span> <span class="a">lang</span>=<span class="s">"pt-BR"</span><span class="k">&gt;</span>\n\n<span class="k">&lt;head&gt;</span>\n  <span class="k">&lt;meta</span> <span class="a">charset</span>=<span class="s">"UTF-8"</span><span class="k">&gt;</span>\n  <span class="k">&lt;meta</span> <span class="a">name</span>=<span class="s">"viewport"</span>\n        <span class="a">content</span>=<span class="s">"width=device-width, initial-scale=1.0"</span><span class="k">&gt;</span>\n  <span class="k">&lt;title&gt;</span><span class="t">Minha Página</span><span class="k">&lt;/title&gt;</span>\n<span class="k">&lt;/head&gt;</span>\n\n<span class="k">&lt;/html&gt;</span>`,
+    preview: `<p style="font-size:12px;color:#94a3b8;font-style:italic">Nada visível ainda — o head é invisível para o usuário.</p>`
+  },
+  {
+    label: "Header — cabeçalho semântico",
+    narr: "<strong>Docente:</strong> \"Agora começa o <code>&lt;body&gt;</code> — tudo que o usuário vai ver. O <code>&lt;header&gt;</code> é o cabeçalho semântico. O <code>&lt;h1&gt;</code> é o título principal — só deve aparecer uma vez. Vejam como já aparece no preview à direita.\"",
+    code: `<span class="k">&lt;!DOCTYPE html&gt;</span>\n<span class="k">&lt;html</span> <span class="a">lang</span>=<span class="s">"pt-BR"</span><span class="k">&gt;</span>\n<span class="k">&lt;head&gt;</span>\n  <span class="k">&lt;meta</span> <span class="a">charset</span>=<span class="s">"UTF-8"</span><span class="k">&gt;</span>\n  <span class="k">&lt;title&gt;</span><span class="t">Minha Página</span><span class="k">&lt;/title&gt;</span>\n<span class="k">&lt;/head&gt;</span>\n\n<span class="k">&lt;body&gt;</span>\n\n  <span class="k">&lt;header&gt;</span>\n    <span class="k">&lt;h1&gt;</span><span class="t">Profª. Karize Viecelli</span><span class="k">&lt;/h1&gt;</span>\n    <span class="k">&lt;p&gt;</span><span class="t">Docente de Desenvolvimento Sistemas — SENAI</span><span class="k">&lt;/p&gt;</span>\n  <span class="k">&lt;/header&gt;</span>\n\n<span class="k">&lt;/body&gt;</span>\n<span class="k">&lt;/html&gt;</span>`,
+    preview: `<header style="border-bottom:2px solid #e2e8f0;padding-bottom:12px;margin-bottom:12px"><h1 style="font-size:22px;font-weight:600;margin-bottom:4px;font-family:system-ui">Profª. Karize Viecelli</h1><p style="font-size:14px;color:#64748b;font-family:system-ui">Docente de Desenvolvimento de Sistemas — SENAI</p></header>`
+  },
+  {
+    label: "Nav — navegação entre páginas",
+    narr: "<strong>Docente:</strong> \"O <code>&lt;nav&gt;</code> é a tag semântica para navegação. Os links usam <code>&lt;a href&gt;</code>. Notem o <code>sobre.html</code> e <code>contato.html</code> — páginas que criaremos nas aulas seguintes. Por enquanto os links existem mas as páginas ainda não.\"",
+    code: `<span class="k">&lt;body&gt;</span>\n\n  <span class="k">&lt;header&gt;</span>\n    <span class="k">&lt;h1&gt;</span><span class="t">Profª. Karize Viecelli</span><span class="k">&lt;/h1&gt;</span>\n    <span class="k">&lt;p&gt;</span><span class="t">Docente de Desenvolvimento de Sistemas</span><span class="k">&lt;/p&gt;</span>\n  <span class="k">&lt;/header&gt;</span>\n\n  <span class="k">&lt;nav&gt;</span>\n    <span class="k">&lt;a</span> <span class="a">href</span>=<span class="s">"index.html"</span><span class="k">&gt;</span><span class="t">Início</span><span class="k">&lt;/a&gt;</span>\n    <span class="k">&lt;a</span> <span class="a">href</span>=<span class="s">"sobre.html"</span><span class="k">&gt;</span><span class="t">Sobre</span><span class="k">&lt;/a&gt;</span>\n    <span class="k">&lt;a</span> <span class="a">href</span>=<span class="s">"contato.html"</span><span class="k">&gt;</span><span class="t">Contato</span><span class="k">&lt;/a&gt;</span>\n  <span class="k">&lt;/nav&gt;</span>\n\n<span class="k">&lt;/body&gt;</span>`,
+    preview: `<header style="border-bottom:2px solid #e2e8f0;padding-bottom:12px;margin-bottom:8px;font-family:system-ui"><h1 style="font-size:22px;font-weight:600;margin-bottom:4px">Profª. Karize Viecelli</h1><p style="font-size:14px;color:#64748b">Docente de Desenvolvimento de Sistemas</p></header><nav style="display:flex;gap:16px;padding:8px 0;border-bottom:1px solid #e2e8f0;margin-bottom:12px;font-family:system-ui"><a href="#" style="color:#2563eb;font-size:14px;font-weight:500;text-decoration:none">Início</a><a href="#" style="color:#2563eb;font-size:14px;font-weight:500;text-decoration:none">Sobre</a><a href="#" style="color:#2563eb;font-size:14px;font-weight:500;text-decoration:none">Contato</a></nav>`
+  },
+  {
+    label: "Main + section — conteúdo principal",
+    narr: "<strong>Docente:</strong> \"O <code>&lt;main&gt;</code> envolve o conteúdo principal — só um por página. Dentro uso <code>&lt;section&gt;</code> para agrupar conteúdo relacionado. O <code>&lt;h2&gt;</code> vem depois do <code>&lt;h1&gt;</code> — nunca pulo nível só por questão visual.\"",
+    code: `  <span class="k">&lt;main&gt;</span>\n\n    <span class="k">&lt;section&gt;</span>\n      <span class="k">&lt;h2&gt;</span><span class="t">Sobre mim</span><span class="k">&lt;/h2&gt;</span>\n      <span class="k">&lt;p&gt;</span><span class="t">Sou docente de desenvolvimento de Sistemas\n      há 5 anos no SENAI. Apaixonado\n      por tecnologia e educação.</span><span class="k">&lt;/p&gt;</span>\n      <span class="k">&lt;p&gt;</span><span class="t">Nesta aula vocês vão aprender\n      a criar páginas web do zero!</span><span class="k">&lt;/p&gt;</span>\n    <span class="k">&lt;/section&gt;</span>\n\n  <span class="k">&lt;/main&gt;</span>`,
+    preview: `<header style="border-bottom:2px solid #e2e8f0;padding-bottom:10px;margin-bottom:8px;font-family:system-ui"><h1 style="font-size:20px;font-weight:600;margin-bottom:3px">Profª. Karize Viecelli</h1><p style="font-size:13px;color:#64748b">Docente de Desenvolvimento de Sistemas</p></header><nav style="display:flex;gap:14px;padding:6px 0;border-bottom:1px solid #e2e8f0;margin-bottom:10px;font-family:system-ui"><a href="#" style="color:#2563eb;font-size:13px;text-decoration:none">Início</a><a href="#" style="color:#2563eb;font-size:13px;text-decoration:none">Sobre</a><a href="#" style="color:#2563eb;font-size:13px;text-decoration:none">Contato</a></nav><main style="font-family:system-ui"><section><h2 style="font-size:16px;font-weight:600;margin-bottom:8px">Sobre mim</h2><p style="font-size:13px;color:#475569;margin-bottom:8px;line-height:1.6">Sou docente de desenvolvimento de Sistemas há 5 anos no SENAI. Apaixonada por tecnologia e educação.</p><p style="font-size:13px;color:#475569;line-height:1.6">Nesta aula vocês vão aprender a criar páginas web do zero!</p></section></main>`
+  },
+  {
+    label: "Lista não-ordenada — ul e li",
+    narr: "<strong>Docente:</strong> \"Para listas sem ordem específica uso <code>&lt;ul&gt;</code>. Cada item é um <code>&lt;li&gt;</code>. O browser já coloca o marcador automaticamente. Para uma lista numerada seria <code>&lt;ol&gt;</code> — usaremos no desafio de vocês.\"",
+    code: `    <span class="k">&lt;section&gt;</span>\n      <span class="k">&lt;h2&gt;</span><span class="t">Tecnologias que uso</span><span class="k">&lt;/h2&gt;</span>\n      <span class="k">&lt;ul&gt;</span>\n        <span class="k">&lt;li&gt;</span><span class="t">HTML5 — estrutura</span><span class="k">&lt;/li&gt;</span>\n        <span class="k">&lt;li&gt;</span><span class="t">CSS3 — estilo</span><span class="k">&lt;/li&gt;</span>\n        <span class="k">&lt;li&gt;</span><span class="t">JavaScript — interatividade</span><span class="k">&lt;/li&gt;</span>\n        <span class="k">&lt;li&gt;</span><span class="t">Git — controle de versão</span><span class="k">&lt;/li&gt;</span>\n      <span class="k">&lt;/ul&gt;</span>\n    <span class="k">&lt;/section&gt;</span>`,
+    preview: `<div style="font-family:system-ui"><header style="border-bottom:2px solid #e2e8f0;padding-bottom:10px;margin-bottom:8px"><h1 style="font-size:20px;font-weight:600;margin-bottom:3px">Profª Karize Viecelli</h1><p style="font-size:13px;color:#64748b">Docente de Desenvolvimento de Sistemas</p></header><nav style="display:flex;gap:14px;padding:6px 0;border-bottom:1px solid #e2e8f0;margin-bottom:10px"><a href="#" style="color:#2563eb;font-size:13px;text-decoration:none">Início</a><a href="#" style="color:#2563eb;font-size:13px;text-decoration:none">Sobre</a><a href="#" style="color:#2563eb;font-size:13px;text-decoration:none">Contato</a></nav><main><section style="margin-bottom:14px"><h2 style="font-size:15px;font-weight:600;margin-bottom:8px">Sobre mim</h2><p style="font-size:13px;color:#475569;line-height:1.6">Sou docente de desenvolvimento de Sistemas há 5 anos no SENAI.</p></section><section><h2 style="font-size:15px;font-weight:600;margin-bottom:8px">Tecnologias que uso</h2><ul style="font-size:13px;color:#475569;padding-left:20px;line-height:1.9"><li>HTML5 — estrutura</li><li>CSS3 — estilo</li><li>JavaScript — interatividade</li><li>Git — controle de versão</li></ul></section></main></div>`
+  },
+  {
+    label: "Link externo — target e rel",
+    narr: "<strong>Docente:</strong> \"Este link abre o GitHub em nova aba. Dois atributos importantes: <code>target='_blank'</code> abre nova aba, <code>rel='noopener'</code> é segurança — sem ele o site destino consegue acessar nossa página. Sempre use os dois juntos.\"",
+    code: `    <span class="k">&lt;section&gt;</span>\n      <span class="k">&lt;h2&gt;</span><span class="t">Meus links</span><span class="k">&lt;/h2&gt;</span>\n      <span class="k">&lt;p&gt;</span>\n        Veja meus projetos no\n        <span class="k">&lt;a</span>\n          <span class="a">href</span>=<span class="s">"https://github.com"</span>\n          <span class="a">target</span>=<span class="s">"_blank"</span>\n          <span class="a">rel</span>=<span class="s">"noopener"</span><span class="k">&gt;</span>\n          <span class="t">GitHub</span>\n        <span class="k">&lt;/a&gt;</span>\n      <span class="k">&lt;/p&gt;</span>\n    <span class="k">&lt;/section&gt;</span>`,
+    preview: `<div style="font-family:system-ui"><header style="border-bottom:2px solid #e2e8f0;padding-bottom:10px;margin-bottom:8px"><h1 style="font-size:20px;font-weight:600;margin-bottom:3px">Profª Karize Viecelli</h1><p style="font-size:13px;color:#64748b">Docente de Desenvolvimento de Sistemas</p></header><nav style="display:flex;gap:14px;padding:6px 0;border-bottom:1px solid #e2e8f0;margin-bottom:10px"><a href="#" style="color:#2563eb;font-size:13px;text-decoration:none">Início</a><a href="#" style="color:#2563eb;font-size:13px;text-decoration:none">Sobre</a><a href="#" style="color:#2563eb;font-size:13px;text-decoration:none">Contato</a></nav><main><section style="margin-bottom:14px"><h2 style="font-size:15px;font-weight:600;margin-bottom:8px">Sobre mim</h2><p style="font-size:13px;color:#475569;line-height:1.6">Sou docente de desenvolvimento web há 5 anos no SENAI.</p></section><section style="margin-bottom:14px"><h2 style="font-size:15px;font-weight:600;margin-bottom:8px">Tecnologias que uso</h2><ul style="font-size:13px;color:#475569;padding-left:20px;line-height:1.9"><li>HTML5</li><li>CSS3</li><li>JavaScript</li><li>Git</li></ul></section><section><h2 style="font-size:15px;font-weight:600;margin-bottom:8px">Meus links</h2><p style="font-size:13px;color:#475569">Veja meus projetos no <a href="https://github.com" target="_blank" rel="noopener" style="color:#2563eb">GitHub</a></p></section></main></div>`
+  },
+  {
+    label: "Comentários no código",
+    narr: "<strong>Docente:</strong> \"Comentários são notas para quem lê o código — o browser ignora. Uso <code>&lt;!-- --&gt;</code> para marcar cada seção. É uma boa prática profissional: código bem comentado economiza horas de trabalho no futuro.\"",
+    code: `<span class="k">&lt;body&gt;</span>\n\n  <span class="c">&lt;!-- ===== CABEÇALHO ===== --&gt;</span>\n  <span class="k">&lt;header&gt;</span> ... <span class="k">&lt;/header&gt;</span>\n\n  <span class="c">&lt;!-- ===== NAVEGAÇÃO ===== --&gt;</span>\n  <span class="k">&lt;nav&gt;</span> ... <span class="k">&lt;/nav&gt;</span>\n\n  <span class="c">&lt;!-- ===== CONTEÚDO PRINCIPAL ===== --&gt;</span>\n  <span class="k">&lt;main&gt;</span>\n    <span class="c">&lt;!-- Seção sobre mim --&gt;</span>\n    <span class="k">&lt;section&gt;</span> ... <span class="k">&lt;/section&gt;</span>\n  <span class="k">&lt;/main&gt;</span>\n\n  <span class="c">&lt;!-- ===== RODAPÉ ===== --&gt;</span>\n  <span class="k">&lt;footer&gt;</span> ... <span class="k">&lt;/footer&gt;</span>\n\n<span class="k">&lt;/body&gt;</span>`,
+    preview: `<div style="font-family:system-ui"><div style="background:#f1f5f9;border-radius:8px;padding:12px 14px;font-size:12px;color:#64748b;font-family:monospace;line-height:1.9"><span style="color:#94a3b8">&lt;!-- Comentários ficam acinzentados no editor --&gt;</span><br><span style="color:#94a3b8">&lt;!-- O browser ignora completamente --&gt;</span><br><span style="color:#94a3b8">&lt;!-- Mas o desenvolvedor vê e entende a estrutura --&gt;</span></div><p style="font-size:12px;color:#94a3b8;margin-top:10px;font-style:italic">Os comentários não aparecem na página final — só no código-fonte.</p></div>`
+  },
+  {
+    label: "Footer — rodapé e resultado final",
+    narr: "<strong>Docente:</strong> \"O <code>&lt;footer&gt;</code> fecha a página semanticamente. A entidade <code>&amp;copy;</code> gera o símbolo ©. Vejam o resultado à direita — isso é uma página HTML5 completa, semântica e válida. Agora é a vez de vocês!\"",
+    code: `<span class="k">&lt;!DOCTYPE html&gt;</span>\n<span class="k">&lt;html</span> <span class="a">lang</span>=<span class="s">"pt-BR"</span><span class="k">&gt;</span>\n<span class="k">&lt;head&gt;</span>\n  <span class="k">&lt;meta</span> <span class="a">charset</span>=<span class="s">"UTF-8"</span><span class="k">&gt;</span>\n  <span class="k">&lt;title&gt;</span><span class="t">Profª. Karize Viecelli</span><span class="k">&lt;/title&gt;</span>\n<span class="k">&lt;/head&gt;</span>\n<span class="k">&lt;body&gt;</span>\n  <span class="c">&lt;!-- CABEÇALHO --&gt;</span>\n  <span class="k">&lt;header&gt;</span>\n    <span class="k">&lt;h1&gt;</span><span class="t">Profª Karize Viecelli</span><span class="k">&lt;/h1&gt;</span>\n    <span class="k">&lt;p&gt;</span><span class="t">Docente de Desenvolvimento Web</span><span class="k">&lt;/p&gt;</span>\n  <span class="k">&lt;/header&gt;</span>\n  <span class="c">&lt;!-- NAVEGAÇÃO --&gt;</span>\n  <span class="k">&lt;nav&gt;</span>\n    <span class="k">&lt;a</span> <span class="a">href</span>=<span class="s">"index.html"</span><span class="k">&gt;</span><span class="t">Início</span><span class="k">&lt;/a&gt;</span>\n    <span class="k">&lt;a</span> <span class="a">href</span>=<span class="s">"sobre.html"</span><span class="k">&gt;</span><span class="t">Sobre</span><span class="k">&lt;/a&gt;</span>\n  <span class="k">&lt;/nav&gt;</span>\n  <span class="c">&lt;!-- CONTEÚDO --&gt;</span>\n  <span class="k">&lt;main&gt;</span>\n    <span class="k">&lt;section&gt;</span>\n      <span class="k">&lt;h2&gt;</span><span class="t">Sobre mim</span><span class="k">&lt;/h2&gt;</span>\n      <span class="k">&lt;p&gt;</span><span class="t">Docente apaixonado por web!</span><span class="k">&lt;/p&gt;</span>\n    <span class="k">&lt;/section&gt;</span>\n  <span class="k">&lt;/main&gt;</span>\n  <span class="c">&lt;!-- RODAPÉ --&gt;</span>\n  <span class="k">&lt;footer&gt;</span>\n    <span class="k">&lt;p&gt;</span><span class="t">&amp;copy; 2025 Profª Karize Viecelli</span><span class="k">&lt;/p&gt;</span>\n  <span class="k">&lt;/footer&gt;</span>\n<span class="k">&lt;/body&gt;</span>\n<span class="k">&lt;/html&gt;</span>`,
+    preview: `<div style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;font-size:13px;font-family:system-ui"><header style="background:#eff6ff;padding:14px 16px;border-bottom:1px solid #e2e8f0"><h1 style="font-size:17px;font-weight:600;margin-bottom:3px;color:#1e293b">Profª Karize Viecelli</h1><p style="color:#64748b;font-size:12px">Docente de Desenvolvimento de Sistemas</p></header><nav style="background:#f8fafc;padding:8px 16px;border-bottom:1px solid #e2e8f0;display:flex;gap:14px"><a href="#" style="color:#2563eb;font-size:12px;text-decoration:none;font-weight:500">Início</a><a href="#" style="color:#2563eb;font-size:12px;text-decoration:none;font-weight:500">Sobre</a></nav><main style="padding:14px 16px"><h2 style="font-size:14px;font-weight:600;margin-bottom:6px;color:#1e293b">Sobre mim</h2><p style="color:#64748b;font-size:12px;line-height:1.6">Docente apaixonada por web!</p></main><footer style="background:#f8fafc;padding:10px 16px;border-top:1px solid #e2e8f0;font-size:11px;color:#94a3b8">© 2025 Profª Karize Viecelli</footer></div>`
+  }
+];
+
+let cur=0, typing=false, typeTimer=null;
+
+function render(){
+  const s=STEPS[cur];
+  document.getElementById('step-badge').textContent=`Etapa ${cur+1} / ${STEPS.length}`;
+  document.getElementById('step-desc').textContent=s.label;
+  document.getElementById('prog').style.width=`${Math.round(((cur+1)/STEPS.length)*100)}%`;
+  document.getElementById('btn-prev').disabled=cur===0;
+  document.getElementById('btn-next').disabled=cur===STEPS.length-1;
+  document.getElementById('narr').innerHTML=s.narr;
+  document.getElementById('preview').innerHTML=s.preview||'';
+}
+
+function showCode(s){
+  document.getElementById('code-output').innerHTML=s.code;
+}
+
+function playStep(){
+  if(typing)return;
+  typing=true;
+  const s=STEPS[cur];
+  const out=document.getElementById('code-output');
+  out.innerHTML='';
+  document.getElementById('btn-play').disabled=true;
+  document.getElementById('btn-prev').disabled=true;
+  document.getElementById('btn-next').disabled=true;
+
+  const full=s.code;
+  const stripped=full.replace(/<[^>]+>/g,'');
+  const htmlParts=[];
+  let i=0,pos=0;
+  while(i<full.length){
+    if(full[i]==='<'){
+      const end=full.indexOf('>',i);
+      if(end!==-1){htmlParts.push({type:'tag',val:full.slice(i,end+1),pos});i=end+1;continue;}
+    }
+    htmlParts.push({type:'char',val:full[i],pos,ch:stripped[pos]||''});
+    pos++;i++;
+  }
+
+  let pi=0;
+  function tick(){
+    if(pi>=htmlParts.length){
+      typing=false;
+      document.getElementById('btn-play').textContent='Rever';
+      document.getElementById('btn-play').disabled=false;
+      document.getElementById('btn-next').disabled=cur===STEPS.length-1;
+      document.getElementById('btn-prev').disabled=false;
+      return;
+    }
+    const p=htmlParts[pi];
+    if(p.type==='tag'){out.innerHTML+=p.val;pi++;tick();return;}
+    out.innerHTML+=p.val;
+    pi++;
+    const delay=p.ch==='\n'?60:p.ch===' '?20:Math.random()*25+18;
+    typeTimer=setTimeout(tick,delay);
+  }
+  tick();
+}
+
+function nextStep(){
+  if(typing){clearTimeout(typeTimer);typing=false;}
+  cur=Math.min(cur+1,STEPS.length-1);
+  render();
+  showCode(STEPS[cur]);
+  document.getElementById('btn-play').textContent='Rever';
+  document.getElementById('btn-play').disabled=false;
+}
+
+function prevStep(){
+  if(typing){clearTimeout(typeTimer);typing=false;}
+  cur=Math.max(cur-1,0);
+  render();
+  showCode(STEPS[cur]);
+  document.getElementById('btn-play').textContent='Rever';
+  document.getElementById('btn-play').disabled=false;
+}
+
+render();
+document.getElementById('code-output').innerHTML='';
+document.getElementById('btn-play').textContent='Iniciar digitação';
+</script>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apresentações e Feedback — Aula 01 HTML</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;color:#1e293b;background:#f8fafc;min-height:100vh;padding:24px}
+
+.fb-wrap{display:flex;flex-direction:column;gap:12px;max-width:1000px;margin:0 auto}
+
+.top-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.tb-title{font-size:18px;font-weight:600;color:#1e293b}
+.tb-meta{font-size:12px;color:#64748b;margin-top:2px}
+.t-chip{font-size:14px;font-weight:500;padding:5px 14px;border-radius:20px;background:#f1f5f9;border:1px solid #e2e8f0;color:#475569;font-family:'Courier New',monospace}
+.tbtn{font-size:12px;padding:7px 16px;border-radius:8px;border:1px solid #cbd5e1;background:#fff;color:#1e293b;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
+.tbtn:hover{background:#f1f5f9}
+.tbtn:disabled{opacity:.4;pointer-events:none}
+
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.stat{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:12px;text-align:center}
+.stat-n{font-size:24px;font-weight:500;color:#1e293b}
+.stat-l{font-size:11px;color:#64748b;margin-top:2px}
+
+.section-hdr{font-size:13px;font-weight:600;color:#64748b;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.add-btn{font-size:12px;padding:5px 12px;border-radius:8px;border:1px solid #cbd5e1;background:#fff;color:#1e293b;cursor:pointer;font-family:inherit;transition:background .15s;display:flex;align-items:center;gap:5px}
+.add-btn:hover{background:#f1f5f9}
+
+.alunos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+
+.aluno-card{border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;background:#fff;transition:border-color .15s}
+.aluno-card:hover{border-color:#cbd5e1}
+.aluno-card.presenting{border:2px solid #3b82f6}
+.aluno-card.done-card{border-color:#86efac}
+
+.ac-top{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #f1f5f9}
+.avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
+.ac-name{font-size:13px;font-weight:600;color:#1e293b;line-height:1.2}
+.ac-status{font-size:11px;color:#94a3b8;margin-top:1px}
+
+.ac-body{padding:10px 12px}
+.stars{display:flex;gap:3px;margin-bottom:8px}
+.star{font-size:18px;line-height:1;cursor:pointer;color:#e2e8f0;transition:color .1s;user-select:none}
+.star.on{color:#f59e0b}
+
+.ac-checks{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+.ac-chk{display:flex;align-items:center;gap:6px;font-size:11px;color:#64748b}
+.mini-check{width:14px;height:14px;border-radius:3px;border:1px solid #cbd5e1;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .12s;background:#fff}
+.mini-check.on{background:#22c55e;border-color:#22c55e}
+.mini-check svg{display:none}
+.mini-check.on svg{display:block}
+
+.ac-note{width:100%;border:1px solid #e2e8f0;border-radius:6px;padding:6px 8px;font-size:11px;font-family:inherit;color:#1e293b;background:#fff;resize:none;outline:none;transition:border-color .15s}
+.ac-note:focus{border-color:#3b82f6}
+
+.ac-actions{display:flex;gap:6px;margin-top:8px}
+.ac-btn{flex:1;font-size:11px;padding:6px 4px;border-radius:6px;border:1px solid #e2e8f0;background:#f8fafc;color:#64748b;cursor:pointer;font-family:inherit;transition:all .12s;text-align:center}
+.ac-btn:hover{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}
+.ac-btn.pres-btn.on{background:#eff6ff;color:#1d4ed8;border-color:#3b82f6}
+.ac-btn.done-btn-sm.on{background:#f0fdf4;color:#15803d;border-color:#86efac}
+
+.coletivo{border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;background:#fff}
+.col-hdr{padding:12px 16px;background:#f8fafc;border-bottom:1px solid #e2e8f0;font-size:13px;font-weight:600;color:#475569}
+.col-body{padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+
+.ponto{border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;cursor:pointer;transition:all .15s;display:flex;align-items:flex-start;gap:10px}
+.ponto:hover{border-color:#cbd5e1;background:#f8fafc}
+.ponto.used{border-color:#bfdbfe;background:#eff6ff}
+.ponto-icon{width:24px;height:24px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600}
+.ponto-text{font-size:12px;color:#475569;line-height:1.5;flex:1}
+.ponto.used .ponto-text{color:#1d4ed8}
+.ponto-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;background:#fef3c7;color:#92400e;white-space:nowrap;flex-shrink:0;margin-top:2px}
+.ponto.used .ponto-badge{background:#dbeafe;color:#1e40af}
+
+.add-area{display:flex;gap:8px;padding:12px 16px;border-top:1px solid #e2e8f0}
+.add-area input{flex:1;border:1px solid #e2e8f0;border-radius:6px;padding:7px 10px;font-size:12px;font-family:inherit;color:#1e293b;background:#fff;outline:none;transition:border-color .15s}
+.add-area input:focus{border-color:#3b82f6}
+.add-area button{font-size:12px;padding:7px 16px;border-radius:6px;border:1px solid #bfdbfe;background:#eff6ff;color:#1d4ed8;cursor:pointer;font-family:inherit;font-weight:500;transition:background .15s}
+.add-area button:hover{background:#dbeafe}
+
+@media(max-width:600px){
+  .stats-row{grid-template-columns:1fr 1fr}
+  .alunos-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="fb-wrap">
+
+  <div class="top-bar">
+    <div>
+      <div class="tb-title">Painel de apresentações — Aula 01</div>
+      <div class="tb-meta">Feedback individual + discussão coletiva · 45 minutos</div>
+    </div>
+    <span class="t-chip" id="timer-chip">45:00</span>
+    <button class="tbtn" id="timer-btn" onclick="startTimer()">Iniciar sessão</button>
+    <button class="tbtn" onclick="addAluno()">+ Aluno</button>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat"><div class="stat-n" id="s-total">0</div><div class="stat-l">Alunos</div></div>
+    <div class="stat"><div class="stat-n" id="s-pres">0</div><div class="stat-l">Apresentaram</div></div>
+    <div class="stat"><div class="stat-n" id="s-med">—</div><div class="stat-l">Nota média</div></div>
+    <div class="stat"><div class="stat-n" id="s-pontos">0</div><div class="stat-l">Pontos discutidos</div></div>
+  </div>
+
+  <div>
+    <div class="section-hdr">
+      <span>Alunos da turma</span>
+    </div>
+    <div class="alunos-grid" id="alunos-grid"></div>
+  </div>
+
+  <div class="coletivo">
+    <div class="col-hdr">Pontos de feedback coletivo — clique para marcar como discutido</div>
+    <div class="col-body" id="pontos-list"></div>
+    <div class="add-area">
+      <input type="text" id="novo-ponto" placeholder="Adicionar ponto de discussão..." onkeydown="if(event.key==='Enter')addPonto()">
+      <button onclick="addPonto()">Adicionar</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const CORES_AVATAR = [
+  {bg:'#dbeafe',txt:'#1e40af'},
+  {bg:'#ede9fe',txt:'#5b21b6'},
+  {bg:'#ccfbf1',txt:'#0f766e'},
+  {bg:'#fef3c7',txt:'#92400e'},
+  {bg:'#fce7f3',txt:'#9d174d'},
+  {bg:'#dcfce7',txt:'#166534'},
+  {bg:'#fee2e2',txt:'#991b1b'},
+  {bg:'#e0f2fe',txt:'#0369a1'},
+];
+
+const CHECKS = ['Estrutura válida', 'Semântica correta', 'Indentado', 'Com comentários', 'Links funcionam'];
+
+const PONTOS_BASE = [
+  {t:'Qual a diferença entre &lt;section&gt; e &lt;div&gt;?', tag:'conceito'},
+  {t:'Por que o h1 deve aparecer apenas uma vez por página?', tag:'hierarquia'},
+  {t:'Quem esqueceu comentários ou usou alt="" errado?', tag:'boas práticas'},
+  {t:'Diferença entre links internos e externos — rel="noopener"', tag:'segurança'},
+  {t:'Como ficaria esta página com CSS? Prévia da Aula 02.', tag:'próxima aula'},
+  {t:'Validação no W3C — quais erros foram mais comuns na turma?', tag:'validação'},
+];
+
+let alunos = [
+  
+
+];
+
+let pontos = PONTOS_BASE.map(p => ({...p, used:false}));
+let tSec = 45 * 60, tInterval = null, ticking = false;
+
+function initials(nome) {
+  return nome.trim().split(/\s+/).slice(0,2).map(n=>n[0]).join('').toUpperCase();
+}
+
+function buildAlunos() {
+  const g = document.getElementById('alunos-grid');
+  g.innerHTML = '';
+  alunos.forEach((a, ai) => {
+    const av = CORES_AVATAR[a.cor % CORES_AVATAR.length];
+    const card = document.createElement('div');
+    card.className = 'aluno-card' +
+      (a.status === 'apresentando' ? ' presenting' : '') +
+      (a.status === 'concluido'    ? ' done-card'   : '');
+    card.id = 'ac-' + ai;
+
+    const starsHtml = [1,2,3,4,5].map(n =>
+      `<span class="star${a.nota >= n ? ' on' : ''}" onclick="setStar(${ai},${n})">&#9733;</span>`
+    ).join('');
+
+    const checksHtml = CHECKS.map((c, ci) =>
+      `<div class="ac-chk">
+        <div class="mini-check${a.checks[ci] ? ' on' : ''}" id="mchk-${ai}-${ci}" onclick="toggleCheck(${ai},${ci})">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+            <path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span>${c}</span>
+      </div>`
+    ).join('');
+
+    const statusLabel = a.status === 'pendente' ? 'Aguardando' :
+                        a.status === 'apresentando' ? 'Apresentando agora' : 'Concluído';
+
+    card.innerHTML = `
+      <div class="ac-top">
+        <div class="avatar" style="background:${av.bg};color:${av.txt}">${a.iniciais}</div>
+        <div>
+          <div class="ac-name">${a.nome}</div>
+          <div class="ac-status">${statusLabel}</div>
+        </div>
+      </div>
+      <div class="ac-body">
+        <div class="stars">${starsHtml}</div>
+        <div class="ac-checks">${checksHtml}</div>
+        <textarea class="ac-note" rows="2" placeholder="Observações..." oninput="saveNote(${ai},this.value)">${a.nota_txt}</textarea>
+        <div class="ac-actions">
+          <div class="ac-btn pres-btn${a.status==='apresentando'?' on':''}" onclick="setStatus(${ai},'apresentando')">Apresentando</div>
+          <div class="ac-btn done-btn-sm${a.status==='concluido'?' on':''}" onclick="setStatus(${ai},'concluido')">Concluído</div>
+        </div>
+      </div>`;
+    g.appendChild(card);
+  });
+  updateStats();
+}
+
+function setStar(ai, n) {
+  alunos[ai].nota = alunos[ai].nota === n ? 0 : n;
+  buildAlunos();
+}
+
+function toggleCheck(ai, ci) {
+  alunos[ai].checks[ci] = !alunos[ai].checks[ci];
+  const el = document.getElementById('mchk-' + ai + '-' + ci);
+  if (el) el.classList.toggle('on');
+  updateStats();
+}
+
+function setStatus(ai, s) {
+  alunos[ai].status = alunos[ai].status === s ? 'pendente' : s;
+  buildAlunos();
+}
+
+function saveNote(ai, v) {
+  alunos[ai].nota_txt = v;
+}
+
+function addAluno() {
+  const nome = prompt('Nome do aluno:');
+  if (!nome || !nome.trim()) return;
+  const n = nome.trim();
+  alunos.push({
+    nome: n,
+    iniciais: initials(n),
+    cor: alunos.length % CORES_AVATAR.length,
+    nota: 0,
+    checks: new Array(5).fill(false),
+    status: 'pendente',
+    nota_txt: ''
+  });
+  buildAlunos();
+}
+
+function updateStats() {
+  document.getElementById('s-total').textContent = alunos.length;
+  const pres = alunos.filter(a => a.status === 'concluido').length;
+  document.getElementById('s-pres').textContent = pres;
+  const rated = alunos.filter(a => a.nota > 0);
+  document.getElementById('s-med').textContent = rated.length
+    ? (rated.reduce((s, a) => s + a.nota, 0) / rated.length).toFixed(1) + '★'
+    : '—';
+  document.getElementById('s-pontos').textContent = pontos.filter(p => p.used).length;
+}
+
+function buildPontos() {
+  const el = document.getElementById('pontos-list');
+  el.innerHTML = '';
+  pontos.forEach((p, i) => {
+    const d = document.createElement('div');
+    d.className = 'ponto' + (p.used ? ' used' : '');
+    d.onclick = () => { p.used = !p.used; buildPontos(); updateStats(); };
+    d.innerHTML = `
+      <div class="ponto-icon" style="background:${p.used?'#dbeafe':'#f1f5f9'};color:${p.used?'#1d4ed8':'#64748b'}">
+        ${p.used ? '✓' : '?'}
+      </div>
+      <div class="ponto-text">${p.t}</div>
+      <div class="ponto-badge">${p.tag}</div>`;
+    el.appendChild(d);
+  });
+}
+
+function addPonto() {
+  const inp = document.getElementById('novo-ponto');
+  const v = inp.value.trim();
+  if (!v) return;
+  pontos.push({t: v, tag: 'custom', used: false});
+  inp.value = '';
+  buildPontos();
+}
+
+function startTimer() {
+  const btn = document.getElementById('timer-btn');
+  if (!ticking) {
+    ticking = true;
+    btn.textContent = 'Pausar';
+    tInterval = setInterval(() => {
+      tSec--;
+      const m = Math.floor(tSec / 60), s = tSec % 60;
+      const chip = document.getElementById('timer-chip');
+      chip.textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+      if (tSec <= 300) chip.style.color = '#d97706';
+      if (tSec <= 60)  chip.style.color = '#dc2626';
+      if (tSec <= 0) {
+        clearInterval(tInterval);
+        ticking = false;
+        btn.textContent = 'Encerrado';
+        btn.disabled = true;
+      }
+    }, 1000);
+  } else {
+    ticking = false;
+    clearInterval(tInterval);
+    btn.textContent = 'Continuar';
+  }
+}
+
+buildAlunos();
+buildPontos();
+</script>
+</body>
+</html>
