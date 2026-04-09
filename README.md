@@ -1,3 +1,3 @@
-<h1 aling="center">Senai</h1>
+<h1 align="center">Senai</h1>
 
-<h1>Conteúdos e atividades do curso FrontEnd! </h1>
+<h2 align="center">Conteúdos e atividades do curso FrontEnd! </h2>
