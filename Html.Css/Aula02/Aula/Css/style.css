@@ -19,12 +19,14 @@ header img{
     object-fit: cover;
     border: 3px solid #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    
 }
 
 header{
     background: linear-gradient(90deg, #043d25, #165c06);
     color: white;
     text-align: center;
+    align-items: right;
     padding: 40px 20px;
 }
 
@@ -147,4 +149,18 @@ footer .contato{
     font-size: .9rem;
     margin-top: 40px;
     
+}
+
+.button{
+    background: linear-gradient(90deg, #043621, #124d05);
+    color: #ffffff;
+    padding: 10px 16px ;
+    margin: right;
+    border-radius: 20px;
+    transition: background .2s;
+    border-color: #ffffff;
+    
+}
+.button:hover{
+    background: rgba(195, 197, 195, 0.15);
 }
