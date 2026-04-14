@@ -142,3 +142,18 @@ footer p{
     margin-top: 40px;
     
 }
+
+button{
+    background: linear-gradient(90deg, #043621, #124d05);
+    color: #ffffff;
+    padding: 10px 16px ;
+    margin: right;
+    border-radius: 20px;
+    transition: background .2s;
+    border-color: #ffffff;
+    
+}
+
+button:hover{
+    background: rgba(195, 197, 195, 0.15);
+}

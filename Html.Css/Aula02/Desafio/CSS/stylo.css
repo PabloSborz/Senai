@@ -1,0 +1,93 @@
+*{box-sizing: border-box; margin: 0px;padding: 0px;}
+
+body{ /* Fundo da Página */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    background-color: #d4d8dd;
+}
+
+header{ /* Cabeçalho */
+    background-color:rgb(31, 33, 155);
+    color: white;
+    text-align: center;
+    padding: 25px 20px;
+}
+
+nav{ /* Navegação */
+    background-color: rgb(45, 48, 209);
+    display: flex;
+    gap: 10px;
+    padding: 8px 16px;
+    text-shadow: 1.5px 1px rgb(66, 66, 66);
+    border-radius: 0px 0px 8px 8px;
+}
+
+nav a { /* Transição Navegação */
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background .2s;
+}
+
+nav a:hover{ /* Transição Navegação */
+    background: rgba(0, 0, 0, 0.15);
+}
+
+main{ /* Informações */
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 100px;
+}
+
+h2{ /* Informações */
+    color: rgb(31, 33, 155);
+    border-left: 3px solid;
+    padding: 1px;
+    margin: 5px;
+}
+
+p{  /* Informações */
+    padding: 10px;
+}
+
+ul{ /* Informações */
+    list-style: none;
+    padding: 0;
+}
+
+ul li{  /* Informações */
+    padding: 8px 8px 8px 20px;
+    border-bottom: 1px solid #e2e8f0;
+    position: relative;
+    font-size: .80rem;
+    color: #000000;
+    margin-right: 10px;
+}
+
+footer{ /* Rodapé */
+    background-color:rgb(31, 33, 155);
+    text-align: center;
+    padding: 28px 20px;
+    font-size: .9rem;
+    margin-top: 40px;
+    border-radius: 8px 8px 0px 0px;
+    color: white;
+}
+
+button{ /* Botão */
+    background: rgb(31, 33, 155);
+    color: #ffffff;
+    padding: 10px 16px ;
+    border-radius: 10px;
+    transition: background .2s;
+    border-color: rgb(45, 48, 209);
+    
+    
+}
+
+button:hover{ /* Transição Botão*/
+background: rgb(45, 48, 209);
+}
