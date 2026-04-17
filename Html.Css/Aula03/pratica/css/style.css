@@ -35,34 +35,45 @@ h1{
     font-size: 24px;
 }
 
-figcaption {
-    padding: 8px;
-    font-size: .60rem;
-    color: white;
-    text-align: center;
+.hero {
+    background: linear-gradient(#1E2D24, #334139);
+    padding: 40px 0;
+    min-height: 100vh;
 }
 
-.hero {
-    background: linear-gradient(#1E2D24, #334139
-    );
-    height:          400px;
-    display:         flex;
-    flex-direction:  column;
-    align-items:     center;
+.projetos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
     justify-content: center;
-    color:           white;
-    text-align:      center;
-  }
+}
 
-
-figure img{
-    width: 150px;
-    height: 150px;
-    display: inline-block;
-    border-radius:10px;
-    border-color: aqua;
-    border: 3px solid #0D9488;
+.card {
+    display: flex;
+    flex-direction: column;
     align-items: center;
+}
+
+.card img {
+    width: 200px;
+    height: 200px;
+    display: block;
+    border-radius: 10px;
+    border: 3px solid #0D9488;
+}
+
+.projeto1 {
+    margin-top: 8px;
+    font-size: 12px;
+    text-align: center;
+    color: rgb(255, 255, 255);
+}
+
+.Perfil{
+    padding: 8px;
+    font-size: 0.70rem;
+    color: white;
+    text-align: center;
 }
 
 footer{
@@ -95,6 +106,33 @@ hr{
     border-top: 2px solid white; 
 }
 
+@media (max-width: 768px) {
 
+    header {
+        flex-direction: column;
+        text-align: center;
+        flex-direction: column-reverse;
+    }
+
+.hero {
+    background: linear-gradient(#1E2D24, #334139);
+    padding: 40px 0;
+    min-height: 100vh; /* 🔥 ocupa a tela mas cresce se precisar */
+}
+    .projetos {
+        flex-direction: column; /* 🔥 no celular fica um embaixo do outro */
+        align-items: center;
+    }
+
+    .card img {
+        width: 200px;
+        height: 200px;
+    }
+
+    h1 {
+        font-size: 18px;
+    }
+
+}
 
 
