@@ -1,3 +1,9 @@
+*, *::before, *::after{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 body{
     background-color: rgb(217, 220, 223);
 }
@@ -5,16 +11,15 @@ body{
 header{
     padding: 20px;
     margin: auto;
-    background-color: aquamarine;
-    
-    color: black;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-color: #1E2D24;
+    color: white;
+    font-family:"Sekuya", system-ui;
     display: flex;
     align-items: center;
-    gap: 10px;
-    justify-content: left;
+    gap: 30px;
+    justify-content: center;
     flex-direction: row-reverse;
-    
+    text-shadow: 2px 2px 5px rgb(0, 0, 0);  
 }
 
 .perfil {
@@ -30,8 +35,15 @@ h1{
     font-size: 24px;
 }
 
+figcaption {
+    padding: 8px;
+    font-size: .60rem;
+    color: white;
+    text-align: center;
+}
+
 .hero {
-    background: linear-gradient(aquamarine, blue
+    background: linear-gradient(#1E2D24, #334139
     );
     height:          400px;
     display:         flex;
@@ -54,24 +66,35 @@ figure img{
 }
 
 footer{
-    background-color: blue;
+    background-color: #334139;
     padding: 20px;
-    margin: auto;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    justify-content:center;
-    
-    
+    margin:auto;
+    color: white; 
+    text-align: center;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 5px rgb(0, 0, 0); 
+    line-height: 3;  
 }
 footer a{
     color: white;
     text-decoration: none;
+    align-items: center;   
 }
-figcaption {
-    padding: 8px;
-    font-size: .85rem;
-    color: #000000;
-    text-align: center;
+
+footer p{
+    font-family:"Sekuya", system-ui;
 }
+
+footer ul{
+    list-style: none;
+    
+}
+
+hr{
+    border: none;
+    border-top: 2px solid white; 
+}
+
+
+
+
