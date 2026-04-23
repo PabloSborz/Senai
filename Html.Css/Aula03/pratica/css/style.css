@@ -30,6 +30,8 @@ header{
     padding: 0;
     text-align: left;
     width: 100%;
+    margin: 20px;
+    font-size: 24px;
 }
 
  figure{
@@ -44,9 +46,11 @@ header{
 
 }
 
-h1{
-    margin: 20px;
-    font-size: 24px;
+.fig{
+    padding: 8px;
+    font-size: 0.60rem;
+    color: white;
+    text-align: center;
 }
 
 .hero {
@@ -58,16 +62,11 @@ h1{
 .projetos {
     display: flex;
     flex-wrap: wrap;
-    gap: 25px;
     justify-content: center;
     transition: transform 0.3s ease;
     margin: 10px;
-}
-
-.card:hover{
-    transform: scale(1.1);
-    box-shadow: 8px  10px rgba(0,0,0,0.3);
-    border-radius: 10px;
+    row-gap: 80px; 
+    column-gap: 30px;
 }
 
 .card {
@@ -75,6 +74,11 @@ h1{
     flex-direction: column;
     align-items: center;
     text-shadow: 2px 2px 5px rgb(0, 0, 0);
+}
+
+.card:hover{
+  transform: scale(1.1); 
+  text-shadow: 3px rgb(0, 0, 0); 
 }
 
 .card img {
@@ -87,19 +91,20 @@ h1{
     
 }
 
+.card img:hover{
+    transform: scale(1.1);
+    box-shadow: 10px  10px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    row-gap: 20px;
+}
+
 .projeto1 {
     margin-top: 10px;
     font-size: 0.60rem;
     text-align: center;
     color: rgb(255, 255, 255);
     font-family:"Sekuya", system-ui;
-}
-
-.Perfil{
-    padding: 8px;
-    font-size: 0.60rem;
-    color: white;
-    text-align: center;
+    padding: 15px;
 }
 
 footer{
@@ -144,7 +149,12 @@ hr{
 }
 
 
-    /*celular*/
+
+
+
+
+
+    /*MOBILE*/
 
 
 @media (max-width: 768px) {
