@@ -4,6 +4,8 @@
     padding: 0;
 }
 
+
+
 header{
     padding: 20px;
     margin: auto;
@@ -88,7 +90,6 @@ header{
     border-radius: 10px;
     border: 3px solid #0D9488;
     transition: transform 0.3s ease;
-    
 }
 
 .card img:hover{
