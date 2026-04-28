@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Pablo</title>
+</head>
+<body>
+   
+
+    <header>
+        <h1>Contato</h1>
+    </header>
+     <nav>
+        <a href="index.html">Voltar</a>
+    </nav>
+    <main>
+
+        <form action="obrigado.html" method="get">
+
+            <fieldset>
+
+                <legend>Dados Pessoais</legend>
+       
+ 
+
+                <div class="campo">
+                     <label for="nome">Nome Completo </label>
+                     <input type="text"
+                     
+                     placeholder="Seunome completo"
+                     required minlength="7" maxlength="10"
+                     >
+                     <br>
+                     <label class= "idade" for="idade">Idade </label>
+                     <input type="number" id="idade" name="idade"
+                     placeholder="Idade"
+                     required min="1"
+                     max="120"
+                     >
+                </div>
+
+            </fieldset>
+
+            <fieldset id="texto">
+
+                <legend>Mensagem</legend>
+
+                <select name="assunto" id="assunto" required>
+                    <option value="">selecione o assunto</option>
+                    <option value="orcamento">Orçamento</option>
+                    <option value="suporte">Suporte técnico</option>
+                    <option value="parceria">Parceria</option>
+                </select>
+
+                <textarea name="mensagem" id="mensagem"
+                    rows="5" minlength="20" required
+                    placeholder="descreva seu projeto"
+                ></textarea>
+
+            </fieldset>
+
+            <div class="botoes">
+                <button type="reset">Limpar formulário</button>
+                <button type="submit">Enviar mensagem</button>
+            </div>
+
+        </form>
+
+        <table>
+            <caption>Horarios de atendimento</caption>
+            <thead>
+                <tr><th scope="col">Dia</th><th scope="col">Horarios</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Seg-Sex</td><td>8h-18h</td></tr>
+                <tr><td>Sabado</td><td>9h-13h</td></tr>
+            </tbody>
+            <tfoot>
+                <tr><td colspan="2">Domingo: fechado</td></tr>
+            </tfoot>
+        </table>
+
+
+
+    </main>
+
+    <footer>
+        <h2>Pablo</h2>
+    </footer>
+    
+</body>
+</html>
