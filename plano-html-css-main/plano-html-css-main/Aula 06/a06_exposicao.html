@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exposição — Projeto Final · Aula 06</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;color:#1e293b;background:#f8fafc;overflow:hidden}
+#app{display:flex;flex-direction:column;height:100vh}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid #e2e8f0;background:#fff;flex-shrink:0;gap:8px;flex-wrap:wrap}
+.badge{background:#DB2777;color:#fff;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+.hdr-title{font-size:14px;font-weight:600}.hdr-sub{font-size:12px;color:#94a3b8;margin-top:1px}
+.timer{font-size:13px;font-weight:500;background:#f1f5f9;padding:5px 14px;border-radius:8px;border:1px solid #e2e8f0;font-family:'Courier New',monospace;color:#475569;min-width:64px;text-align:center}
+.timer.warn{color:#d97706;background:#fffbeb}.timer.danger{color:#dc2626;background:#fef2f2}
+.dots{display:flex;align-items:center;gap:5px;padding:9px 20px;border-bottom:1px solid #e2e8f0;background:#fff;flex-shrink:0;overflow-x:auto}
+.dot{width:8px;height:8px;border-radius:50%;background:#e2e8f0;cursor:pointer;transition:all .2s;flex-shrink:0}
+.dot.active{background:#DB2777;transform:scale(1.4)}.dot.done{background:#f9a8d4;opacity:.6}
+.dsep{width:10px;height:1px;background:#e2e8f0;flex-shrink:0}
+.slide-wrap{flex:1;overflow:hidden;position:relative}
+.slide{position:absolute;inset:0;padding:22px 28px;overflow-y:auto;display:none}
+.slide.active{display:block;animation:sIn .22s ease}
+@keyframes sIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.ey{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#DB2777;margin-bottom:5px}
+.stitle{font-size:21px;font-weight:600;color:#1e293b;line-height:1.2;margin-bottom:5px}
+.ssub{font-size:13px;color:#64748b;line-height:1.6;margin-bottom:16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:14px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:13px 15px}
+.card.ac{border-left:3px solid #DB2777}
+.ci{font-size:18px;margin-bottom:5px}.ct{font-size:13px;font-weight:600;color:#1e293b;margin-bottom:3px}
+.cb{font-size:12px;color:#64748b;line-height:1.5}
+code{font-family:'Courier New',monospace;font-size:12px;background:#f1f5f9;padding:1px 5px;border-radius:3px;border:1px solid #e2e8f0}
+.cw{border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin:10px 0}
+.ch{display:flex;align-items:center;justify-content:space-between;background:#f8fafc;padding:7px 13px;border-bottom:1px solid #e2e8f0;font-size:11px;font-weight:500;color:#64748b}
+.cd{display:flex;gap:5px}.c1{width:10px;height:10px;border-radius:50%}
+pre{background:#1e293b;color:#e2e8f0;padding:13px 16px;font-size:12px;line-height:1.8;overflow-x:auto;font-family:'Courier New',monospace;white-space:pre}
+.k{color:#93c5fd}.p{color:#c4b5fd}.v{color:#6ee7b7}.s{color:#fda4af}.cm{color:#475569;font-style:italic}
+.hl{background:#fdf2f8;border-left:3px solid #DB2777;padding:10px 13px;font-size:12.5px;color:#831843;line-height:1.55;margin:10px 0}
+.hl strong{color:#9d174d}
+.pg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:8px;margin-bottom:10px}
+.pg-card{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;cursor:pointer;transition:all .15s}
+.pg-card:hover{border-color:#f9a8d4;background:#fdf2f8}.pg-card.on{border-color:#DB2777;background:#fce7f3}
+.pg-icon{font-size:18px;margin-bottom:4px}.pg-name{font-family:'Courier New',monospace;font-size:12px;font-weight:600;color:#DB2777;margin-bottom:2px}.pg-use{font-size:11px;color:#94a3b8}
+.pg-detail{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:11px 13px;min-height:50px;font-size:12.5px;color:#64748b;line-height:1.6}
+.ck-list{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.ck-item{display:flex;gap:9px;align-items:flex-start;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:9px 12px}
+.ck-n{width:21px;height:21px;min-width:21px;border-radius:5px;background:#fce7f3;color:#DB2777;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.ck-t{font-size:12.5px;color:#475569;line-height:1.5}
+.tl{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.tl-item{display:flex;gap:12px;align-items:flex-start;padding:9px 12px;background:#fff;border:1px solid #e2e8f0;border-radius:8px}
+.tl-dot{width:10px;height:10px;min-width:10px;border-radius:50%;background:#DB2777;margin-top:4px}
+.tl-label{font-size:12px;font-weight:600;color:#DB2777;margin-bottom:2px}
+.tl-desc{font-size:12px;color:#64748b;line-height:1.5}
+.qb{margin-bottom:16px}.qa{font-size:13.5px;font-weight:600;color:#1e293b;margin-bottom:11px;line-height:1.5}
+.qo{display:flex;flex-direction:column;gap:7px}
+.qop{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:9px 13px;font-size:13px;color:#1e293b;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:9px}
+.qop:hover:not(.correct):not(.wrong):not(.dimmed){border-color:#f9a8d4;background:#fdf2f8}
+.qop.correct{background:#f0fdf4;border-color:#86efac;color:#15803d;pointer-events:none}
+.qop.wrong{background:#fef2f2;border-color:#fca5a5;color:#dc2626;pointer-events:none}
+.qop.dimmed{opacity:.4;pointer-events:none}
+.qfb{margin-top:9px;padding:9px 13px;border-radius:8px;font-size:12.5px;line-height:1.5;display:none}
+.rl{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.ri{display:flex;gap:11px;align-items:flex-start;background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:11px 13px}
+.rn{width:23px;height:23px;min-width:23px;border-radius:6px;background:#fce7f3;color:#DB2777;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.rt{font-size:13px;color:#64748b;line-height:1.55}.rt strong{color:#1e293b;font-weight:600}
+/* NAV */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:11px 20px;border-top:1px solid #e2e8f0;background:#fff;flex-shrink:0;gap:8px}
+.nb{background:#f1f5f9;border:1px solid #e2e8f0;color:#475569;padding:7px 17px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .15s}
+.nb:hover{background:#e2e8f0}.nb.pr{background:#DB2777;color:#fff;border-color:#DB2777}
+.nb.pr:hover{background:#be185d}.nb:disabled{opacity:.35;pointer-events:none}
+.nb.next-file{background:#fff;border:1.5px solid #DB2777;color:#DB2777;display:flex;align-items:center;gap:6px;font-size:12px;padding:7px 14px}
+.nb.next-file:hover{background:#fce7f3}
+.nc{font-size:12px;color:#94a3b8}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="hdr">
+    <div style="display:flex;align-items:center;gap:11px">
+      <span class="badge">Aula 06</span>
+      <div><div class="hdr-title">Projeto Final — Exposição Dialogada</div><div class="hdr-sub">30 minutos · Projetor · Turma</div></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="timer" id="timer">30:00</div>
+      <button class="nb next-file" onclick="window.location.href='a06_demo_ao_vivo.html'" title="Ir para Demo ao Vivo">
+        💻 Demo ao Vivo →
+      </button>
+    </div>
+  </div>
+  <div class="dots" id="dots-bar"></div>
+  <div class="slide-wrap" id="slide-wrap"></div>
+  <div class="nav">
+    <button class="nb" id="btn-prev" onclick="goNav(-1)" disabled>← Anterior</button>
+    <span class="nc" id="counter">1 / 9</span>
+    <button class="nb pr" id="btn-next" onclick="goNav(1)">Próximo →</button>
+  </div>
+</div>
+<script>
+var cur=0,timerStarted=false,timerInterval=null;
+var PAGES={
+  'index.html':{icon:'🏠',desc:'Página inicial: hero com texto + elemento decorativo (Flexbox 2 colunas), seção de diferenciais (4 cards), grade de produtos em destaque, chamada para ação, footer 3 colunas.'},
+  'sobre.html':{icon:'👥',desc:'Sobre a empresa: layout de 2 colunas (texto + imagem), missão/visão/valores, tabela com dados da empresa ou equipe.'},
+  'produtos.html':{icon:'🛍️',desc:'Catálogo: grade de cards com flex-wrap, imagem com object-fit:cover, nome, preço e botão de ação em cada card.'},
+  'contato.html':{icon:'📧',desc:'Formulário completo com fieldset/legend, mínimo 5 tipos de input, validação HTML5, tabela de horários de atendimento.'},
+  'obrigado.html':{icon:'🎉',desc:'Confirmação após envio do formulário: mensagem de sucesso, botão de voltar ao início. Página simples e amigável.'}
+};
+var SLIDES=[
+function(){return '<div class="ey">Abertura · 3 min</div><div class="stitle">Hoje você entrega seu primeiro site profissional</div><div class="ssub">Em 5 aulas você construiu a fundação. Agora integramos tudo em um site coeso e apresentamos como profissional.</div><div class="cards"><div class="card ac"><div class="ci">🏆</div><div class="ct">O que você já domina</div><div class="cb">HTML semântico, CSS completo, Box Model, Flexbox, formulários, tabelas, imagens e variáveis CSS.</div></div><div class="card ac"><div class="ci">🔗</div><div class="ct">O que faz hoje</div><div class="cb">Integrar as 5 páginas com CSS compartilhado, navegação funcional e identidade visual consistente.</div></div><div class="card"><div class="ci">💬</div><div class="ct">Reflexão inicial</div><div class="cb"><em>"Abra seu projeto agora. O que está pronto? O que precisa de ajuste? O que está faltando?"</em></div></div><div class="card"><div class="ci">🎯</div><div class="ct">Resultado esperado</div><div class="cb">5 páginas navegáveis, CSS compartilhado com :root, validado no W3C e apresentado à turma.</div></div></div>';},
+function(){return '<div class="ey">Estrutura · 3 min</div><div class="stitle">As 5 páginas — clique para ver os requisitos</div><div class="ssub">Cada página tem propósito específico. Um único CSS compartilhado serve todas.</div><div class="pg-grid">'+Object.entries(PAGES).map(function(e){return '<div class="pg-card" onclick="showPage(this,\''+e[0]+'\')"><div class="pg-icon">'+e[1].icon+'</div><div class="pg-name">'+e[0]+'</div><div class="pg-use">clique para ver</div></div>';}).join('')+'</div><div class="pg-detail" id="pg-detail">Clique em uma página acima para ver o que deve conter.</div><div class="hl"><strong>Regra de ouro:</strong> nunca copie CSS de uma página para outra. Tudo vai em <code>css/estilos.css</code>. Uma mudança, todo o site atualiza.</div>';},
+function(){return '<div class="ey">Arquitetura · 3 min</div><div class="stitle">Estrutura de pastas profissional</div><div class="ssub">Projetos organizados economizam horas de trabalho.</div><div class="cw"><div class="ch"><span>Estrutura de pastas do projeto</span><div class="cd"><div class="c1" style="background:#ef4444"></div><div class="c1" style="background:#f59e0b"></div><div class="c1" style="background:#10b981"></div></div></div><pre><span class="v">meu-site/</span>              <span class="cm">← raiz do projeto</span>\n├── <span class="s">index.html</span>\n├── <span class="s">sobre.html</span>\n├── <span class="s">produtos.html</span>\n├── <span class="s">contato.html</span>\n├── <span class="s">obrigado.html</span>\n│\n├── <span class="k">css/</span>\n│   └── <span class="s">estilos.css</span>    <span class="cm">← CSS de TODAS as páginas</span>\n│\n└── <span class="k">img/</span>\n    ├── <span class="s">hero.jpg</span>\n    └── <span class="s">logo.svg</span></pre></div><div class="hl"><strong>Caminhos relativos:</strong> sempre use <code>href="css/estilos.css"</code> — nunca o caminho absoluto do computador.</div>';},
+function(){return '<div class="ey">CSS · 4 min</div><div class="stitle">O estilos.css em 4 seções</div><div class="ssub">Um arquivo organizado em seções comentadas é fácil de manter.</div><div class="cw"><div class="ch"><span>CSS · estilos.css — estrutura completa</span><div class="cd"><div class="c1" style="background:#ef4444"></div><div class="c1" style="background:#f59e0b"></div><div class="c1" style="background:#10b981"></div></div></div><pre><span class="cm">/* ===== 1. VARIÁVEIS ===== */</span>\n<span class="k">:root</span> {\n  <span class="p">--primaria</span>: <span class="v">#2563eb</span>; <span class="p">--destaque</span>: <span class="v">#ea580c</span>;\n  <span class="p">--fundo</span>: <span class="v">#f8fafc</span>;    <span class="p">--texto</span>: <span class="v">#1e293b</span>;\n  <span class="p">--raio</span>: <span class="v">10px</span>;  <span class="p">--sombra</span>: <span class="v">0 4px 12px rgba(0,0,0,.08)</span>;\n}\n\n<span class="cm">/* ===== 2. RESET ===== */</span>\n<span class="k">*</span> { <span class="p">box-sizing</span>: <span class="v">border-box</span>; <span class="p">margin</span>: <span class="v">0</span>; <span class="p">padding</span>: <span class="v">0</span>; }\n<span class="k">body</span> { <span class="p">font-family</span>: <span class="v">system-ui</span>; <span class="p">display</span>: <span class="v">flex</span>; <span class="p">flex-direction</span>: <span class="v">column</span>; <span class="p">min-height</span>: <span class="v">100vh</span>; }\n<span class="k">main</span> { <span class="p">flex</span>: <span class="v">1</span>; }\n\n<span class="cm">/* ===== 3. LAYOUT GLOBAL ===== */</span>\n<span class="k">header</span> { <span class="p">display</span>: <span class="v">flex</span>; <span class="p">align-items</span>: <span class="v">center</span>; <span class="p">justify-content</span>: <span class="v">space-between</span>; }\n\n<span class="cm">/* ===== 4. COMPONENTES ===== */</span>\n<span class="k">.card</span> { <span class="p">border-radius</span>: <span class="v">var(--raio)</span>; <span class="p">box-shadow</span>: <span class="v">var(--sombra)</span>; }</pre></div>';},
+function(){return '<div class="ey">Checklist · 4 min</div><div class="stitle">O que o projeto DEVE ter — sem exceções</div><div class="ssub">Estes itens são avaliados em cada página. Confirme antes de apresentar.</div><div class="ck-list"><div class="ck-item"><div class="ck-n">✓</div><div class="ck-t"><strong>5 páginas completas</strong> — todas linkadas na navegação</div></div><div class="ck-item"><div class="ck-n">✓</div><div class="ck-t"><strong>1 CSS compartilhado</strong> — <code>css/estilos.css</code> com variáveis :root</div></div><div class="ck-item"><div class="ck-n">✓</div><div class="ck-t"><strong>HTML semântico</strong> — header, nav, main, section, footer usados corretamente</div></div><div class="ck-item"><div class="ck-n">✓</div><div class="ck-t"><strong>Flexbox em todos os layouts</strong> — header, hero, cards, footer. Zero floats</div></div><div class="ck-item"><div class="ck-n">✓</div><div class="ck-t"><strong>Imagens com alt, width, height, loading="lazy"</strong></div></div><div class="ck-item"><div class="ck-n">✓</div><div class="ck-t"><strong>Formulário completo</strong> — fieldset/legend, 5 tipos de campo, validação HTML5</div></div><div class="ck-item"><div class="ck-n">✓</div><div class="ck-t"><strong>Validação W3C</strong> — HTML e CSS sem erros</div></div><div class="ck-item"><div class="ck-n">⭐</div><div class="ck-t" style="color:#DB2777"><strong>Bônus:</strong> hover com transition, responsividade natural com flex-wrap</div></div></div>';},
+function(){return '<div class="ey">Integração · 3 min</div><div class="stitle">Navegação — o que une tudo</div><div class="ssub">Header e footer idênticos em todas as páginas. O link da página atual recebe a classe <code>ativo</code>.</div><div class="cw"><div class="ch"><span>HTML · Header + nav padrão</span><div class="cd"><div class="c1" style="background:#ef4444"></div><div class="c1" style="background:#f59e0b"></div><div class="c1" style="background:#10b981"></div></div></div><pre><span class="cm">&lt;!-- Idêntico em TODAS as páginas --&gt;</span>\n<span class="k">&lt;header&gt;</span>\n  <span class="k">&lt;div</span> <span class="s">class</span>=<span class="v">"logo"</span><span class="k">&gt;</span>Meu<span class="k">&lt;span&gt;</span>Site<span class="k">&lt;/span&gt;&lt;/div&gt;</span>\n  <span class="k">&lt;nav&gt;</span>\n    <span class="k">&lt;a</span> <span class="s">href</span>=<span class="v">"index.html"</span><span class="k">&gt;</span>Início<span class="k">&lt;/a&gt;</span>\n    <span class="k">&lt;a</span> <span class="s">href</span>=<span class="v">"sobre.html"</span><span class="k">&gt;</span>Sobre<span class="k">&lt;/a&gt;</span>\n    <span class="k">&lt;a</span> <span class="s">href</span>=<span class="v">"contato.html"</span><span class="k">&gt;</span>Contato<span class="k">&lt;/a&gt;</span>\n  <span class="k">&lt;/nav&gt;</span>\n<span class="k">&lt;/header&gt;</span>\n\n<span class="k">nav a.ativo</span> { <span class="p">background</span>: <span class="v">rgba(255,255,255,.15)</span>; <span class="p">font-weight</span>: <span class="v">600</span>; }</pre></div>';},
+function(){return '<div class="ey">Cronograma · 3 min</div><div class="stitle">Como usamos as 4 horas de hoje</div><div class="ssub">Disciplina de tempo é habilidade profissional.</div><div class="tl"><div class="tl-item"><div class="tl-dot"></div><div><div class="tl-label">0–30 min — Exposição (agora)</div><div class="tl-desc">Revisão dos requisitos, checklist do projeto, dúvidas sobre integração.</div></div></div><div class="tl-item"><div class="tl-dot"></div><div><div class="tl-label">30–75 min — Demo ao vivo</div><div class="tl-desc">Docente integra o CSS compartilhado ao vivo. Alunos acompanham.</div></div></div><div class="tl-item"><div class="tl-dot"></div><div><div class="tl-label">75–165 min — Projeto autônomo</div><div class="tl-desc">Finalizar as 5 páginas, integrar o CSS, validar no W3C.</div></div></div><div class="tl-item"><div class="tl-dot"></div><div><div class="tl-label">165–225 min — Apresentações</div><div class="tl-desc">Cada aluno apresenta o projeto. Docente avalia. Turma dá feedback.</div></div></div><div class="tl-item"><div class="tl-dot"></div><div><div class="tl-label">225–240 min — Encerramento</div><div class="tl-desc">Retrospectiva do Módulo I. Preview do Módulo II (JavaScript).</div></div></div></div>';},
+function(){return '<div class="ey">Quiz · 3 min</div><div class="stitle">Verificação final do módulo</div><div class="ssub">Turma responde junto.</div><div class="qb"><div class="qa">1. Qual tag HTML deve envolver a navegação principal do site?</div><div class="qo"><div class="qop" onclick="ansQ(this,\'w\',\'f0\')"><span>A</span>&lt;div class="menu"&gt;</div><div class="qop" onclick="ansQ(this,\'c\',\'f0\')"><span>B</span>&lt;nav&gt;</div><div class="qop" onclick="ansQ(this,\'w\',\'f0\')"><span>C</span>&lt;ul class="nav"&gt;</div><div class="qop" onclick="ansQ(this,\'w\',\'f0\')"><span>D</span>&lt;menu&gt;</div></div><div class="qfb" id="f0" style="background:#f0fdf4;color:#15803d">Correto! &lt;nav&gt; é o elemento semântico para navegação. Leitores de tela identificam a navegação principal automaticamente.</div></div><div class="qb"><div class="qa">2. Para que serve <code>loading="lazy"</code> nas imagens?</div><div class="qo"><div class="qop" onclick="ansQ(this,\'w\',\'f1\')"><span>A</span>Carrega a imagem com animação lenta</div><div class="qop" onclick="ansQ(this,\'c\',\'f1\')"><span>B</span>Carrega a imagem só quando está prestes a aparecer na tela</div><div class="qop" onclick="ansQ(this,\'w\',\'f1\')"><span>C</span>Comprime a imagem automaticamente</div><div class="qop" onclick="ansQ(this,\'w\',\'f1\')"><span>D</span>Aguarda o CSS carregar antes da imagem</div></div><div class="qfb" id="f1" style="background:#f0fdf4;color:#15803d">Correto! Lazy loading adia o carregamento de imagens fora da área visível — o site carrega mais rápido.</div></div>';},
+function(){return '<div class="ey">Encerramento · 1 min</div><div class="stitle">Você construiu fundações sólidas</div><div class="ssub">Ao final do dia terá seu primeiro portfólio profissional.</div><div class="rl"><div class="ri"><div class="rn">1</div><div class="rt"><strong>HTML semântico</strong> — estrutura que motores de busca e leitores de tela entendem.</div></div><div class="ri"><div class="rn">2</div><div class="rt"><strong>CSS moderno</strong> — Box Model, Flexbox, variáveis, pseudo-classes, transições.</div></div><div class="ri"><div class="rn">3</div><div class="rt"><strong>Boas práticas</strong> — alt em imagens, labels em formulários, zero floats, validação W3C.</div></div><div class="ri"><div class="rn">4</div><div class="rt"><strong>Projeto real</strong> — site de 5 páginas com estrutura profissional para mostrar a recrutadores.</div></div></div><div class="hl"><strong>Próxima etapa:</strong> Demo ao vivo — <button onclick="window.location.href=\'a06_demo_ao_vivo.html\'" style="background:#DB2777;color:white;border:none;padding:5px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;margin-left:6px">💻 Abrir Demo →</button></div>';}
+];
+function buildDots(){var b=document.getElementById('dots-bar');b.innerHTML='';for(var i=0;i<SLIDES.length;i++){var d=document.createElement('span');d.className='dot'+(i===0?' active':'');(function(idx){d.onclick=function(){goTo(idx);};})(i);b.appendChild(d);if(i<SLIDES.length-1){var s=document.createElement('div');s.className='dsep';b.appendChild(s);}}}
+function buildSlides(){var w=document.getElementById('slide-wrap');w.innerHTML='';for(var i=0;i<SLIDES.length;i++){var d=document.createElement('div');d.className='slide'+(i===0?' active':'');d.id='sl-'+i;d.innerHTML=SLIDES[i]();w.appendChild(d);}}
+function goTo(i){document.getElementById('sl-'+cur).classList.remove('active');var dots=document.querySelectorAll('.dot');dots[cur].classList.remove('active');if(i>cur)dots[cur].classList.add('done');cur=i;var el=document.getElementById('sl-'+cur);el.innerHTML=SLIDES[cur]();el.classList.add('active');dots[cur].classList.add('active');dots[cur].classList.remove('done');document.getElementById('btn-prev').disabled=(cur===0);var bn=document.getElementById('btn-next');bn.disabled=(cur===SLIDES.length-1);bn.textContent=cur===SLIDES.length-1?'Finalizar':'Próximo →';document.getElementById('counter').textContent=(cur+1)+' / '+SLIDES.length;if(!timerStarted){timerStarted=true;startTimer();}}
+function goNav(d){var n=cur+d;if(n>=0&&n<SLIDES.length)goTo(n);}
+function startTimer(){var r=30*60;var el=document.getElementById('timer');timerInterval=setInterval(function(){r--;var m=Math.floor(r/60),s=r%60;el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;if(r<=300)el.className='timer warn';if(r<=60)el.className='timer danger';if(r<=0){clearInterval(timerInterval);el.textContent='00:00';}},1000);}
+function showPage(el,name){document.querySelectorAll('.pg-card').forEach(function(c){c.classList.remove('on');});el.classList.add('on');var p=PAGES[name];document.getElementById('pg-detail').innerHTML='<strong style="color:#DB2777;font-family:monospace">'+name+'</strong> '+p.icon+'<br>'+p.desc;}
+function ansQ(el,t,id){var qb=el.closest('.qb');qb.querySelectorAll('.qop').forEach(function(o){if(o===el)o.classList.add(t==='c'?'correct':'wrong');else o.classList.add('dimmed');});var fb=document.getElementById(id);if(t!=='c'){fb.style.background='#fef2f2';fb.style.color='#dc2626';fb.textContent='Não exatamente — pense na tag HTML semântica para navegação.';}fb.style.display='block';}
+buildDots();buildSlides();document.getElementById('btn-prev').disabled=true;
+</script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desafio — Projeto Final · Aula 06</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;color:#1e293b;background:#fdf2f8;min-height:100vh;padding:22px}
+.wrap{max-width:920px;margin:0 auto;display:flex;flex-direction:column;gap:11px}
+.brief{border:1px solid #fbcfe8;border-radius:12px;overflow:hidden;background:#fff}
+.bt{background:#fce7f3;padding:17px 19px;border-bottom:1px solid #fbcfe8}
+.badge{font-size:11px;font-weight:600;background:#DB2777;color:#fff;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:7px}
+.btitle{font-size:19px;font-weight:600;color:#831843;margin-bottom:3px}
+.bsub{font-size:13px;color:#DB2777}
+.bb{padding:15px 19px}
+.ctx{background:#fdf2f8;border-radius:8px;padding:11px 13px;font-size:13px;color:#475569;line-height:1.6;margin-bottom:13px;border-left:3px solid #DB2777}
+.ctx strong{color:#1e293b;font-weight:600;display:block;margin-bottom:3px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.two{grid-template-columns:1fr}}
+.colt{font-size:11px;font-weight:600;color:#64748b;margin-bottom:7px;text-transform:uppercase;letter-spacing:.05em}
+.req-wrap{display:flex;flex-direction:column;gap:5px}
+.ri{display:flex;gap:9px;align-items:flex-start}
+.rc{width:19px;height:19px;min-width:19px;border-radius:5px;border:1.5px solid #cbd5e1;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-top:2px;background:#fff;transition:all .15s}
+.rc:hover{border-color:#DB2777;background:#fce7f3}.rc.on{background:#22c55e;border-color:#22c55e}
+.rc svg{display:none}.rc.on svg{display:block}
+.rt{font-size:12.5px;color:#475569;line-height:1.5}.rt.done{color:#94a3b8;text-decoration:line-through}
+code{font-family:'Courier New',monospace;font-size:11.5px;background:#f1f5f9;padding:1px 5px;border-radius:3px;border:1px solid #e2e8f0}
+.crit-list{display:flex;flex-direction:column;gap:5px}
+.ci{display:flex;align-items:flex-start;gap:7px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:7px;padding:7px 10px;font-size:12px;color:#475569}
+.cd{width:5px;height:5px;min-width:5px;border-radius:50%;background:#DB2777;flex-shrink:0;margin-top:5px}
+.cd.g{background:#22c55e}
+.pw{border:1px solid #e2e8f0;border-radius:12px;padding:13px 15px;background:#fff}
+.pl{font-size:12px;color:#64748b;margin-bottom:7px;display:flex;justify-content:space-between}
+.pl strong{color:#1e293b;font-weight:600}
+.pbg{height:7px;background:#e2e8f0;border-radius:4px;overflow:hidden;margin-bottom:9px}
+.pfill{height:100%;background:#DB2777;border-radius:4px;transition:width .4s ease;width:0%}
+.pm{font-size:12px;color:#64748b;font-style:italic}
+.tr{display:flex;align-items:center;gap:9px;border:1px solid #fbcfe8;border-radius:12px;padding:11px 15px;background:#fff;flex-wrap:wrap}
+.tnum{font-size:26px;font-weight:500;font-family:'Courier New',monospace;color:#DB2777;min-width:80px;transition:color .3s}
+.tnum.warn{color:#d97706}.tnum.danger{color:#dc2626}
+.tinfo{flex:1;min-width:130px}.tinfo p{font-size:12px;color:#64748b;margin-top:1px}
+.tinfo strong{font-size:13px;color:#1e293b;font-weight:600}
+.tbtn{font-size:12px;padding:6px 14px;border-radius:7px;border:none;background:#DB2777;color:#fff;cursor:pointer;font-family:inherit;transition:background .15s;white-space:nowrap}
+.tbtn:hover{background:#be185d}.tbtn.sec{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0}
+.tbtn.sec:hover{background:#e2e8f0}.tbtn:disabled{opacity:.4;pointer-events:none}
+.ent{border:1px solid #86efac;border-radius:12px;padding:13px 15px;background:#f0fdf4}
+.et{font-size:11px;font-weight:600;color:#15803d;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.ep{font-size:13px;color:#475569;line-height:1.6}.ep a{color:#DB2777}
+.sbox{display:none;background:linear-gradient(135deg,#fdf2f8,#fce7f3);border:2px solid #f9a8d4;border-radius:14px;padding:22px;text-align:center}
+.sbox.show{display:block;animation:pop .4s ease}
+@keyframes pop{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
+.sbox h3{font-size:18px;font-weight:700;color:#DB2777;margin-bottom:7px}
+.sbox p{font-size:13px;color:#9d174d;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brief">
+    <div class="bt">
+      <div class="badge">Desafio final · Módulo I HTML &amp; CSS</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px"><div class="btitle">Site Profissional — 5 Páginas Completas</div><button onclick="window.location.href='a06_feedback.html'" style="font-size:12px;font-weight:600;background:#DB2777;color:#fff;border:none;padding:6px 14px;border-radius:8px;cursor:pointer;white-space:nowrap;font-family:inherit;flex-shrink:0">📋 Feedback →</button></div>
+      <div class="bsub">Integre, valide e apresente. Este é seu primeiro portfólio.</div>
+    </div>
+    <div class="bb">
+      <div class="ctx">
+        <strong>Briefing do cliente</strong>
+        "Precisamos de um site de 5 páginas — início, sobre, produtos, contato e obrigado. Layout moderno com Flexbox, design consistente em todas as páginas, imagens com qualidade e formulário de contato com validação. Queremos código limpo, organizado e validado."
+      </div>
+      <div class="two">
+        <div>
+          <div class="colt">Checklist de entrega</div>
+          <div class="req-wrap" id="req-list"></div>
+        </div>
+        <div>
+          <div class="colt">Critérios de avaliação</div>
+          <div class="crit-list">
+            <div class="ci"><div class="cd"></div>5 páginas navegáveis entre si</div>
+            <div class="ci"><div class="cd"></div>CSS em arquivo único com variáveis :root</div>
+            <div class="ci"><div class="cd"></div>HTML semântico (header, main, footer, section)</div>
+            <div class="ci"><div class="cd"></div>Flexbox no header, hero, cards e footer</div>
+            <div class="ci"><div class="cd"></div>Imagens com alt + loading="lazy"</div>
+            <div class="ci"><div class="cd"></div>Formulário com fieldset e validação HTML5</div>
+            <div class="ci"><div class="cd"></div>HTML e CSS validados no W3C sem erros</div>
+            <div class="ci"><div class="cd g"></div>Bônus: hover com transition nos cards</div>
+            <div class="ci"><div class="cd g"></div>Bônus: layout responsivo sem media queries</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pw">
+    <div class="pl"><strong>Progresso do projeto</strong><span id="ptxt">0 de 10 itens</span></div>
+    <div class="pbg"><div class="pfill" id="pfill"></div></div>
+    <div class="pm" id="pmsg">Comece verificando a estrutura de pastas e o CSS compartilhado.</div>
+  </div>
+  <div class="tr">
+    <div class="tnum" id="tnum">90:00</div>
+    <div class="tinfo"><strong>Cronômetro da entrega</strong><p id="tmsg">90 minutos para finalizar e apresentar</p></div>
+    <button class="tbtn" id="tbtn" onclick="timerClick()">Iniciar</button>
+    <button class="tbtn sec" onclick="timerReset()">Zerar</button>
+  </div>
+  <div class="ent">
+    <div class="et">Entrega e apresentação</div>
+    <div class="ep">
+      Pasta <code>meu-site/</code> com as 5 páginas funcionando. CSS em <code>css/estilos.css</code>. Imagens em <code>img/</code>. Valide HTML em <a href="https://validator.w3.org/#validate_by_input" target="_blank">validator.w3.org</a> e CSS em <a href="https://jigsaw.w3.org/css-validator/#validate_by_input" target="_blank">jigsaw.w3.org/css-validator</a> — zero erros. Apresente ao vivo: navegue pelo site, mostre o formulário e destaque algo que aprendeu.
+    </div>
+  </div>
+  <div class="sbox" id="success">
+    <h3>🏆 Projeto Final entregue!</h3>
+    <p>Você completou o Módulo I — HTML &amp; CSS.<br><br>
+    <strong>O que você construiu:</strong> site profissional de 5 páginas com HTML semântico, CSS Flexbox, formulários acessíveis e layout responsivo.<br><br>
+    No <strong>Módulo II</strong> este site ganhará interatividade com JavaScript.</p>
+  </div>
+</div>
+<script>
+const REQS=[
+{t:"Estrutura de pastas: <code>css/estilos.css</code> e <code>img/</code> criadas"},
+{t:"Variáveis <code>:root</code> com mínimo 6 propriedades no CSS compartilhado"},
+{t:"<code>index.html</code>: hero + diferenciais + produtos em destaque + CTA"},
+{t:"<code>sobre.html</code>: layout 2 colunas (texto + imagem) e tabela"},
+{t:"<code>produtos.html</code>: grade com <code>flex-wrap</code> e <code>object-fit:cover</code>"},
+{t:"<code>contato.html</code>: formulário com <code>fieldset</code> e validação HTML5"},
+{t:"<code>obrigado.html</code>: mensagem de confirmação com link para voltar"},
+{t:"Header idêntico em todas as páginas com <code>class='ativo'</code> correto"},
+{t:"Footer em 3 colunas com Flexbox — idêntico em todas as páginas"},
+{t:"HTML e CSS validados no W3C sem nenhum erro"},
+];
+const MSGS=["Comece pela estrutura de pastas.","Variáveis prontas — configure o reset e o body.","CSS base ok — construa a index.html.","Index concluída — crie a sobre.html.","Sobre pronta — monte os produtos.","Produtos prontos — finalize o contato.","Contato pronto — crie a obrigado.html.","Páginas prontas — padronize header e footer.","Footer em 3 colunas! Valide o HTML no W3C.","Tudo validado! Prepare a apresentação."];
+let done=new Set(),ticking=false,tSec=90*60,tInterval=null;
+function buildReqs(){const el=document.getElementById('req-list');REQS.forEach((r,i)=>{const d=document.createElement('div');d.className='ri';d.style.marginBottom='5px';d.innerHTML=`<div class="rc" id="rc-${i}" onclick="chk(${i})"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1.5 5.5l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="rt" id="rt-${i}">${r.t}</div>`;el.appendChild(d);});}
+function chk(i){if(done.has(i)){done.delete(i);document.getElementById('rc-'+i).classList.remove('on');document.getElementById('rt-'+i).classList.remove('done');}else{done.add(i);document.getElementById('rc-'+i).classList.add('on');document.getElementById('rt-'+i).classList.add('done');}const n=done.size;document.getElementById('pfill').style.width=Math.round((n/REQS.length)*100)+'%';document.getElementById('ptxt').textContent=n+' de '+REQS.length+' itens';document.getElementById('pmsg').textContent=MSGS[Math.min(n,MSGS.length-1)];if(n===REQS.length)document.getElementById('success').classList.add('show');else document.getElementById('success').classList.remove('show');}
+function timerClick(){if(!ticking){ticking=true;document.getElementById('tbtn').textContent='Pausar';document.getElementById('tbtn').style.background='#475569';document.getElementById('tmsg').textContent='Em andamento';tInterval=setInterval(()=>{tSec--;const m=Math.floor(tSec/60),s=tSec%60;const el=document.getElementById('tnum');el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;el.className='tnum'+(tSec<=120?' danger':tSec<=600?' warn':'');if(tSec===3000)document.getElementById('tmsg').textContent='50 min passados — confira o progresso!';if(tSec===1800)document.getElementById('tmsg').textContent='30 min restantes — finalize as páginas!';if(tSec===600)document.getElementById('tmsg').textContent='10 min — valide e prepare a apresentação!';if(tSec===120)document.getElementById('tmsg').textContent='2 min — chame o docente!';if(tSec<=0){clearInterval(tInterval);ticking=false;document.getElementById('tbtn').disabled=true;}},1000);}else{ticking=false;clearInterval(tInterval);document.getElementById('tbtn').textContent='Continuar';document.getElementById('tbtn').style.background='#DB2777';}}
+function timerReset(){clearInterval(tInterval);ticking=false;tSec=90*60;document.getElementById('tnum').textContent='90:00';document.getElementById('tnum').className='tnum';document.getElementById('tbtn').textContent='Iniciar';document.getElementById('tbtn').style.background='#DB2777';document.getElementById('tbtn').disabled=false;document.getElementById('tmsg').textContent='90 minutos para finalizar e apresentar';}
+buildReqs();
+</script>
+</body>
+</html>

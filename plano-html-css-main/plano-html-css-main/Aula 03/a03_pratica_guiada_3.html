@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<!-- ============================================================
+     Material didático desenvolvido por @karizeviecelli
+     © 2025 — Todos os direitos reservados.
+     Uso autorizado exclusivamente para fins educacionais.
+     Redistribuição sem crédito é proibida.
+     ============================================================ -->
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="@karizeviecelli">
+<meta name="copyright" content="© 2025 @karizeviecelli. Todos os direitos reservados.">
+<title>Prática Guiada — Imagens & Links · Aula 03</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;color:#1e293b;background:#f8fafc;min-height:100vh;padding:22px 22px 70px}
+.wrap{max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:11px}
+
+/* cabeçalho */
+.pg-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.pg-title{font-size:17px;font-weight:600}
+.pg-meta{font-size:12px;color:#64748b;margin-top:2px}
+.pg-time{font-size:12px;font-weight:500;background:#f1f5f9;border:1px solid #e2e8f0;padding:4px 12px;border-radius:8px;color:#64748b}
+
+/* progresso */
+.prog-row{display:flex;align-items:center;gap:9px}
+.pb{flex:1;height:7px;background:#e2e8f0;border-radius:4px;overflow:hidden}
+.pf{height:100%;background:#0D9488;border-radius:4px;transition:width .4s ease;width:0%}
+.pt{font-size:12px;font-weight:600;color:#64748b;min-width:60px;text-align:right}
+
+/* cards */
+.steps{display:flex;flex-direction:column;gap:8px}
+.sc{border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;background:#fff;transition:border-color .2s}
+.sc.done-c{border-color:#86efac}
+.sc.open{border-color:#5eead4}
+.sh{display:flex;align-items:flex-start;gap:11px;padding:12px 13px;cursor:pointer;user-select:none;transition:background .15s}
+.sh:hover{background:#f8fafc}
+.sc.open .sh{background:#f0fdfa}
+.chk{width:21px;height:21px;border-radius:6px;border:1.5px solid #cbd5e1;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .18s;cursor:pointer;background:#fff}
+.chk:hover{border-color:#0D9488;background:#ccfbf1}
+.chk.done{background:#22c55e;border-color:#22c55e}
+.chk svg{display:none}.chk.done svg{display:block}
+.si{flex:1}
+.sn{font-size:11px;font-weight:600;color:#94a3b8;margin-bottom:2px;text-transform:uppercase;letter-spacing:.04em}
+.st{font-size:13px;font-weight:600;color:#1e293b;line-height:1.3}
+.stm{font-size:11px;color:#94a3b8;margin-top:2px}
+.cv{color:#94a3b8;font-size:11px;margin-top:4px;transition:transform .22s;flex-shrink:0}
+.sc.open .cv{transform:rotate(180deg)}
+
+/* sanfona principal */
+.sb{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.sc.open .sb{max-height:3000px}
+.sbi{padding:0 13px 14px;border-top:1px solid #f1f5f9}
+
+/* instruções */
+.il{display:flex;flex-direction:column;gap:6px;margin:11px 0}
+.ii{display:flex;gap:9px;font-size:13px;color:#475569;line-height:1.55;align-items:flex-start}
+.in{width:19px;height:19px;min-width:19px;border-radius:5px;background:#ccfbf1;color:#0D9488;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;margin-top:1px}
+code{font-family:'Courier New',monospace;font-size:12px;background:#f1f5f9;padding:1px 5px;border-radius:3px;border:1px solid #e2e8f0}
+
+/* bloco de código de referência */
+.cb2{background:#1e293b;border-radius:8px;padding:12px 15px;font-family:'Courier New',monospace;font-size:12px;line-height:1.8;color:#94a3b8;margin:9px 0;overflow-x:auto;white-space:pre}
+.k{color:#93c5fd}.p{color:#c4b5fd}.v{color:#6ee7b7}.s{color:#fda4af}.c{color:#475569;font-style:italic}
+
+/* dica */
+.tip{background:#f0fdfa;border-left:3px solid #0D9488;padding:8px 12px;font-size:12px;color:#134e4a;line-height:1.5;margin-top:8px}
+.tip strong{color:#0f766e;font-weight:600}
+
+/* ── BOTÃO + SANFONA GABARITO ── */
+.gabarito-wrap{margin-top:12px}
+.btn-gabarito{
+  display:inline-flex;align-items:center;gap:7px;
+  background:#f8fafc;border:1.5px solid #cbd5e1;
+  color:#64748b;padding:7px 15px;border-radius:8px;
+  font-size:12px;font-weight:600;cursor:pointer;
+  font-family:inherit;transition:all .2s;user-select:none;
+}
+.btn-gabarito:hover{background:#f0fdfa;color:#0D9488;border-color:#5eead4}
+.btn-gabarito.aberto{background:#f0fdfa;color:#0D9488;border-color:#0D9488}
+.btn-gabarito .gico{font-size:12px;display:inline-block;transition:transform .25s}
+.btn-gabarito.aberto .gico{transform:rotate(180deg)}
+.gabarito-body{max-height:0;overflow:hidden;transition:max-height .42s ease,opacity .3s;opacity:0}
+.gabarito-body.aberto{max-height:1800px;opacity:1}
+.gabarito-inner{margin-top:9px;border-radius:10px;overflow:hidden;border:2px solid #0D9488}
+.gabarito-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  background:#ccfbf1;padding:9px 14px;
+  font-size:11px;font-weight:700;color:#0f766e;
+  letter-spacing:.05em;text-transform:uppercase;
+  border-bottom:1px solid #5eead4;
+}
+.gabarito-hdr-badge{
+  background:#0D9488;color:#fff;
+  font-size:10px;padding:2px 9px;border-radius:20px;
+  font-weight:700;
+}
+.gabarito-code{
+  background:#1e293b;padding:14px 16px;
+  font-family:'Courier New',monospace;font-size:12px;
+  line-height:1.8;color:#94a3b8;overflow-x:auto;white-space:pre;
+}
+
+/* botão concluído */
+.mb{display:inline-flex;align-items:center;gap:5px;background:#f8fafc;border:1px solid #cbd5e1;color:#64748b;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .18s;margin-top:10px}
+.mb:hover{background:#f0fdf4;color:#15803d;border-color:#86efac}
+.mb.done-btn{background:#f0fdf4;color:#15803d;border-color:#86efac;pointer-events:none}
+
+/* sucesso */
+.success{background:#f0fdf4;border:1px solid #86efac;border-radius:12px;padding:18px;text-align:center;display:none}
+.success.show{display:block}
+.success h3{font-size:15px;font-weight:600;color:#15803d;margin-bottom:5px}
+.success p{font-size:13px;color:#475569}
+a{color:#0D9488}
+
+/* autoria */
+.autoria-badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:600;color:#0D9488;background:#ccfbf1;border:1px solid #5eead4;padding:2px 9px;border-radius:20px;text-decoration:none;font-family:'Courier New',monospace;letter-spacing:.02em;white-space:nowrap}
+.autoria-badge:hover{background:#5eead4;color:#134e4a}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="pg-header">
+    <div>
+      <div class="pg-title">Prática guiada — Imagens &amp; Links</div>
+      <div class="pg-meta">Siga os passos. Use o gabarito só se travar. Marque cada um quando terminar.</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+      <span class="pg-time">60 min disponíveis</span>
+      <a href="https://instagram.com/karizeviecelli" target="_blank" class="autoria-badge">© @karizeviecelli</a>
+    </div>
+  </div>
+
+  <div class="prog-row">
+    <div class="pb"><div class="pf" id="pf"></div></div>
+    <div class="pt" id="pt">0 / 7</div>
+  </div>
+
+  <div class="steps" id="steps"></div>
+
+  <div class="success" id="success-el">
+    <h3>🖼️ Imagens e links dominados!</h3>
+    <p>Sua página agora tem hero, galeria e todos os tipos de link. Hora do desafio autônomo!</p>
+  </div>
+</div>
+
+<!-- BARRA DE NAVEGAÇÃO -->
+<div style="position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid #5eead4;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;z-index:9999;gap:12px">
+  <a href="a03_demo_ao_vivo_2.html" style="display:inline-flex;align-items:center;gap:7px;background:#f8fafc;color:#64748b;font-size:12px;font-weight:600;padding:7px 16px;border-radius:8px;text-decoration:none;border:1px solid #e2e8f0;white-space:nowrap" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#f8fafc'">&#8592; Demo ao Vivo</a>
+  <div style="font-size:11px;color:#94a3b8;font-family:'Courier New',monospace;text-align:center;flex:1;line-height:1.5">
+    Aula 03 &middot; 3 de 5 &middot; Prática Guiada<br>
+    <a href="https://instagram.com/karizeviecelli" target="_blank" style="color:#0D9488;text-decoration:none;font-weight:600;font-size:10px">© @karizeviecelli</a>
+  </div>
+  <a href="a03_desafio_4.html" style="display:inline-flex;align-items:center;gap:7px;background:#0D9488;color:#fff;font-size:12px;font-weight:600;padding:7px 16px;border-radius:8px;text-decoration:none;white-space:nowrap" onmouseover="this.style.background='#0f766e'" onmouseout="this.style.background='#0D9488'">Desafio &#8594;</a>
+</div>
+
+<script>
+const STEPS = [
+
+{title:"Criar a pasta img/ e baixar imagens", time:"8 min",
+instrs:[
+  "Dentro de <code>meu-site/</code>, crie a pasta <code>img/</code>",
+  "Acesse <a href='https://unsplash.com' target='_blank'>unsplash.com</a> e baixe pelo menos 8 fotos relacionadas ao seu tema",
+  "Use o <a href='https://squoosh.app' target='_blank'>Squoosh</a> para comprimir cada imagem abaixo de 300 KB",
+  "Renomeie os arquivos sem espaços: <code>capa.jpg</code>, <code>perfil.jpg</code>, <code>projeto-1.jpg</code>"
+],
+code: "",
+gabarito:`<span class="c"><!-- Estrutura de pastas correta --></span>
+<span class="c">meu-site/
+├── index.html
+├── css/
+│   └── estilos.css
+└── img/
+    ├── capa.jpg        ← hero background
+    ├── perfil.jpg      ← foto circular
+    ├── projeto-1.jpg
+    ├── projeto-2.jpg
+    └── projeto-3.jpg   ← etc.</span>
+
+<span class="c"><!-- Convenção de nomes obrigatória:
+   ✗ Foto Perfil.jpg   (espaço e maiúsculas = erro no servidor Linux)
+   ✓ foto-perfil.jpg   (minúsculas e hífens) --></span>`,
+tip:"<strong>Convenção de nomes:</strong> sem acentos, sem espaços, minúsculas, hífens para separar: <code>foto-perfil.jpg</code>, não <code>Foto Perfil.jpg</code>."},
+
+{title:"Adicionar imagem de perfil com figure e legenda", time:"8 min",
+instrs:[
+  "Na seção 'Sobre mim', adicione a tag <code>&lt;figure&gt;</code>",
+  "Dentro, adicione <code>&lt;img&gt;</code> com src, alt descritivo, width='280', height='280' e loading='lazy'",
+  "Adicione <code>&lt;figcaption&gt;</code> com seu nome e função",
+  "No CSS, adicione <code>border-radius:50%</code> e <code>object-fit:cover</code> à imagem"
+],
+code:`<span class="k">&lt;figure&gt;</span>
+  <span class="k">&lt;img</span>
+    <span class="p">src</span>=<span class="s">"img/perfil.jpg"</span>
+    <span class="p">alt</span>=<span class="s">"Descrição real da sua foto"</span>
+    <span class="p">width</span>=<span class="s">"280"</span>
+    <span class="p">height</span>=<span class="s">"280"</span>
+    <span class="p">loading</span>=<span class="s">"lazy"</span>
+  <span class="k">&gt;</span>
+  <span class="k">&lt;figcaption&gt;</span><span class="v">Seu Nome — SENAI 2025</span><span class="k">&lt;/figcaption&gt;</span>
+<span class="k">&lt;/figure&gt;</span>`,
+gabarito:`<span class="c"><!-- HTML completo com figure semântico --></span>
+<span class="k">&lt;section&gt;</span>
+  <span class="k">&lt;h2&gt;</span><span class="v">Sobre mim</span><span class="k">&lt;/h2&gt;</span>
+
+  <span class="k">&lt;figure&gt;</span>
+    <span class="k">&lt;img</span>
+      <span class="p">src</span>=<span class="s">"img/perfil.jpg"</span>
+      <span class="p">alt</span>=<span class="s">"Nome Sobrenome sorrindo em frente ao computador"</span>
+      <span class="p">width</span>=<span class="s">"280"</span>
+      <span class="p">height</span>=<span class="s">"280"</span>
+      <span class="p">loading</span>=<span class="s">"lazy"</span>
+      <span class="p">class</span>=<span class="s">"foto-perfil"</span>
+    <span class="k">&gt;</span>
+    <span class="k">&lt;figcaption&gt;</span><span class="v">Seu Nome — SENAI 2025</span><span class="k">&lt;/figcaption&gt;</span>
+  <span class="k">&lt;/figure&gt;</span>
+<span class="k">&lt;/section&gt;</span>
+
+<span class="c">/* CSS correspondente */</span>
+<span class="k">.foto-perfil</span> {
+  <span class="p">width</span>:         <span class="v">200px</span>;
+  <span class="p">height</span>:        <span class="v">200px</span>;
+  <span class="p">border-radius</span>: <span class="v">50%</span>;        <span class="c">/* círculo perfeito */</span>
+  <span class="p">object-fit</span>:    <span class="v">cover</span>;       <span class="c">/* sem distorção */</span>
+  <span class="p">border</span>:        <span class="v">4px solid #0D9488</span>;
+  <span class="p">display</span>:       <span class="v">block</span>;
+  <span class="p">margin</span>:        <span class="v">0 auto 16px</span>;
+}
+<span class="k">figcaption</span> {
+  <span class="p">text-align</span>: <span class="v">center</span>;
+  <span class="p">font-size</span>:  <span class="v">.85rem</span>;
+  <span class="p">color</span>:      <span class="v">#64748b</span>;
+  <span class="p">font-style</span>: <span class="v">italic</span>;
+  <span class="p">padding-top</span>: <span class="v">8px</span>;
+  <span class="p">border-top</span>: <span class="v">1px solid #e2e8f0</span>;
+  <span class="p">margin-top</span>: <span class="v">8px</span>;
+}`,
+tip:"<strong>Width/Height no HTML:</strong> o browser reserva esse espaço antes da imagem carregar, evitando o salto visual chamado CLS (Cumulative Layout Shift)."},
+
+{title:"Criar seção hero com background-image", time:"10 min",
+instrs:[
+  "No HTML, adicione <code>&lt;section class='hero'&gt;</code> antes do <code>&lt;main&gt;</code>",
+  "Dentro, coloque um <code>&lt;h1&gt;</code> e um <code>&lt;p&gt;</code> com texto seu",
+  "No CSS: background-image com a foto de capa, background-size:cover, height:400px",
+  "Adicione display:flex, align-items:center, justify-content:center, color:white e text-align:center"
+],
+code:`<span class="k">.hero</span> {
+  <span class="p">background</span>: <span class="v">linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
+    url('img/capa.jpg') center/cover no-repeat</span>;
+  <span class="p">height</span>: <span class="v">420px</span>;
+  <span class="p">display</span>: <span class="v">flex</span>;
+  <span class="p">align-items</span>: <span class="v">center</span>;
+  <span class="p">justify-content</span>: <span class="v">center</span>;
+  <span class="p">color</span>: <span class="v">white</span>;
+  <span class="p">text-align</span>: <span class="v">center</span>;
+}`,
+gabarito:`<span class="c"><!-- HTML do hero --></span>
+<span class="k">&lt;section</span> <span class="p">class</span>=<span class="s">"hero"</span><span class="k">&gt;</span>
+  <span class="k">&lt;div</span> <span class="p">class</span>=<span class="s">"hero-content"</span><span class="k">&gt;</span>
+    <span class="k">&lt;h1&gt;</span><span class="v">Meu Portfólio</span><span class="k">&lt;/h1&gt;</span>
+    <span class="k">&lt;p&gt;</span><span class="v">Desenvolvedor web em formação — SENAI</span><span class="k">&lt;/p&gt;</span>
+    <span class="k">&lt;a</span> <span class="p">href</span>=<span class="s">"#galeria"</span> <span class="p">class</span>=<span class="s">"btn-hero"</span><span class="k">&gt;</span><span class="v">Ver projetos</span><span class="k">&lt;/a&gt;</span>
+  <span class="k">&lt;/div&gt;</span>
+<span class="k">&lt;/section&gt;</span>
+
+<span class="c">/* CSS do hero completo */</span>
+<span class="k">.hero</span> {
+  <span class="p">background</span>: <span class="v">linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
+    url('img/capa.jpg') center / cover no-repeat</span>;
+  <span class="p">height</span>:          <span class="v">420px</span>;
+  <span class="p">display</span>:         <span class="v">flex</span>;
+  <span class="p">align-items</span>:     <span class="v">center</span>;
+  <span class="p">justify-content</span>: <span class="v">center</span>;
+  <span class="p">color</span>:           <span class="v">white</span>;
+  <span class="p">text-align</span>:      <span class="v">center</span>;
+  <span class="p">padding</span>:         <span class="v">20px</span>;
+}
+<span class="k">.hero h1</span>  { <span class="p">font-size</span>: <span class="v">2.5rem</span>; <span class="p">font-weight</span>: <span class="v">700</span>; <span class="p">margin-bottom</span>: <span class="v">8px</span>; }
+<span class="k">.hero p</span>   { <span class="p">opacity</span>: <span class="v">.85</span>; <span class="p">margin-bottom</span>: <span class="v">20px</span>; }
+
+<span class="k">.btn-hero</span> {
+  <span class="p">background</span>:      <span class="v">#0D9488</span>;
+  <span class="p">color</span>:           <span class="v">white</span>;
+  <span class="p">padding</span>:         <span class="v">12px 28px</span>;
+  <span class="p">border-radius</span>:   <span class="v">8px</span>;
+  <span class="p">text-decoration</span>: <span class="v">none</span>;
+  <span class="p">font-weight</span>:     <span class="v">600</span>;
+  <span class="p">transition</span>:      <span class="v">background .2s</span>;
+}
+<span class="k">.btn-hero:hover</span> { <span class="p">background</span>: <span class="v">#0f766e</span>; }
+
+<span class="c">/* Por que o linear-gradient na frente da imagem?
+   Garante legibilidade do texto sobre qualquer foto.
+   rgba(0,0,0,.55) = preto 55% opaco. Ajuste esse
+   valor conforme o tom da sua imagem. */</span>`,
+tip:"<strong>background shorthand:</strong> <code>linear-gradient(...), url('...') center/cover no-repeat</code> — o overlay fica na frente da imagem porque vem primeiro no valor."},
+
+{title:"Galeria com figure, figcaption e CSS", time:"8 min",
+instrs:[
+  "Crie uma <code>&lt;section class='galeria' id='galeria'&gt;</code>",
+  "Adicione 6 <code>&lt;figure&gt;</code> cada um com <code>&lt;img&gt;</code> (loading='lazy') e <code>&lt;figcaption&gt;</code>",
+  "No CSS: <code>display:grid; grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:16px</code>",
+  "Adicione <code>object-fit:cover</code> e <code>height:200px</code> nas imagens da galeria"
+],
+code:`<span class="k">.galeria</span> {
+  <span class="p">display</span>: <span class="v">grid</span>;
+  <span class="p">grid-template-columns</span>: <span class="v">repeat(auto-fill, minmax(200px, 1fr))</span>;
+  <span class="p">gap</span>: <span class="v">16px</span>;
+}
+<span class="k">.galeria figure img</span> {
+  <span class="p">width</span>: <span class="v">100%</span>; <span class="p">height</span>: <span class="v">200px</span>;
+  <span class="p">object-fit</span>: <span class="v">cover</span>;
+  <span class="p">display</span>: <span class="v">block</span>;
+}`,
+gabarito:`<span class="c"><!-- HTML da galeria completa com 3 exemplos --></span>
+<span class="k">&lt;section</span> <span class="p">class</span>=<span class="s">"galeria"</span> <span class="p">id</span>=<span class="s">"galeria"</span><span class="k">&gt;</span>
+  <span class="k">&lt;figure&gt;</span>
+    <span class="k">&lt;img</span> <span class="p">src</span>=<span class="s">"img/projeto-1.jpg"</span> <span class="p">alt</span>=<span class="s">"Site de portfólio pessoal"</span>
+         <span class="p">width</span>=<span class="s">"400"</span> <span class="p">height</span>=<span class="s">"200"</span> <span class="p">loading</span>=<span class="s">"lazy"</span><span class="k">&gt;</span>
+    <span class="k">&lt;figcaption&gt;</span><span class="v">Projeto 01 — Portfólio</span><span class="k">&lt;/figcaption&gt;</span>
+  <span class="k">&lt;/figure&gt;</span>
+  <span class="c"><!-- Repita para os outros 5 projetos --></span>
+<span class="k">&lt;/section&gt;</span>
+
+<span class="c">/* CSS completo da galeria */</span>
+<span class="k">.galeria</span> {
+  <span class="p">display</span>:               <span class="v">grid</span>;
+  <span class="p">grid-template-columns</span>: <span class="v">repeat(auto-fill, minmax(200px, 1fr))</span>;
+  <span class="p">gap</span>:                   <span class="v">16px</span>;
+  <span class="p">margin-top</span>:            <span class="v">16px</span>;
+}
+
+<span class="k">.galeria figure</span> {
+  <span class="p">overflow</span>:      <span class="v">hidden</span>;    <span class="c">/* contém o zoom do hover */</span>
+  <span class="p">border-radius</span>: <span class="v">10px</span>;
+  <span class="p">border</span>:        <span class="v">1px solid #e2e8f0</span>;
+  <span class="p">background</span>:    <span class="v">white</span>;
+}
+
+<span class="k">.galeria figure img</span> {
+  <span class="p">width</span>:      <span class="v">100%</span>;
+  <span class="p">height</span>:     <span class="v">200px</span>;
+  <span class="p">object-fit</span>: <span class="v">cover</span>;
+  <span class="p">display</span>:    <span class="v">block</span>;
+  <span class="p">transition</span>: <span class="v">transform .35s ease, opacity .35s ease</span>;
+}
+
+<span class="k">.galeria figcaption</span> {
+  <span class="p">padding</span>:    <span class="v">8px 12px</span>;
+  <span class="p">font-size</span>:  <span class="v">.85rem</span>;
+  <span class="p">color</span>:      <span class="v">#475569</span>;
+  <span class="p">text-align</span>: <span class="v">center</span>;
+}`,
+tip:"<strong>object-fit:cover</strong> preenche o container cortando o excesso — imagens de tamanhos diferentes ficam uniformes. <strong>overflow:hidden no figure</strong> é obrigatório para o hover não vazar para fora do card."},
+
+{title:"Adicionar Font Awesome CDN", time:"6 min",
+instrs:[
+  "No <code>&lt;head&gt;</code>, adicione o link do Font Awesome CDN",
+  "Pesquise 3 ícones em <a href='https://fontawesome.com/icons' target='_blank'>fontawesome.com/icons</a> filtrados como 'free'",
+  "Adicione os ícones nos links de contato e na navegação",
+  "Teste no browser: os ícones devem aparecer renderizados"
+],
+code:`<span class="c">&lt;!-- No &lt;head&gt; --&gt;</span>
+<span class="k">&lt;link</span> <span class="p">rel</span>=<span class="s">"stylesheet"</span>
+  <span class="p">href</span>=<span class="s">"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"</span>
+<span class="k">&gt;</span>
+
+<span class="c">&lt;!-- Exemplos de ícones --&gt;</span>
+<span class="k">&lt;i</span> <span class="p">class</span>=<span class="s">"fa-brands fa-github"</span><span class="k">&gt;&lt;/i&gt;</span>
+<span class="k">&lt;i</span> <span class="p">class</span>=<span class="s">"fa-brands fa-linkedin"</span><span class="k">&gt;&lt;/i&gt;</span>
+<span class="k">&lt;i</span> <span class="p">class</span>=<span class="s">"fa-solid fa-envelope"</span><span class="k">&gt;&lt;/i&gt;</span>
+<span class="k">&lt;i</span> <span class="p">class</span>=<span class="s">"fa-solid fa-phone"</span><span class="k">&gt;&lt;/i&gt;</span>`,
+gabarito:`<span class="c"><!-- Link no &lt;head&gt; — antes de fechar &lt;/head&gt; --></span>
+<span class="k">&lt;link</span> <span class="p">rel</span>=<span class="s">"stylesheet"</span>
+      <span class="p">href</span>=<span class="s">"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"</span><span class="k">&gt;</span>
+
+<span class="c"><!-- Seção de contato com ícones --></span>
+<span class="k">&lt;section</span> <span class="p">id</span>=<span class="s">"contato"</span><span class="k">&gt;</span>
+  <span class="k">&lt;h2&gt;</span><span class="v">Contato</span><span class="k">&lt;/h2&gt;</span>
+
+  <span class="k">&lt;a</span> <span class="p">href</span>=<span class="s">"https://github.com/usuario"</span>
+     <span class="p">target</span>=<span class="s">"_blank"</span> <span class="p">rel</span>=<span class="s">"noopener"</span><span class="k">&gt;</span>
+    <span class="k">&lt;i</span> <span class="p">class</span>=<span class="s">"fa-brands fa-github"</span><span class="k">&gt;&lt;/i&gt;</span> <span class="v">GitHub</span>
+  <span class="k">&lt;/a&gt;</span>
+
+  <span class="k">&lt;a</span> <span class="p">href</span>=<span class="s">"https://linkedin.com/in/usuario"</span>
+     <span class="p">target</span>=<span class="s">"_blank"</span> <span class="p">rel</span>=<span class="s">"noopener"</span><span class="k">&gt;</span>
+    <span class="k">&lt;i</span> <span class="p">class</span>=<span class="s">"fa-brands fa-linkedin"</span><span class="k">&gt;&lt;/i&gt;</span> <span class="v">LinkedIn</span>
+  <span class="k">&lt;/a&gt;</span>
+
+  <span class="k">&lt;a</span> <span class="p">href</span>=<span class="s">"mailto:voce@email.com"</span><span class="k">&gt;</span>
+    <span class="k">&lt;i</span> <span class="p">class</span>=<span class="s">"fa-solid fa-envelope"</span><span class="k">&gt;&lt;/i&gt;</span> <span class="v">E-mail</span>
+  <span class="k">&lt;/a&gt;</span>
+
+  <span class="k">&lt;a</span> <span class="p">href</span>=<span class="s">"tel:+5547999990000"</span><span class="k">&gt;</span>
+    <span class="k">&lt;i</span> <span class="p">class</span>=<span class="s">"fa-solid fa-phone"</span><span class="k">&gt;&lt;/i&gt;</span> <span class="v">(47) 9999-0000</span>
+  <span class="k">&lt;/a&gt;</span>
+<span class="k">&lt;/section&gt;</span>`,
+tip:"<strong>fa-brands</strong> = logos de marcas (GitHub, LinkedIn, Instagram). <strong>fa-solid</strong> = ícones sólidos. <strong>fa-regular</strong> = versão contornada. Filtre por 'free' em fontawesome.com/icons."},
+
+{title:"Adicionar todos os tipos de link", time:"8 min",
+instrs:[
+  "Link externo para GitHub com <code>target='_blank'</code> e <code>rel='noopener'</code>",
+  "Link de âncora <code>href='#galeria'</code> para rolar até a galeria",
+  "Link de e-mail com <code>href='mailto:seuemail'</code>",
+  "Link de telefone com <code>href='tel:+55...'</code>"
+],
+code:`<span class="c">&lt;!-- Link externo seguro --&gt;</span>
+<span class="k">&lt;a</span> <span class="p">href</span>=<span class="s">"https://github.com/usuario"</span>
+   <span class="p">target</span>=<span class="s">"_blank"</span> <span class="p">rel</span>=<span class="s">"noopener"</span><span class="k">&gt;</span><span class="v">GitHub</span><span class="k">&lt;/a&gt;</span>
+
+<span class="c">&lt;!-- Âncora --&gt;</span>
+<span class="k">&lt;a</span> <span class="p">href</span>=<span class="s">"#galeria"</span><span class="k">&gt;</span><span class="v">Ver galeria</span><span class="k">&lt;/a&gt;</span>
+
+<span class="c">&lt;!-- E-mail --&gt;</span>
+<span class="k">&lt;a</span> <span class="p">href</span>=<span class="s">"mailto:voce@email.com"</span><span class="k">&gt;</span><span class="v">E-mail</span><span class="k">&lt;/a&gt;</span>
+
+<span class="c">&lt;!-- Telefone --&gt;</span>
+<span class="k">&lt;a</span> <span class="p">href</span>=<span class="s">"tel:+5547999990000"</span><span class="k">&gt;</span><span class="v">Ligar</span><span class="k">&lt;/a&gt;</span>`,
+gabarito:`<span class="c"><!-- Seção de contato completa com os 4 tipos --></span>
+<span class="k">&lt;section</span> <span class="p">id</span>=<span class="s">"contato"</span><span class="k">&gt;</span>
+  <span class="k">&lt;h2&gt;</span><span class="v">Entre em contato</span><span class="k">&lt;/h2&gt;</span>
+
+  <span class="c">&lt;!-- 1. EXTERNO: abre em nova aba + rel seguro --></span>
+  <span class="k">&lt;a</span> <span class="p">href</span>=<span class="s">"https://github.com/usuario"</span>
+     <span class="p">target</span>=<span class="s">"_blank"</span>
+     <span class="p">rel</span>=<span class="s">"noopener noreferrer"</span><span class="k">&gt;</span>
+    <span class="k">&lt;i</span> <span class="p">class</span>=<span class="s">"fa-brands fa-github"</span><span class="k">&gt;&lt;/i&gt;</span> <span class="v">GitHub</span>
+  <span class="k">&lt;/a&gt;</span>
+
+  <span class="c">&lt;!-- 2. ÂNCORA: rola até o id="galeria" --></span>
+  <span class="k">&lt;a</span> <span class="p">href</span>=<span class="s">"#galeria"</span><span class="k">&gt;</span><span class="v">&#8593; Ver minha galeria</span><span class="k">&lt;/a&gt;</span>
+
+  <span class="c">&lt;!-- 3. MAILTO: abre cliente de e-mail --></span>
+  <span class="k">&lt;a</span> <span class="p">href</span>=<span class="s">"mailto:voce@email.com?subject=Olá!"</span><span class="k">&gt;</span>
+    <span class="k">&lt;i</span> <span class="p">class</span>=<span class="s">"fa-solid fa-envelope"</span><span class="k">&gt;&lt;/i&gt;</span> <span class="v">voce@email.com</span>
+  <span class="k">&lt;/a&gt;</span>
+
+  <span class="c">&lt;!-- 4. TEL: abre discador no celular --></span>
+  <span class="k">&lt;a</span> <span class="p">href</span>=<span class="s">"tel:+5547999990000"</span><span class="k">&gt;</span>
+    <span class="k">&lt;i</span> <span class="p">class</span>=<span class="s">"fa-solid fa-phone"</span><span class="k">&gt;&lt;/i&gt;</span> <span class="v">(47) 9 9999-0000</span>
+  <span class="k">&lt;/a&gt;</span>
+<span class="k">&lt;/section&gt;</span>
+
+<span class="c">/* CSS para os links de contato */</span>
+<span class="k">#contato a</span> {
+  <span class="p">display</span>:         <span class="v">inline-flex</span>;
+  <span class="p">align-items</span>:     <span class="v">center</span>;
+  <span class="p">gap</span>:             <span class="v">8px</span>;
+  <span class="p">color</span>:           <span class="v">#0D9488</span>;
+  <span class="p">text-decoration</span>: <span class="v">none</span>;
+  <span class="p">font-weight</span>:     <span class="v">600</span>;
+  <span class="p">padding</span>:         <span class="v">8px 14px</span>;
+  <span class="p">border</span>:          <span class="v">1px solid #5eead4</span>;
+  <span class="p">border-radius</span>:   <span class="v">8px</span>;
+  <span class="p">transition</span>:      <span class="v">all .2s</span>;
+}
+<span class="k">#contato a:hover</span> {
+  <span class="p">background</span>: <span class="v">#ccfbf1</span>;
+  <span class="p">border-color</span>: <span class="v">#0D9488</span>;
+}`,
+tip:"<strong>target='_blank' sem rel='noopener'</strong> é uma vulnerabilidade real chamada 'tabnapping'. Sempre use os dois juntos. <code>noreferrer</code> também impede o envio do cabeçalho Referer para o site externo."},
+
+{title:"Hover nas imagens e validação final", time:"8 min",
+instrs:[
+  "Confirme que o hover nas imagens da galeria está funcionando (transform + opacity + transition)",
+  "Verifique que TODAS as imagens têm alt preenchido com descrição real (não apenas alt='')",
+  "Acesse <a href='https://validator.w3.org/#validate_by_input' target='_blank'>validator.w3.org</a> e valide o HTML",
+  "Verifique no DevTools (F12 → Network → Img) se alguma imagem dá erro 404"
+],
+code:`<span class="c">/* Hover completo para galeria */</span>
+<span class="k">.galeria figure</span> {
+  <span class="p">overflow</span>: <span class="v">hidden</span>;
+  <span class="p">border-radius</span>: <span class="v">10px</span>;
+  <span class="p">cursor</span>: <span class="v">pointer</span>;
+}
+<span class="k">.galeria figure img</span> {
+  <span class="p">width</span>: <span class="v">100%</span>; <span class="p">height</span>: <span class="v">200px</span>;
+  <span class="p">object-fit</span>: <span class="v">cover</span>;
+  <span class="p">transition</span>: <span class="v">transform .35s ease, opacity .35s ease</span>;
+}
+<span class="k">.galeria figure:hover img</span> {
+  <span class="p">transform</span>: <span class="v">scale(1.06)</span>;
+  <span class="p">opacity</span>: <span class="v">0.82</span>;
+}`,
+gabarito:`<span class="c">/* GABARITO — galeria com hover completo + figcaption */</span>
+<span class="k">.galeria figure</span> {
+  <span class="p">overflow</span>:      <span class="v">hidden</span>;       <span class="c">/* OBRIGATÓRIO — contém o zoom */</span>
+  <span class="p">border-radius</span>: <span class="v">10px</span>;
+  <span class="p">border</span>:        <span class="v">1px solid #e2e8f0</span>;
+  <span class="p">background</span>:    <span class="v">white</span>;
+  <span class="p">cursor</span>:        <span class="v">pointer</span>;
+  <span class="p">transition</span>:    <span class="v">box-shadow .3s</span>;
+}
+<span class="k">.galeria figure:hover</span> {
+  <span class="p">box-shadow</span>: <span class="v">0 8px 24px rgba(13,148,136,.15)</span>;
+}
+
+<span class="k">.galeria figure img</span> {
+  <span class="p">width</span>:      <span class="v">100%</span>;
+  <span class="p">height</span>:     <span class="v">200px</span>;
+  <span class="p">object-fit</span>: <span class="v">cover</span>;
+  <span class="p">display</span>:    <span class="v">block</span>;
+  <span class="p">transition</span>: <span class="v">transform .35s ease, opacity .35s ease</span>;
+}
+<span class="k">.galeria figure:hover img</span> {
+  <span class="p">transform</span>: <span class="v">scale(1.06)</span>;
+  <span class="p">opacity</span>:   <span class="v">0.82</span>;
+}
+
+<span class="k">.galeria figcaption</span> {
+  <span class="p">padding</span>:    <span class="v">8px 12px</span>;
+  <span class="p">font-size</span>:  <span class="v">.85rem</span>;
+  <span class="p">color</span>:      <span class="v">#475569</span>;
+  <span class="p">text-align</span>: <span class="v">center</span>;
+  <span class="p">border-top</span>: <span class="v">1px solid #e2e8f0</span>;
+}
+
+<span class="c">/* Lista rápida de verificação antes de validar:
+   ✓ Todas as &lt;img&gt; têm alt com descrição real
+   ✓ Todas as &lt;img&gt; têm width e height
+   ✓ Todos os links externos têm target+rel
+   ✓ hero usa linear-gradient sobre a imagem
+   ✓ overflow:hidden em cada .galeria figure */</span>`
+}
+
+]; /* fim STEPS */
+
+/* ── FUNÇÕES ─────────────────────────────────────── */
+let done = new Set();
+
+function toggleGabarito(btn) {
+  const body = btn.nextElementSibling;
+  const aberto = body.classList.contains('aberto');
+  body.classList.toggle('aberto', !aberto);
+  btn.classList.toggle('aberto', !aberto);
+  btn.querySelector('.gtxt').textContent = aberto ? 'Ver gabarito' : 'Ocultar gabarito';
+}
+
+function build() {
+  const list = document.getElementById('steps');
+  STEPS.forEach((s, i) => {
+    const hasGab = s.gabarito && s.gabarito.trim() !== '';
+    const gabHTML = hasGab ? `
+      <div class="gabarito-wrap">
+        <button class="btn-gabarito" onclick="toggleGabarito(this)">
+          <span style="font-size:15px">📋</span>
+          <span class="gtxt">Ver gabarito</span>
+          <span class="gico">▼</span>
+        </button>
+        <div class="gabarito-body">
+          <div class="gabarito-inner">
+            <div class="gabarito-hdr">
+              📋 Gabarito — solução completa
+              <span class="gabarito-hdr-badge">Passo ${i + 1}</span>
+            </div>
+            <div class="gabarito-code">${s.gabarito}</div>
+          </div>
+        </div>
+      </div>` : '';
+
+    const card = document.createElement('div');
+    card.className = 'sc' + (i === 0 ? ' open' : '');
+    card.id = 'sc-' + i;
+    card.innerHTML = `
+      <div class="sh" onclick="tog(${i})">
+        <div class="chk" id="chk-${i}" onclick="event.stopPropagation();mk(${i})">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="si">
+          <div class="sn">Passo ${i + 1} de ${STEPS.length}</div>
+          <div class="st">${s.title}</div>
+          <div class="stm">${s.time}</div>
+        </div>
+        <span class="cv">${i === 0 ? '▲' : '▼'}</span>
+      </div>
+      <div class="sb">
+        <div class="sbi">
+          <div class="il">
+            ${s.instrs.map((t, j) => `
+              <div class="ii">
+                <div class="in">${j + 1}</div>
+                <span>${t}</span>
+              </div>`).join('')}
+          </div>
+          ${s.code ? `<div class="cb2">${s.code}</div>` : ''}
+          <div class="tip">${s.tip}</div>
+          ${gabHTML}
+          <button class="mb" id="mb-${i}" onclick="mk(${i})">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <path d="M2 6.5l3.5 3.5 5.5-5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Marcar como concluído
+          </button>
+        </div>
+      </div>`;
+    list.appendChild(card);
+  });
+}
+
+function tog(i) {
+  const c = document.getElementById('sc-' + i);
+  const o = c.classList.contains('open');
+  document.querySelectorAll('.sc').forEach(x => {
+    x.classList.remove('open');
+    x.querySelector('.cv').textContent = '▼';
+  });
+  if (!o) {
+    c.classList.add('open');
+    c.querySelector('.cv').textContent = '▲';
+  }
+}
+
+function mk(i) {
+  if (done.has(i)) return;
+  done.add(i);
+  document.getElementById('chk-' + i).classList.add('done');
+  document.getElementById('sc-' + i).classList.add('done-c');
+  const mb = document.getElementById('mb-' + i);
+  mb.classList.add('done-btn');
+  mb.innerHTML = '<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3.5 3.5 5.5-5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Concluído!';
+  upd();
+  if (i < STEPS.length - 1) {
+    document.querySelectorAll('.sc').forEach(x => {
+      x.classList.remove('open');
+      x.querySelector('.cv').textContent = '▼';
+    });
+    const nx = document.getElementById('sc-' + (i + 1));
+    nx.classList.add('open');
+    nx.querySelector('.cv').textContent = '▲';
+    setTimeout(() => nx.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+  }
+  if (done.size === STEPS.length) document.getElementById('success-el').classList.add('show');
+}
+
+function upd() {
+  document.getElementById('pf').style.width = Math.round((done.size / STEPS.length) * 100) + '%';
+  document.getElementById('pt').textContent = done.size + ' / ' + STEPS.length;
+}
+
+build();
+upd();
+</script>
+</body>
+</html>

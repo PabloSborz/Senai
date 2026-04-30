@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feedback — CSS Flexbox · Aula 05</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;color:#1e293b;background:#fff7ed;min-height:100vh;padding:22px}
+.wrap{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:11px}
+.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:9px}
+.ttitle{font-size:17px;font-weight:600}.tmeta{font-size:12px;color:#64748b;margin-top:1px}
+.chip{font-size:13px;font-weight:500;padding:5px 13px;border-radius:20px;background:#ffedd5;border:1px solid #fdba74;color:#EA580C;font-family:'Courier New',monospace}
+.chip.warn{background:#fffbeb;border-color:#fcd34d;color:#d97706}
+.chip.danger{background:#fef2f2;border-color:#fca5a5;color:#dc2626}
+.tbtn{font-size:12px;padding:6px 14px;border-radius:8px;border:1px solid #fed7aa;background:#fff;color:#1e293b;cursor:pointer;font-family:inherit;transition:all .15s}
+.tbtn:hover{background:#fff7ed}.tbtn.act{background:#EA580C;color:#fff;border-color:#EA580C}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.stat{background:#fff;border:1px solid #fed7aa;border-radius:10px;padding:11px;text-align:center}
+.sn{font-size:23px;font-weight:500;color:#1e293b}.sl{font-size:11px;color:#64748b;margin-top:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:8px}
+.ac{border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;background:#fff;transition:border-color .15s}
+.ac.pres{border:2px solid #EA580C}.ac.done2{border-color:#86efac}
+.at{display:flex;align-items:center;gap:9px;padding:10px 12px;border-bottom:1px solid #f1f5f9}
+.av{width:31px;height:31px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
+.an{font-size:13px;font-weight:600;color:#1e293b;line-height:1.2}.as{font-size:11px;color:#94a3b8;margin-top:1px}
+.ab{padding:10px 12px}
+.stars{display:flex;gap:3px;margin-bottom:7px}
+.star{font-size:17px;cursor:pointer;color:#e2e8f0;user-select:none}
+.star.on{color:#f59e0b}
+.checks{display:flex;flex-direction:column;gap:3px;margin-bottom:7px}
+.mc{display:flex;align-items:center;gap:5px;font-size:11px;color:#64748b}
+.mbox{width:13px;height:13px;border-radius:3px;border:1px solid #cbd5e1;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#fff;transition:all .12s}
+.mbox.on{background:#22c55e;border-color:#22c55e}
+.mbox svg{display:none}.mbox.on svg{display:block}
+.note{width:100%;border:1px solid #e2e8f0;border-radius:5px;padding:5px 7px;font-size:11px;font-family:inherit;color:#1e293b;resize:none;outline:none}
+.note:focus{border-color:#EA580C}
+.acts{display:flex;gap:5px;margin-top:7px}
+.act{flex:1;font-size:11px;padding:5px 4px;border-radius:5px;border:1px solid #e2e8f0;background:#f8fafc;color:#64748b;cursor:pointer;font-family:inherit;text-align:center;transition:all .12s}
+.act:hover{background:#ffedd5;color:#EA580C;border-color:#fdba74}
+.act.pon{background:#ffedd5;color:#EA580C;border-color:#EA580C}
+.act.don{background:#f0fdf4;color:#15803d;border-color:#86efac}
+.col{border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;background:#fff}
+.colh{padding:11px 15px;background:#fff7ed;border-bottom:1px solid #fed7aa;font-size:13px;font-weight:600;color:#7c2d12}
+.colb{padding:13px 15px;display:flex;flex-direction:column;gap:7px}
+.pto{border:1px solid #e2e8f0;border-radius:7px;padding:9px 11px;cursor:pointer;transition:all .15s;display:flex;align-items:flex-start;gap:9px}
+.pto:hover{border-color:#fdba74;background:#fff7ed}.pto.used{border-color:#fdba74;background:#ffedd5}
+.ptic{width:23px;height:23px;border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600}
+.pttx{font-size:12px;color:#475569;line-height:1.5;flex:1}.pto.used .pttx{color:#7c2d12}
+.pttg{font-size:10px;font-weight:600;padding:2px 7px;border-radius:9px;background:#fef3c7;color:#92400e;white-space:nowrap;flex-shrink:0;margin-top:1px}
+.pto.used .pttg{background:#ffedd5;color:#EA580C}
+.add-area{display:flex;gap:7px;padding:11px 15px;border-top:1px solid #e2e8f0}
+.add-area input{flex:1;border:1px solid #e2e8f0;border-radius:6px;padding:6px 9px;font-size:12px;font-family:inherit;color:#1e293b;outline:none}
+.add-area input:focus{border-color:#EA580C}
+.add-area button{font-size:12px;padding:6px 14px;border-radius:6px;border:1px solid #fdba74;background:#ffedd5;color:#7c2d12;cursor:pointer;font-family:inherit;font-weight:500}
+@media(max-width:580px){.stats{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div><div class="ttitle">Painel de apresentações — Aula 05</div><div class="tmeta">CSS Flexbox · 45 minutos · Feedback individual + coletivo</div></div>
+    <span class="chip" id="chip">45:00</span>
+    <button class="tbtn" id="tbtn" onclick="startTimer()">Iniciar sessão</button>
+    <button class="tbtn" onclick="addAluno()">+ Aluno</button>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="sn" id="s-total">0</div><div class="sl">Alunos</div></div>
+    <div class="stat"><div class="sn" id="s-pres">0</div><div class="sl">Apresentaram</div></div>
+    <div class="stat"><div class="sn" id="s-med">—</div><div class="sl">Nota média</div></div>
+    <div class="stat"><div class="sn" id="s-pontos">0</div><div class="sl">Pontos discutidos</div></div>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="col">
+    <div class="colh">Pontos de discussão coletiva — Flexbox</div>
+    <div class="colb" id="pontos"></div>
+    <div class="add-area"><input type="text" id="novo" placeholder="Adicionar ponto de discussão..." onkeydown="if(event.key==='Enter')addPonto()"><button onclick="addPonto()">Adicionar</button></div>
+  </div>
+</div>
+<script>
+const CORES=[{bg:'#ffedd5',txt:'#c2410c'},{bg:'#ede9fe',txt:'#5b21b6'},{bg:'#ccfbf1',txt:'#0f766e'},{bg:'#fef3c7',txt:'#92400e'},{bg:'#fce7f3',txt:'#9d174d'},{bg:'#dcfce7',txt:'#166534'},{bg:'#dbeafe',txt:'#1e40af'},{bg:'#fee2e2',txt:'#991b1b'}];
+const CHECKS=['Variáveis :root','Footer grudado','Header Flexbox','Grid de cards','Hero centralizado'];
+const PONTOS_BASE=[
+{t:'Qual a diferença entre justify-content e align-items?',tag:'conceito'},
+{t:'Por que usar flex:1 1 250px em vez de width:250px fixo?',tag:'responsivo'},
+{t:'Como o footer grudado funciona? (body + main flex:1)',tag:'técnica'},
+{t:'Quem conseguiu fazer a galeria de cards responsiva sem media query?',tag:'desafio'},
+{t:'Quando usar Flexbox vs CSS Grid? (preview da próxima vez)',tag:'avançado'},
+{t:'Preview: Aula 06 — Projeto Final com 5 páginas',tag:'próxima aula'},
+];
+let alunos=[
+  {nome:'Ana Lima',ini:'AL',cor:0,nota:0,checks:new Array(5).fill(false),status:'pendente',obs:''},
+  {nome:'Bruno Costa',ini:'BC',cor:1,nota:0,checks:new Array(5).fill(false),status:'pendente',obs:''},
+  {nome:'Carla Dias',ini:'CD',cor:2,nota:0,checks:new Array(5).fill(false),status:'pendente',obs:''},
+  {nome:'Diego Melo',ini:'DM',cor:3,nota:0,checks:new Array(5).fill(false),status:'pendente',obs:''},
+  {nome:'Ester Nunes',ini:'EN',cor:4,nota:0,checks:new Array(5).fill(false),status:'pendente',obs:''},
+  {nome:'Felipe Ramos',ini:'FR',cor:5,nota:0,checks:new Array(5).fill(false),status:'pendente',obs:''},
+];
+let pontos=PONTOS_BASE.map(p=>({...p,used:false}));
+let tSec=45*60,tInterval=null,ticking=false;
+function buildGrid(){const g=document.getElementById('grid');g.innerHTML='';alunos.forEach((a,ai)=>{const av=CORES[a.cor%CORES.length];const c=document.createElement('div');c.className='ac'+(a.status==='apresentando'?' pres':'')+(a.status==='concluido'?' done2':'');c.id='ac-'+ai;const stL=a.status==='pendente'?'Aguardando':a.status==='apresentando'?'Apresentando agora':'Concluído';c.innerHTML=`<div class="at"><div class="av" style="background:${av.bg};color:${av.txt}">${a.ini}</div><div><div class="an">${a.nome}</div><div class="as">${stL}</div></div></div><div class="ab"><div class="stars">${[1,2,3,4,5].map(n=>`<span class="star${a.nota>=n?' on':''}" onclick="setStar(${ai},${n})">★</span>`).join('')}</div><div class="checks">${CHECKS.map((ch,ci)=>`<div class="mc"><div class="mbox${a.checks[ci]?' on':''}" id="mb-${ai}-${ci}" onclick="togCh(${ai},${ci})"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 4.5l2.5 2.5 4-4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>${ch}</span></div>`).join('')}</div><textarea class="note" rows="2" placeholder="Observações..." oninput="saveObs(${ai},this.value)">${a.obs}</textarea><div class="acts"><div class="act${a.status==='apresentando'?' pon':''}" onclick="setSt(${ai},'apresentando')">Apresentando</div><div class="act${a.status==='concluido'?' don':''}" onclick="setSt(${ai},'concluido')">Concluído</div></div></div>`;g.appendChild(c);});updStats();}
+function setStar(ai,n){alunos[ai].nota=alunos[ai].nota===n?0:n;buildGrid();}
+function togCh(ai,ci){alunos[ai].checks[ci]=!alunos[ai].checks[ci];buildGrid();}
+function setSt(ai,s){alunos[ai].status=alunos[ai].status===s?'pendente':s;buildGrid();}
+function saveObs(ai,v){alunos[ai].obs=v;}
+function addAluno(){const n=prompt('Nome do aluno:');if(!n||!n.trim())return;alunos.push({nome:n.trim(),ini:n.trim().split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase(),cor:alunos.length%CORES.length,nota:0,checks:new Array(5).fill(false),status:'pendente',obs:''});buildGrid();}
+function updStats(){document.getElementById('s-total').textContent=alunos.length;document.getElementById('s-pres').textContent=alunos.filter(a=>a.status==='concluido').length;const rated=alunos.filter(a=>a.nota>0);document.getElementById('s-med').textContent=rated.length?(rated.reduce((s,a)=>s+a.nota,0)/rated.length).toFixed(1)+'★':'—';document.getElementById('s-pontos').textContent=pontos.filter(p=>p.used).length;}
+function buildPontos(){const el=document.getElementById('pontos');el.innerHTML='';pontos.forEach((p,i)=>{const d=document.createElement('div');d.className='pto'+(p.used?' used':'');d.onclick=()=>{p.used=!p.used;buildPontos();updStats();};d.innerHTML=`<div class="ptic" style="background:${p.used?'#ffedd5':'#f1f5f9'};color:${p.used?'#EA580C':'#64748b'}">${p.used?'✓':'?'}</div><div class="pttx">${p.t}</div><div class="pttg">${p.tag}</div>`;el.appendChild(d);});}
+function addPonto(){const inp=document.getElementById('novo');const v=inp.value.trim();if(!v)return;pontos.push({t:v,tag:'custom',used:false});inp.value='';buildPontos();}
+function startTimer(){const btn=document.getElementById('tbtn');if(!ticking){ticking=true;btn.textContent='Pausar';btn.className='tbtn act';tInterval=setInterval(()=>{tSec--;const m=Math.floor(tSec/60),s=tSec%60;const chip=document.getElementById('chip');chip.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;if(tSec<=300)chip.className='chip warn';if(tSec<=60)chip.className='chip danger';if(tSec<=0){clearInterval(tInterval);ticking=false;btn.textContent='Encerrado';btn.disabled=true;}},1000);}else{ticking=false;clearInterval(tInterval);btn.textContent='Continuar';btn.className='tbtn';}}
+buildGrid();buildPontos();
+</script>
+</body>
+</html>

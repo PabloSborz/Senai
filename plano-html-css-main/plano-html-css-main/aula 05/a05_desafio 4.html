@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desafio — CSS Flexbox · Aula 05</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;color:#1e293b;background:#fff7ed;min-height:100vh;padding:22px}
+.wrap{max-width:920px;margin:0 auto;display:flex;flex-direction:column;gap:11px}
+.brief{border:1px solid #fed7aa;border-radius:12px;overflow:hidden;background:#fff}
+.bt{background:#ffedd5;padding:17px 19px;border-bottom:1px solid #fdba74}
+.badge{font-size:11px;font-weight:600;background:#fff;color:#EA580C;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:7px}
+.btitle{font-size:19px;font-weight:600;color:#7c2d12;margin-bottom:3px}
+.bsub{font-size:13px;color:#EA580C}
+.bb{padding:15px 19px}
+.ctx{background:#fff7ed;border-radius:8px;padding:11px 13px;font-size:13px;color:#475569;line-height:1.6;margin-bottom:13px;border-left:3px solid #EA580C}
+.ctx strong{color:#1e293b;font-weight:600;display:block;margin-bottom:3px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.two{grid-template-columns:1fr}}
+.colt{font-size:11px;font-weight:600;color:#64748b;margin-bottom:7px;text-transform:uppercase;letter-spacing:.05em}
+.req-wrap{display:flex;flex-direction:column;gap:5px}
+.ri{display:flex;gap:9px;align-items:flex-start}
+.rc{width:19px;height:19px;min-width:19px;border-radius:5px;border:1.5px solid #cbd5e1;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-top:2px;background:#fff;transition:all .15s}
+.rc:hover{border-color:#EA580C;background:#fff7ed}.rc.on{background:#22c55e;border-color:#22c55e}
+.rc svg{display:none}.rc.on svg{display:block}
+.rt{font-size:12.5px;color:#475569;line-height:1.5}.rt.done{color:#94a3b8;text-decoration:line-through}
+code{font-family:'Courier New',monospace;font-size:11.5px;background:#f1f5f9;padding:1px 5px;border-radius:3px;border:1px solid #e2e8f0}
+.crit-list{display:flex;flex-direction:column;gap:5px}
+.ci{display:flex;align-items:center;gap:7px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:7px;padding:7px 10px;font-size:12px;color:#475569}
+.cd{width:5px;height:5px;border-radius:50%;background:#EA580C;flex-shrink:0}
+.cd.g{background:#22c55e}
+.pw{border:1px solid #e2e8f0;border-radius:12px;padding:13px 15px;background:#fff}
+.pl{font-size:12px;color:#64748b;margin-bottom:7px;display:flex;justify-content:space-between}
+.pl strong{color:#1e293b;font-weight:600}
+.pbg{height:7px;background:#e2e8f0;border-radius:4px;overflow:hidden;margin-bottom:9px}
+.pfill{height:100%;background:#EA580C;border-radius:4px;transition:width .4s ease;width:0%}
+.pm{font-size:12px;color:#64748b;font-style:italic}
+.tr{display:flex;align-items:center;gap:9px;border:1px solid #fed7aa;border-radius:12px;padding:11px 15px;background:#fff;flex-wrap:wrap}
+.tnum{font-size:26px;font-weight:500;font-family:'Courier New',monospace;color:#EA580C;min-width:80px}
+.tnum.warn{color:#d97706}.tnum.danger{color:#dc2626}
+.tinfo{flex:1;min-width:130px}.tinfo p{font-size:12px;color:#64748b;margin-top:1px}
+.tinfo strong{font-size:13px;color:#1e293b;font-weight:600}
+.tbtn{font-size:12px;padding:6px 14px;border-radius:7px;border:none;background:#EA580C;color:#fff;cursor:pointer;font-family:inherit;transition:background .15s;white-space:nowrap}
+.tbtn:hover{background:#c2410c}.tbtn.sec{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0}
+.tbtn.sec:hover{background:#e2e8f0}.tbtn:disabled{opacity:.4;pointer-events:none}
+.ent{border:1px solid #86efac;border-radius:12px;padding:13px 15px;background:#f0fdf4}
+.et{font-size:11px;font-weight:600;color:#15803d;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.ep{font-size:13px;color:#475569;line-height:1.6}.ep a{color:#EA580C}
+.sbox{display:none;background:#f0fdf4;border:1px solid #86efac;border-radius:12px;padding:20px;text-align:center}
+.sbox.show{display:block}
+.sbox h3{font-size:16px;font-weight:600;color:#15803d;margin-bottom:6px}
+.sbox p{font-size:13px;color:#475569}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brief">
+    <div class="bt">
+      <div class="badge">Desafio autônomo · 60 minutos</div>
+      <div class="btitle">Layout Completo com Flexbox</div>
+      <div class="bsub">Sem float. Sem hacks. Só Flexbox e variáveis CSS.</div>
+    </div>
+    <div class="bb">
+      <div class="ctx">
+        <strong>Contexto profissional</strong>
+        O designer entregou o layout aprovado pelo cliente. Agora é sua vez de implementar em CSS. O briefing especifica: header sticky com logo e nav, hero centralizado, grid de cards responsivo, layout de 2 colunas na página Sobre, e footer no rodapé. Zero float permitido.
+      </div>
+      <div class="two">
+        <div>
+          <div class="colt">Requisitos — marque ao concluir</div>
+          <div class="req-wrap" id="req-list"></div>
+        </div>
+        <div>
+          <div class="colt">Critérios de avaliação</div>
+          <div class="crit-list">
+            <div class="ci"><div class="cd"></div>Variáveis CSS no :root (mín. 6)</div>
+            <div class="ci"><div class="cd"></div>Footer grudado (body flex + main flex:1)</div>
+            <div class="ci"><div class="cd"></div>Header: logo esq, nav dir com Flexbox</div>
+            <div class="ci"><div class="cd"></div>Cards responsivos (flex-wrap + flex:1 1 250px)</div>
+            <div class="ci"><div class="cd"></div>Zero float ou position:absolute no layout</div>
+            <div class="ci"><div class="cd"></div>HTML válido no W3C (zero erros)</div>
+            <div class="ci"><div class="cd g"></div>Bônus: hover com transform nos cards</div>
+            <div class="ci"><div class="cd g"></div>Bônus: layout 2 colunas na página Sobre</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pw">
+    <div class="pl"><strong>Progresso</strong><span id="ptxt">0 de 9 concluídos</span></div>
+    <div class="pbg"><div class="pfill" id="pfill"></div></div>
+    <div class="pm" id="pmsg">Comece pelas variáveis CSS no :root.</div>
+  </div>
+  <div class="tr">
+    <div class="tnum" id="tnum">60:00</div>
+    <div class="tinfo"><strong>Cronômetro</strong><p id="tmsg">Inicie quando o docente autorizar</p></div>
+    <button class="tbtn" id="tbtn" onclick="timerClick()">Iniciar</button>
+    <button class="tbtn sec" onclick="timerReset()">Zerar</button>
+  </div>
+  <div class="ent">
+    <div class="et">Entrega</div>
+    <div class="ep">
+      Pasta <code>meu-site/</code> com todas as páginas usando Flexbox. CSS com variáveis <code>:root</code>. Valide em <a href="https://jigsaw.w3.org/css-validator/#validate_by_input" target="_blank">jigsaw.w3.org/css-validator</a>. Mostre ao docente o site responsivo redimensionando a janela.
+    </div>
+  </div>
+  <div class="sbox" id="success">
+    <h3>🎉 Layout Flexbox completo!</h3>
+    <p>Valide o CSS, mostre o site responsivo ao docente e prepare sua apresentação.</p>
+  </div>
+</div>
+<script>
+const REQS=[
+{t:"Variáveis CSS no <code>:root</code>: mínimo 6 (--primaria, --fundo, --texto, --borda, --raio, --sombra)"},
+{t:"<code>body</code>: <code>display:flex; flex-direction:column; min-height:100vh</code>"},
+{t:"<code>main</code>: <code>flex:1</code> — footer deve grudar no rodapé em qualquer conteúdo"},
+{t:"<code>header</code>: <code>display:flex; justify-content:space-between; align-items:center</code>"},
+{t:"<code>nav</code>: <code>display:flex; gap:Xpx</code> com hover nos links usando <code>transition</code>"},
+{t:"Grid de cards: <code>display:flex; flex-wrap:wrap; gap:16px</code> com <code>.card { flex:1 1 250px }</code>"},
+{t:"Interior do card: <code>display:flex; flex-direction:column</code> com descrição <code>flex:1</code>"},
+{t:"Hero centralizado: <code>display:flex; flex-direction:column; align-items:center; justify-content:center</code>"},
+{t:"Nenhum <code>float</code> ou layout hack usado — verificar com Ctrl+F no CSS"},
+];
+const MSGS=["Comece pelas variáveis no :root — é a fundação.","Reset pronto! Agora o footer grudado.","Footer grudado! Agora o header flexível.","Header ok! Monte o nav com Flexbox.","Nav pronto! Crie o grid de cards.","Cards responsivos! Organize o interior.","Interior ok! Centralize o hero.","Quase lá — confirme que não tem float!","Tudo pronto! Valide e apresente."];
+let done=new Set(),ticking=false,tSec=60*60,tInterval=null;
+function buildReqs(){const el=document.getElementById('req-list');REQS.forEach((r,i)=>{const d=document.createElement('div');d.className='ri';d.innerHTML=`<div class="rc" id="rc-${i}" onclick="chk(${i})"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1.5 5.5l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="rt" id="rt-${i}">${r.t}</div>`;el.appendChild(d);});}
+function chk(i){if(done.has(i)){done.delete(i);document.getElementById('rc-'+i).classList.remove('on');document.getElementById('rt-'+i).classList.remove('done');}else{done.add(i);document.getElementById('rc-'+i).classList.add('on');document.getElementById('rt-'+i).classList.add('done');}const n=done.size;document.getElementById('pfill').style.width=Math.round((n/REQS.length)*100)+'%';document.getElementById('ptxt').textContent=n+' de '+REQS.length+' concluídos';document.getElementById('pmsg').textContent=MSGS[Math.min(n,MSGS.length-1)];if(n===REQS.length)document.getElementById('success').classList.add('show');else document.getElementById('success').classList.remove('show');}
+function timerClick(){if(!ticking){ticking=true;document.getElementById('tbtn').textContent='Pausar';document.getElementById('tbtn').style.background='#475569';document.getElementById('tmsg').textContent='Em andamento';tInterval=setInterval(()=>{tSec--;const m=Math.floor(tSec/60),s=tSec%60;const el=document.getElementById('tnum');el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;el.className='tnum'+(tSec<=600?' warn':'')+(tSec<=120?' danger':'');if(tSec===1800)document.getElementById('tmsg').textContent='30 min — confira o progresso';if(tSec===600)document.getElementById('tmsg').textContent='10 min — finalize e valide!';if(tSec===120)document.getElementById('tmsg').textContent='2 min — chame o docente!';if(tSec<=0){clearInterval(tInterval);ticking=false;document.getElementById('tbtn').disabled=true;}},1000);}else{ticking=false;clearInterval(tInterval);document.getElementById('tbtn').textContent='Continuar';document.getElementById('tbtn').style.background='#EA580C';}}
+function timerReset(){clearInterval(tInterval);ticking=false;tSec=60*60;document.getElementById('tnum').textContent='60:00';document.getElementById('tnum').className='tnum';document.getElementById('tbtn').textContent='Iniciar';document.getElementById('tbtn').style.background='#EA580C';document.getElementById('tbtn').disabled=false;document.getElementById('tmsg').textContent='Inicie quando o docente autorizar';}
+buildReqs();
+</script>
+</body>
+</html>

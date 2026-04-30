@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prática Guiada — Projeto Final · Aula 06</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;color:#1e293b;background:#fdf2f8;min-height:100vh;padding:22px}
+.wrap{max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:11px}
+.pg-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.pg-title{font-size:17px;font-weight:600}.pg-meta{font-size:12px;color:#64748b;margin-top:2px}
+.header-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pg-time{font-size:12px;font-weight:600;background:#fce7f3;border:1px solid #fbcfe8;padding:4px 12px;border-radius:8px;color:#DB2777}
+.next-btn{font-size:12px;font-weight:600;background:#fff;border:1.5px solid #DB2777;color:#DB2777;padding:5px 13px;border-radius:8px;cursor:pointer;font-family:inherit;transition:all .15s;display:flex;align-items:center;gap:5px}
+.next-btn:hover{background:#fce7f3}
+.prog-row{display:flex;align-items:center;gap:9px}
+.pb{flex:1;height:7px;background:#e2e8f0;border-radius:4px;overflow:hidden}
+.pf{height:100%;background:#DB2777;border-radius:4px;transition:width .4s ease;width:0%}
+.pt{font-size:12px;font-weight:600;color:#64748b;min-width:60px;text-align:right}
+/* STEP CARDS */
+.sc{border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;background:#fff;transition:border-color .2s}
+.sc.done-c{border-color:#86efac}.sc.open-c{border-color:#f9a8d4}
+.sh{display:flex;align-items:flex-start;gap:11px;padding:12px 13px;cursor:pointer;user-select:none;transition:background .15s}
+.sh:hover{background:#f8fafc}.sc.open-c .sh{background:#fdf2f8}
+.chk{width:21px;height:21px;border-radius:6px;border:1.5px solid #cbd5e1;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .18s;cursor:pointer;background:#fff}
+.chk:hover{border-color:#DB2777;background:#fce7f3}.chk.done{background:#22c55e;border-color:#22c55e}
+.chk svg{display:none}.chk.done svg{display:block}
+.si{flex:1}.sn2{font-size:11px;font-weight:600;color:#94a3b8;margin-bottom:2px;text-transform:uppercase;letter-spacing:.04em}
+.st{font-size:13px;font-weight:600;color:#1e293b;line-height:1.3}.stm{font-size:11px;color:#94a3b8;margin-top:2px}
+.cv{color:#94a3b8;font-size:11px;margin-top:4px;transition:transform .22s;flex-shrink:0}
+.sc.open-c .cv{transform:rotate(180deg)}
+.sb{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.sc.open-c .sb{max-height:2400px}
+.sbi{padding:0 13px 14px;border-top:1px solid #f1f5f9}
+.il{display:flex;flex-direction:column;gap:6px;margin:11px 0}
+.ii{display:flex;gap:9px;font-size:13px;color:#475569;line-height:1.55;align-items:flex-start}
+.in{width:19px;height:19px;min-width:19px;border-radius:5px;background:#fce7f3;color:#DB2777;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;margin-top:1px}
+code{font-family:'Courier New',monospace;font-size:12px;background:#f1f5f9;padding:1px 5px;border-radius:3px;border:1px solid #e2e8f0}
+.tip{background:#fdf2f8;border-left:3px solid #DB2777;padding:8px 12px;font-size:12px;color:#831843;line-height:1.5;margin-top:8px}
+.tip strong{color:#9d174d;font-weight:600}
+/* GABARITO SANFONA */
+.gabarito{margin-top:10px;border:1px solid #fbcfe8;border-radius:8px;overflow:hidden}
+.gab-header{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:#fce7f3;cursor:pointer;user-select:none;transition:background .15s}
+.gab-header:hover{background:#fbcfe8}
+.gab-label{font-size:12px;font-weight:600;color:#9d174d;display:flex;align-items:center;gap:6px}
+.gab-chev{font-size:11px;color:#DB2777;transition:transform .22s}
+.gab.open .gab-chev{transform:rotate(180deg)}
+.gab-body{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.gab.open .gab-body{max-height:1200px}
+.gab-inner{background:#1e293b;padding:12px 15px;font-family:'Courier New',monospace;font-size:12px;line-height:1.8;color:#94a3b8;overflow-x:auto;white-space:pre}
+.k{color:#93c5fd}.p{color:#c4b5fd}.v{color:#6ee7b7}.s{color:#fda4af}.c{color:#475569;font-style:italic}
+/* MARK BTN */
+.mb{display:inline-flex;align-items:center;gap:5px;background:#f8fafc;border:1px solid #cbd5e1;color:#64748b;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .18s;margin-top:10px}
+.mb:hover{background:#f0fdf4;color:#15803d;border-color:#86efac}
+.mb.done-btn{background:#f0fdf4;color:#15803d;border-color:#86efac;pointer-events:none}
+/* FINISH */
+.sbox{background:linear-gradient(135deg,#fdf2f8,#fce7f3);border:1px solid #f9a8d4;border-radius:14px;padding:22px;text-align:center;display:none}
+.sbox.show{display:block}
+.sbox h3{font-size:16px;font-weight:600;color:#DB2777;margin-bottom:6px}
+.sbox p{font-size:13px;color:#9d174d;line-height:1.6}
+.sbox .next-big{display:inline-flex;align-items:center;gap:7px;background:#DB2777;color:#fff;border:none;padding:10px 22px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:12px;transition:background .15s}
+.sbox .next-big:hover{background:#be185d}
+a{color:#DB2777}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="pg-header">
+    <div>
+      <div class="pg-title">Prática guiada — Projeto Final</div>
+      <div class="pg-meta">Integre e valide o site completo.</div>
+    </div>
+    <div class="header-right">
+      <span class="pg-time">45 min — finalização</span>
+      <button class="next-btn" onclick="window.location.href='a06_desafio.html'">🎯 Desafio →</button>
+    </div>
+  </div>
+  <div class="prog-row"><div class="pb"><div class="pf" id="pf"></div></div><div class="pt" id="pt">0 / 8</div></div>
+  <div id="steps"></div>
+  <div class="sbox" id="sbox">
+    <h3>🎉 Projeto pronto para apresentação!</h3>
+    <p>5 páginas integradas · CSS compartilhado · Flexbox em tudo · Validado no W3C<br>Chame o docente e prepare-se para apresentar!</p>
+    <button class="next-big" onclick="window.location.href='a06_desafio.html'">🎯 Ir para o Desafio →</button>
+  </div>
+</div>
+<script>
+const STEPS=[
+{
+  title:"Organizar a estrutura de pastas",time:"5 min",
+  instrs:["Confirme que a pasta <code>meu-site/</code> tem os 5 arquivos: <code>index.html</code>, <code>sobre.html</code>, <code>produtos.html</code>, <code>contato.html</code>, <code>obrigado.html</code>","Crie a pasta <code>css/</code> com o arquivo <code>estilos.css</code> dentro","Crie a pasta <code>img/</code> para todas as imagens","Abra o <code>estilos.css</code> no VS Code — vamos preencher do zero"],
+  tip:"<strong>Nomes sem espaço:</strong> nunca use espaços em nomes de arquivos ou pastas. Use hífens: <code>foto-produto.jpg</code> não <code>foto produto.jpg</code>.",
+  gab:`<span class="v">meu-site/</span>
+├── index.html
+├── sobre.html
+├── produtos.html
+├── contato.html
+├── obrigado.html
+├── <span class="k">css/</span>
+│   └── estilos.css
+└── <span class="k">img/</span>
+    └── (suas imagens aqui)`
+},
+{
+  title:"Variáveis :root e reset no estilos.css",time:"6 min",
+  instrs:["Adicione o bloco <code>:root { }</code> com mínimo 6 variáveis: <code>--primaria</code>, <code>--destaque</code>, <code>--fundo</code>, <code>--texto</code>, <code>--raio</code>, <code>--sombra</code>","Adicione o reset: <code>* { box-sizing: border-box; margin: 0; padding: 0; }</code>","Adicione o body com <code>display: flex; flex-direction: column; min-height: 100vh;</code>","Adicione <code>main { flex: 1; }</code> — isto gruda o footer no rodapé"],
+  tip:"<strong>Personalize as cores:</strong> escolha uma cor primária que represente o projeto. A variável <code>--primaria</code> deve aparecer no header, títulos e botões.",
+  gab:`<span class="k">:root</span> {
+  <span class="p">--primaria</span>:   <span class="v">#2563eb</span>;
+  <span class="p">--destaque</span>:   <span class="v">#ea580c</span>;
+  <span class="p">--fundo</span>:      <span class="v">#f8fafc</span>;
+  <span class="p">--texto</span>:      <span class="v">#1e293b</span>;
+  <span class="p">--raio</span>:       <span class="v">10px</span>;
+  <span class="p">--sombra</span>: <span class="v">0 4px 12px rgba(0,0,0,.08)</span>;
+}
+<span class="k">*</span> { <span class="p">box-sizing</span>: <span class="v">border-box</span>; <span class="p">margin</span>: <span class="v">0</span>; <span class="p">padding</span>: <span class="v">0</span>; }
+<span class="k">body</span> {
+  <span class="p">font-family</span>: <span class="v">system-ui, sans-serif</span>;
+  <span class="p">background</span>: <span class="v">var(--fundo)</span>;
+  <span class="p">color</span>: <span class="v">var(--texto)</span>;
+  <span class="p">display</span>: <span class="v">flex</span>;
+  <span class="p">flex-direction</span>: <span class="v">column</span>;
+  <span class="p">min-height</span>: <span class="v">100vh</span>;
+}
+<span class="k">main</span> { <span class="p">flex</span>: <span class="v">1</span>; }
+<span class="k">a</span>    { <span class="p">text-decoration</span>: <span class="v">none</span>; <span class="p">color</span>: <span class="v">inherit</span>; }
+<span class="k">img</span>  { <span class="p">max-width</span>: <span class="v">100%</span>; <span class="p">height</span>: <span class="v">auto</span>; <span class="p">display</span>: <span class="v">block</span>; }`
+},
+{
+  title:"Linkar o CSS em todas as páginas",time:"4 min",
+  instrs:["Em cada uma das 5 páginas, adicione no <code>&lt;head&gt;</code>: <code>&lt;link rel='stylesheet' href='css/estilos.css'&gt;</code>","Salve todas e abra o <code>index.html</code> no browser — o reset deve ser visível","Verifique que o caminho é <code>css/estilos.css</code> — relativo, não absoluto","Dica: copie a linha do link e cole nas outras 4 páginas"],
+  tip:"<strong>Caminho relativo:</strong> <code>css/estilos.css</code> funciona em qualquer servidor. <code>C:/Users/Aluno/...</code> só funciona no seu computador.",
+  gab:`<span class="k">&lt;head&gt;</span>
+  <span class="k">&lt;meta</span> <span class="s">charset</span>=<span class="v">"UTF-8"</span><span class="k">&gt;</span>
+  <span class="k">&lt;meta</span> <span class="s">name</span>=<span class="v">"viewport"</span>
+        <span class="s">content</span>=<span class="v">"width=device-width, initial-scale=1"</span><span class="k">&gt;</span>
+  <span class="k">&lt;title&gt;</span>Início — Meu Site<span class="k">&lt;/title&gt;</span>
+  <span class="c">&lt;!-- CSS compartilhado de todo o projeto --&gt;</span>
+  <span class="k">&lt;link</span> <span class="s">rel</span>=<span class="v">"stylesheet"</span> <span class="s">href</span>=<span class="v">"css/estilos.css"</span><span class="k">&gt;</span>
+<span class="k">&lt;/head&gt;</span>`
+},
+{
+  title:"Padronizar header e nav em todas as páginas",time:"7 min",
+  instrs:["Crie o header com logo e nav na <code>index.html</code>","Copie exatamente o mesmo header para as outras 4 páginas","Em cada página, adicione <code>class='ativo'</code> no link da página atual","CSS: <code>header { display:flex; justify-content:space-between; align-items:center; }</code> e <code>nav { display:flex; gap:6px; }</code>"],
+  tip:"<strong>Navegação funcional:</strong> teste clicando em todos os links. Cada um deve abrir a página certa.",
+  gab:`<span class="c">/* HTML — na sobre.html, 'Sobre' recebe class='ativo' */</span>
+<span class="k">&lt;header&gt;</span>
+  <span class="k">&lt;div</span> <span class="s">class</span>=<span class="v">"logo"</span><span class="k">&gt;</span>MeuSite<span class="k">&lt;/div&gt;</span>
+  <span class="k">&lt;nav&gt;</span>
+    <span class="k">&lt;a</span> <span class="s">href</span>=<span class="v">"index.html"</span><span class="k">&gt;</span>Início<span class="k">&lt;/a&gt;</span>
+    <span class="k">&lt;a</span> <span class="s">href</span>=<span class="v">"sobre.html"</span> <span class="s">class</span>=<span class="v">"ativo"</span><span class="k">&gt;</span>Sobre<span class="k">&lt;/a&gt;</span>
+    <span class="k">&lt;a</span> <span class="s">href</span>=<span class="v">"produtos.html"</span><span class="k">&gt;</span>Produtos<span class="k">&lt;/a&gt;</span>
+    <span class="k">&lt;a</span> <span class="s">href</span>=<span class="v">"contato.html"</span><span class="k">&gt;</span>Contato<span class="k">&lt;/a&gt;</span>
+  <span class="k">&lt;/nav&gt;</span>
+<span class="k">&lt;/header&gt;</span>
+
+<span class="c">/* CSS */</span>
+<span class="k">header</span> {
+  <span class="p">background</span>: <span class="v">var(--primaria)</span>;
+  <span class="p">color</span>: <span class="v">white</span>;
+  <span class="p">display</span>: <span class="v">flex</span>;
+  <span class="p">align-items</span>: <span class="v">center</span>;
+  <span class="p">justify-content</span>: <span class="v">space-between</span>;
+  <span class="p">padding</span>: <span class="v">0 40px</span>;
+  <span class="p">height</span>: <span class="v">64px</span>;
+  <span class="p">position</span>: <span class="v">sticky</span>;
+  <span class="p">top</span>: <span class="v">0</span>;
+  <span class="p">z-index</span>: <span class="v">100</span>;
+}
+<span class="k">nav</span> { <span class="p">display</span>: <span class="v">flex</span>; <span class="p">gap</span>: <span class="v">6px</span>; }
+<span class="k">nav a</span> {
+  <span class="p">color</span>: <span class="v">rgba(255,255,255,.85)</span>;
+  <span class="p">padding</span>: <span class="v">7px 15px</span>;
+  <span class="p">border-radius</span>: <span class="v">var(--raio)</span>;
+  <span class="p">transition</span>: <span class="v">background .2s</span>;
+}
+<span class="k">nav a:hover, nav a.ativo</span> {
+  <span class="p">background</span>: <span class="v">rgba(255,255,255,.15)</span>;
+  <span class="p">color</span>: <span class="v">white</span>;
+}`
+},
+{
+  title:"Construir o conteúdo do index.html",time:"10 min",
+  instrs:["Hero: <code>&lt;section class='hero'&gt;</code> com div.hero-texto (<code>flex:2</code>) e div.hero-icone (<code>flex:1</code>)","Seção de diferenciais: 4 cards com <code>display:flex; flex-wrap:wrap; gap:20px</code>","Seção de produtos em destaque: grade de cards com <code>flex:1 1 200px</code> em cada card","Uma section de chamada para ação antes do footer"],
+  tip:"<strong>Use emojis como placeholder:</strong> emojis de 4-6rem funcionam muito bem como elementos visuais no hero enquanto não tem imagens.",
+  gab:`<span class="c">/* HTML — seção hero */</span>
+<span class="k">&lt;section</span> <span class="s">class</span>=<span class="v">"hero"</span><span class="k">&gt;</span>
+  <span class="k">&lt;div</span> <span class="s">class</span>=<span class="v">"hero-texto"</span><span class="k">&gt;</span>
+    <span class="k">&lt;h1&gt;</span>Os melhores produtos<span class="k">&lt;/h1&gt;</span>
+    <span class="k">&lt;p&gt;</span>Qualidade e confiança para você.<span class="k">&lt;/p&gt;</span>
+    <span class="k">&lt;a</span> <span class="s">href</span>=<span class="v">"produtos.html"</span> <span class="s">class</span>=<span class="v">"btn-primario"</span><span class="k">&gt;</span>Ver produtos<span class="k">&lt;/a&gt;</span>
+  <span class="k">&lt;/div&gt;</span>
+  <span class="k">&lt;div</span> <span class="s">class</span>=<span class="v">"hero-icone"</span><span class="k">&gt;</span>🚀<span class="k">&lt;/div&gt;</span>
+<span class="k">&lt;/section&gt;</span>
+
+<span class="c">/* CSS — hero */</span>
+<span class="k">.hero</span> {
+  <span class="p">background</span>: <span class="v">linear-gradient(135deg, var(--primaria), var(--secundaria, #1d4ed8))</span>;
+  <span class="p">color</span>: <span class="v">white</span>;
+  <span class="p">display</span>: <span class="v">flex</span>;
+  <span class="p">align-items</span>: <span class="v">center</span>;
+  <span class="p">justify-content</span>: <span class="v">space-between</span>;
+  <span class="p">gap</span>: <span class="v">40px</span>;
+  <span class="p">padding</span>: <span class="v">70px 40px</span>;
+}
+<span class="k">.hero-texto</span> { <span class="p">flex</span>: <span class="v">2</span>; }
+<span class="k">.hero-icone</span> {
+  <span class="p">flex</span>: <span class="v">1</span>;
+  <span class="p">font-size</span>: <span class="v">6rem</span>;
+  <span class="p">text-align</span>: <span class="v">center</span>;
+  <span class="p">opacity</span>: <span class="v">.25</span>;
+}
+
+<span class="c">/* CSS — grade de cards */</span>
+<span class="k">.grade</span> {
+  <span class="p">display</span>: <span class="v">flex</span>;
+  <span class="p">flex-wrap</span>: <span class="v">wrap</span>;
+  <span class="p">gap</span>: <span class="v">20px</span>;
+  <span class="p">padding</span>: <span class="v">50px 40px</span>;
+}
+<span class="k">.card</span> {
+  <span class="p">flex</span>: <span class="v">1 1 200px</span>;
+  <span class="p">max-width</span>: <span class="v">280px</span>;
+  <span class="p">background</span>: <span class="v">white</span>;
+  <span class="p">border-radius</span>: <span class="v">var(--raio)</span>;
+  <span class="p">box-shadow</span>: <span class="v">var(--sombra)</span>;
+  <span class="p">overflow</span>: <span class="v">hidden</span>;
+  <span class="p">display</span>: <span class="v">flex</span>;
+  <span class="p">flex-direction</span>: <span class="v">column</span>;
+}`
+},
+{
+  title:"Padronizar o footer em todas as páginas",time:"5 min",
+  instrs:["Crie o footer com 3 colunas: marca, links de navegação, contato","<code>.footer-grid { display:flex; gap:40px; flex-wrap:wrap; }</code>","Cada <code>.footer-col { flex:1; min-width:180px; }</code>","Copie o mesmo footer para todas as 5 páginas"],
+  tip:"<strong>Consistência:</strong> header e footer idênticos em todas as páginas criam a sensação de site coeso. Qualquer diferença visual grita 'amador'.",
+  gab:`<span class="c">/* HTML */</span>
+<span class="k">&lt;footer&gt;</span>
+  <span class="k">&lt;div</span> <span class="s">class</span>=<span class="v">"footer-grid"</span><span class="k">&gt;</span>
+    <span class="k">&lt;div</span> <span class="s">class</span>=<span class="v">"footer-col"</span><span class="k">&gt;</span>
+      <span class="k">&lt;p</span> <span class="s">class</span>=<span class="v">"logo"</span><span class="k">&gt;</span>MeuSite<span class="k">&lt;/p&gt;</span>
+      <span class="k">&lt;p&gt;</span>Sua loja de tecnologia.<span class="k">&lt;/p&gt;</span>
+    <span class="k">&lt;/div&gt;</span>
+    <span class="k">&lt;div</span> <span class="s">class</span>=<span class="v">"footer-col"</span><span class="k">&gt;</span>
+      <span class="k">&lt;h3&gt;</span>Links<span class="k">&lt;/h3&gt;</span>
+      <span class="k">&lt;a</span> <span class="s">href</span>=<span class="v">"index.html"</span><span class="k">&gt;</span>Início<span class="k">&lt;/a&gt;</span>
+      <span class="k">&lt;a</span> <span class="s">href</span>=<span class="v">"sobre.html"</span><span class="k">&gt;</span>Sobre<span class="k">&lt;/a&gt;</span>
+      <span class="k">&lt;a</span> <span class="s">href</span>=<span class="v">"contato.html"</span><span class="k">&gt;</span>Contato<span class="k">&lt;/a&gt;</span>
+    <span class="k">&lt;/div&gt;</span>
+    <span class="k">&lt;div</span> <span class="s">class</span>=<span class="v">"footer-col"</span><span class="k">&gt;</span>
+      <span class="k">&lt;h3&gt;</span>Contato<span class="k">&lt;/h3&gt;</span>
+      <span class="k">&lt;p&gt;</span>📞 (47) 9999-0000<span class="k">&lt;/p&gt;</span>
+      <span class="k">&lt;p&gt;</span>✉️ contato@site.com<span class="k">&lt;/p&gt;</span>
+    <span class="k">&lt;/div&gt;</span>
+  <span class="k">&lt;/div&gt;</span>
+  <span class="k">&lt;div</span> <span class="s">class</span>=<span class="v">"footer-bottom"</span><span class="k">&gt;</span>
+    <span class="k">&lt;p&gt;</span>© 2025 MeuSite — Projeto Final SENAI<span class="k">&lt;/p&gt;</span>
+  <span class="k">&lt;/div&gt;</span>
+<span class="k">&lt;/footer&gt;</span>
+
+<span class="c">/* CSS */</span>
+<span class="k">footer</span> {
+  <span class="p">background</span>: <span class="v">#0f172a</span>;
+  <span class="p">color</span>: <span class="v">rgba(255,255,255,.7)</span>;
+  <span class="p">padding</span>: <span class="v">48px 40px 24px</span>;
+}
+<span class="k">.footer-grid</span> {
+  <span class="p">display</span>: <span class="v">flex</span>;
+  <span class="p">gap</span>: <span class="v">40px</span>;
+  <span class="p">flex-wrap</span>: <span class="v">wrap</span>;
+  <span class="p">margin-bottom</span>: <span class="v">32px</span>;
+}
+<span class="k">.footer-col</span> { <span class="p">flex</span>: <span class="v">1</span>; <span class="p">min-width</span>: <span class="v">180px</span>; }`
+},
+{
+  title:"Hover, transições e polimento visual",time:"5 min",
+  instrs:["<code>nav a { transition: background .2s; }</code> com hover colorido","<code>.card:hover { transform: translateY(-4px); box-shadow: ...; }</code>","Verifique que todas as cores usam <code>var(--)</code> em vez de valores fixos","Redimensione a janela do browser — o layout deve se adaptar sem scroll horizontal"],
+  tip:"<strong>Menos é mais:</strong> <code>translateY(-4px)</code> é suficiente. Transições acima de 300ms já parecem lentas.",
+  gab:`<span class="c">/* Hover nos links do nav */</span>
+<span class="k">nav a</span> {
+  <span class="p">transition</span>: <span class="v">background .2s, color .2s</span>;
+}
+<span class="k">nav a:hover</span> {
+  <span class="p">background</span>: <span class="v">rgba(255,255,255,.18)</span>;
+  <span class="p">color</span>: <span class="v">white</span>;
+}
+
+<span class="c">/* Hover nos cards */</span>
+<span class="k">.card</span> {
+  <span class="p">transition</span>: <span class="v">transform .2s, box-shadow .2s</span>;
+}
+<span class="k">.card:hover</span> {
+  <span class="p">transform</span>: <span class="v">translateY(-4px)</span>;
+  <span class="p">box-shadow</span>: <span class="v">0 8px 24px rgba(0,0,0,.12)</span>;
+}
+
+<span class="c">/* Hover nos botões */</span>
+<span class="k">.btn-primario</span> {
+  <span class="p">transition</span>: <span class="v">background .2s, transform .1s</span>;
+}
+<span class="k">.btn-primario:hover</span> {
+  <span class="p">filter</span>: <span class="v">brightness(.9)</span>;
+  <span class="p">transform</span>: <span class="v">translateY(-2px)</span>;
+}`
+},
+{
+  title:"Validação final e preparação para apresentação",time:"8 min",
+  instrs:["Valide cada página em <a href='https://validator.w3.org/#validate_by_input' target='_blank'>validator.w3.org</a> — zero erros obrigatórios","Valide o CSS em <a href='https://jigsaw.w3.org/css-validator/#validate_by_input' target='_blank'>jigsaw.w3.org/css-validator</a>","Navegue: index → sobre → produtos → contato → preencha o form → chegue em obrigado","Prepare o que vai apresentar: nome do projeto, tema, desafio que enfrentou, algo que aprendeu"],
+  tip:"<strong>Na apresentação:</strong> browser em tela cheia, navegação funcionando, formulário com validação HTML5 e layout responsivo.",
+  gab:`<span class="c">/* Checklist final antes de apresentar */</span>
+<span class="c">/* ✓ 5 páginas navegáveis entre si */</span>
+<span class="c">/* ✓ CSS em css/estilos.css com :root */</span>
+<span class="c">/* ✓ Flexbox no header, hero, cards, footer */</span>
+<span class="c">/* ✓ Imagens: alt, width, height, loading=lazy */</span>
+<span class="c">/* ✓ Formulário com fieldset e validação HTML5 */</span>
+<span class="c">/* ✓ HTML validado no W3C — zero erros */</span>
+<span class="c">/* ✓ CSS validado no W3C — zero erros */</span>
+<span class="c">/* ✓ Navegação testada: todos os links funcionam */</span>
+<span class="c">/* ✓ Responsivo: sem scroll horizontal em telas estreitas */</span>`
+}
+];
+
+let done=new Set();
+
+function buildGab(code,idx){
+  return `<div class="gab" id="gab-${idx}">
+    <div class="gab-header" onclick="togGab(${idx})">
+      <div class="gab-label">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM7 4v4M7 9.5h.01" stroke="#9d174d" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Ver gabarito
+      </div>
+      <span class="gab-chev">▼</span>
+    </div>
+    <div class="gab-body">
+      <div class="gab-inner">${code}</div>
+    </div>
+  </div>`;
+}
+
+function build(){
+  const list=document.getElementById('steps');
+  STEPS.forEach((s,i)=>{
+    const card=document.createElement('div');
+    card.className='sc'+(i===0?' open-c':'');
+    card.id='sc-'+i;
+    card.innerHTML=`
+      <div class="sh" onclick="tog(${i})">
+        <div class="chk" id="chk-${i}" onclick="event.stopPropagation();mk(${i})">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="si">
+          <div class="sn2">Passo ${i+1} de ${STEPS.length}</div>
+          <div class="st">${s.title}</div>
+          <div class="stm">${s.time}</div>
+        </div>
+        <span class="cv">${i===0?'▲':'▼'}</span>
+      </div>
+      <div class="sb"><div class="sbi">
+        <div class="il">
+          ${s.instrs.map((t,j)=>`<div class="ii"><div class="in">${j+1}</div><span>${t}</span></div>`).join('')}
+        </div>
+        <div class="tip">${s.tip}</div>
+        ${s.gab ? buildGab(s.gab, i) : ''}
+        <button class="mb" id="mb-${i}" onclick="mk(${i})">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+            <path d="M2 6.5l3.5 3.5 5.5-5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Marcar como concluído
+        </button>
+      </div></div>`;
+    list.appendChild(card);
+  });
+}
+
+function tog(i){
+  const c=document.getElementById('sc-'+i);
+  const o=c.classList.contains('open-c');
+  document.querySelectorAll('.sc').forEach(x=>{
+    x.classList.remove('open-c');
+    x.querySelector('.cv').textContent='▼';
+  });
+  if(!o){c.classList.add('open-c');c.querySelector('.cv').textContent='▲';}
+}
+
+function togGab(i){
+  const g=document.getElementById('gab-'+i);
+  if(g) g.classList.toggle('open');
+}
+
+function mk(i){
+  if(done.has(i))return;
+  done.add(i);
+  document.getElementById('chk-'+i).classList.add('done');
+  document.getElementById('sc-'+i).classList.add('done-c');
+  const mb=document.getElementById('mb-'+i);
+  mb.classList.add('done-btn');
+  mb.innerHTML='<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3.5 3.5 5.5-5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Concluído!';
+  upd();
+  if(i<STEPS.length-1){
+    document.querySelectorAll('.sc').forEach(x=>{x.classList.remove('open-c');x.querySelector('.cv').textContent='▼';});
+    const nx=document.getElementById('sc-'+(i+1));
+    nx.classList.add('open-c');
+    nx.querySelector('.cv').textContent='▲';
+    setTimeout(()=>nx.scrollIntoView({behavior:'smooth',block:'nearest'}),100);
+  }
+  if(done.size===STEPS.length) document.getElementById('sbox').classList.add('show');
+}
+
+function upd(){
+  document.getElementById('pf').style.width=Math.round((done.size/STEPS.length)*100)+'%';
+  document.getElementById('pt').textContent=done.size+' / '+STEPS.length;
+}
+
+build();upd();
+</script>
+</body>
+</html>

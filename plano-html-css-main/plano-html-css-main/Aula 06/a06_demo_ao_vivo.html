@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo ao Vivo — Projeto Final · Aula 06</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;color:#1e293b;background:#fdf2f8;min-height:100vh;padding:20px}
+.wrap{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.page-hdr{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;margin-bottom:2px}
+.page-hdr h1{font-size:16px;font-weight:600}.page-hdr p{font-size:12px;color:#94a3b8}
+.prog-track{grid-column:1/-1;height:3px;background:#e2e8f0;border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:#DB2777;border-radius:2px;transition:width .3s ease;width:0%}
+.panel{border:1px solid #fbcfe8;border-radius:12px;overflow:hidden;background:#fff}
+.ph{display:flex;align-items:center;justify-content:space-between;padding:9px 13px;border-bottom:1px solid #fbcfe8;background:#fdf2f8}
+.pt{font-size:12px;font-weight:500;color:#9d174d}
+.dots-r{display:flex;gap:5px}
+.dot{width:10px;height:10px;border-radius:50%}
+pre{background:#1e293b;color:#e2e8f0;padding:15px;font-family:'Courier New',monospace;font-size:12px;line-height:1.8;min-height:300px;overflow:auto;white-space:pre}
+.cursor{display:inline-block;width:2px;height:14px;background:#f472b6;vertical-align:middle;animation:blink .9s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.preview-body{min-height:300px;overflow-y:auto;background:#f8fafc}
+.step-bar{grid-column:1/-1;border:1px solid #fbcfe8;border-radius:12px;background:#fff;display:flex;align-items:center;gap:10px;padding:11px 15px;flex-wrap:wrap}
+.sbadge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap;background:#fdf2f8;color:#DB2777;border:1px solid #f9a8d4}
+.slabel{font-size:12px;color:#64748b;flex:1;line-height:1.4}
+.cb{font-size:12px;font-weight:500;padding:6px 14px;border-radius:8px;border:1px solid #cbd5e1;background:#fff;color:#1e293b;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
+.cb:hover{background:#f1f5f9}.cb.go{background:#DB2777;color:#fff;border-color:#DB2777}.cb.go:hover{background:#be185d}
+.cb:disabled{opacity:.35;pointer-events:none}
+.narr{grid-column:1/-1;border:1px solid #fbcfe8;border-radius:10px;padding:11px 15px;background:#fdf2f8;font-size:13px;color:#831843;line-height:1.6;min-height:50px}
+.narr strong{color:#be185d;font-weight:600}
+.k{color:#93c5fd}.p{color:#c4b5fd}.v{color:#6ee7b7}.s{color:#fda4af}.c{color:#475569;font-style:italic}
+@media(max-width:680px){.wrap{grid-template-columns:1fr}.panel:last-of-type{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="page-hdr"><h1>Demonstração ao vivo — Projeto Final</h1><div style="display:flex;align-items:center;gap:10px"><p>Aula 06 · 45 min · Docente integra o CSS, alunos acompanham</p><button onclick="window.location.href='a06_pratica_guiada.html'" style="font-size:12px;font-weight:600;background:#fff;border:1.5px solid #DB2777;color:#DB2777;padding:5px 13px;border-radius:8px;cursor:pointer;white-space:nowrap;font-family:inherit;flex-shrink:0">📝 Prática →</button></div></div>
+  <div class="prog-track"><div class="prog-fill" id="prog"></div></div>
+  <div class="panel">
+    <div class="ph"><span class="pt">VS Code — css/estilos.css</span><div class="dots-r"><div class="dot" style="background:#ef4444"></div><div class="dot" style="background:#f59e0b"></div><div class="dot" style="background:#10b981"></div></div></div>
+    <pre><span id="code-out"></span><span class="cursor"></span></pre>
+  </div>
+  <div class="panel">
+    <div class="ph"><span class="pt">Navegador — resultado ao vivo</span><div class="dots-r"><div class="dot" style="background:#ef4444"></div><div class="dot" style="background:#f59e0b"></div><div class="dot" style="background:#10b981"></div></div></div>
+    <div class="preview-body" id="preview"></div>
+  </div>
+  <div class="narr" id="narr">Pronto para começar. Clique em <strong>Iniciar digitação</strong>.</div>
+  <div class="step-bar">
+    <span class="sbadge" id="sbadge">Etapa 1 / 8</span>
+    <span class="slabel" id="sdesc">Variáveis :root e reset</span>
+    <button class="cb" id="bp" onclick="prevS()" disabled>← Anterior</button>
+    <button class="cb go" id="bplay" onclick="playS()">▶ Iniciar digitação</button>
+    <button class="cb" id="bn" onclick="nextS()" disabled>Próxima →</button>
+  </div>
+</div>
+<script>
+const STEPS=[
+{label:"Variáveis :root e reset global",
+narr:"<strong>Docente:</strong> \"A primeira coisa do CSS compartilhado são as variáveis. Cores, fontes, raio e sombra aqui — muda em um lugar, reflete em todo o site. O reset com box-sizing e o corpo com flex garantem o footer grudado.\"",
+code:`<span class="c">/* ===== css/estilos.css ===== */</span>
+
+<span class="c">/* 1. VARIÁVEIS */</span>
+<span class="k">:root</span> {
+  <span class="p">--primaria</span>:   <span class="v">#2563eb</span>;
+  <span class="p">--secundaria</span>: <span class="v">#1d4ed8</span>;
+  <span class="p">--destaque</span>:   <span class="v">#ea580c</span>;
+  <span class="p">--fundo</span>:      <span class="v">#f8fafc</span>;
+  <span class="p">--texto</span>:      <span class="v">#1e293b</span>;
+  <span class="p">--texto-2</span>:    <span class="v">#64748b</span>;
+  <span class="p">--borda</span>:      <span class="v">#e2e8f0</span>;
+  <span class="p">--raio</span>:       <span class="v">10px</span>;
+  <span class="p">--sombra</span>:     <span class="v">0 4px 12px rgba(0,0,0,.08)</span>;
+}
+
+<span class="c">/* 2. RESET */</span>
+<span class="k">*</span> { <span class="p">box-sizing</span>: <span class="v">border-box</span>; <span class="p">margin</span>: <span class="v">0</span>; <span class="p">padding</span>: <span class="v">0</span>; }
+<span class="k">body</span> {
+  <span class="p">font-family</span>: <span class="v">system-ui, sans-serif</span>;
+  <span class="p">background</span>:  <span class="v">var(--fundo)</span>;
+  <span class="p">color</span>:       <span class="v">var(--texto)</span>;
+  <span class="p">display</span>:     <span class="v">flex</span>;
+  <span class="p">flex-direction</span>: <span class="v">column</span>;
+  <span class="p">min-height</span>:  <span class="v">100vh</span>;
+}
+<span class="k">main</span>  { <span class="p">flex</span>: <span class="v">1</span>; }
+<span class="k">a</span>     { <span class="p">text-decoration</span>: <span class="v">none</span>; <span class="p">color</span>: <span class="v">inherit</span>; }
+<span class="k">img</span>   { <span class="p">max-width</span>: <span class="v">100%</span>; <span class="p">height</span>: <span class="v">auto</span>; <span class="p">display</span>: <span class="v">block</span>; }`,
+prev:`<div style="padding:14px;font-family:system-ui;font-size:13px;color:#475569"><strong style="color:#DB2777;display:block;margin-bottom:8px">Reset + variáveis aplicados ✓</strong><div style="display:flex;flex-direction:column;gap:5px">${['--primaria: #2563eb','--destaque: #ea580c','--raio: 10px','box-sizing: border-box','body: flex + min-height:100vh','main: flex:1 (footer no rodapé)'].map(v=>'<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:5px 9px;font-size:11px;font-family:monospace">'+v+'</div>').join('')}</div></div>`},
+{label:"Header fixo com Flexbox",
+narr:"<strong>Docente:</strong> \"position:sticky faz o header ficar fixo ao rolar — efeito profissional com 2 palavras de CSS. O justify-content:space-between empurra logo para a esquerda e nav para a direita automaticamente.\"",
+code:`<span class="c">/* 3. HEADER */</span>
+<span class="k">header</span> {
+  <span class="p">background</span>:       <span class="v">var(--primaria)</span>;
+  <span class="p">color</span>:            <span class="v">white</span>;
+  <span class="p">display</span>:          <span class="v">flex</span>;
+  <span class="p">align-items</span>:      <span class="v">center</span>;
+  <span class="p">justify-content</span>:  <span class="v">space-between</span>;
+  <span class="p">padding</span>:          <span class="v">0 40px</span>;
+  <span class="p">height</span>:           <span class="v">64px</span>;
+  <span class="p">position</span>:         <span class="v">sticky</span>;
+  <span class="p">top</span>:              <span class="v">0</span>;
+  <span class="p">z-index</span>:          <span class="v">100</span>;
+  <span class="p">box-shadow</span>:       <span class="v">0 2px 8px rgba(0,0,0,.12)</span>;
+}
+
+<span class="k">nav</span> { <span class="p">display</span>: <span class="v">flex</span>; <span class="p">gap</span>: <span class="v">4px</span>; }
+
+<span class="k">nav a</span> {
+  <span class="p">color</span>:         <span class="v">rgba(255,255,255,.85)</span>;
+  <span class="p">padding</span>:       <span class="v">7px 15px</span>;
+  <span class="p">border-radius</span>: <span class="v">var(--raio)</span>;
+  <span class="p">font-weight</span>:   <span class="v">500</span>;
+  <span class="p">transition</span>:    <span class="v">background .2s</span>;
+}
+<span class="k">nav a:hover, nav a.ativo</span> {
+  <span class="p">background</span>: <span class="v">rgba(255,255,255,.18)</span>;
+  <span class="p">color</span>: <span class="v">white</span>;
+}`,
+prev:`<div style="background:#2563eb;display:flex;align-items:center;justify-content:space-between;padding:0 18px;height:50px;border-radius:8px;margin:10px"><div style="font-weight:700;color:white;font-size:15px">Meu<span style="color:#ea580c">Site</span></div><nav style="display:flex;gap:4px"><a href="#" style="color:rgba(255,255,255,.85);padding:5px 11px;border-radius:7px;font-size:12px;text-decoration:none">Início</a><a href="#" style="color:white;background:rgba(255,255,255,.18);padding:5px 11px;border-radius:7px;font-size:12px;text-decoration:none">Sobre</a><a href="#" style="color:rgba(255,255,255,.7);padding:5px 11px;border-radius:7px;font-size:12px;text-decoration:none">Produtos</a><a href="#" style="color:rgba(255,255,255,.7);padding:5px 11px;border-radius:7px;font-size:12px;text-decoration:none">Contato</a></nav></div>`},
+{label:"Seção hero — 2 colunas com Flexbox",
+narr:"<strong>Docente:</strong> \"O hero usa flex:2 para o texto e flex:1 para o elemento decorativo — proporção 2/3 e 1/3. O gradiente usa as variáveis. align-items:center alinha tudo verticalmente no centro.\"",
+code:`<span class="c">/* 4. HERO */</span>
+<span class="k">.hero</span> {
+  <span class="p">background</span>: <span class="v">linear-gradient(</span>
+    <span class="v">135deg, var(--primaria), var(--secundaria)</span>
+  <span class="v">)</span>;
+  <span class="p">color</span>:          <span class="v">white</span>;
+  <span class="p">display</span>:        <span class="v">flex</span>;
+  <span class="p">align-items</span>:    <span class="v">center</span>;
+  <span class="p">justify-content</span>: <span class="v">space-between</span>;
+  <span class="p">gap</span>:            <span class="v">40px</span>;
+  <span class="p">padding</span>:        <span class="v">70px 40px</span>;
+}
+
+<span class="k">.hero-texto</span> { <span class="p">flex</span>: <span class="v">2</span>; }
+<span class="k">.hero-texto h1</span> { <span class="p">font-size</span>: <span class="v">2.4rem</span>; <span class="p">margin-bottom</span>: <span class="v">14px</span>; }
+<span class="k">.hero-texto p</span>  { <span class="p">opacity</span>: <span class="v">.85</span>; <span class="p">margin-bottom</span>: <span class="v">24px</span>; }
+
+<span class="k">.hero-icone</span> {
+  <span class="p">flex</span>:       <span class="v">1</span>;
+  <span class="p">font-size</span>:  <span class="v">6rem</span>;
+  <span class="p">text-align</span>: <span class="v">center</span>;
+  <span class="p">opacity</span>:    <span class="v">.25</span>;
+}`,
+prev:`<div style="background:linear-gradient(135deg,#2563eb,#1d4ed8);color:white;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:28px 20px;margin:10px;border-radius:8px"><div style="flex:2"><h1 style="font-size:19px;font-weight:700;margin-bottom:10px">Os melhores produtos <span style="color:#ea580c">tecnológicos</span></h1><p style="font-size:12px;opacity:.85;margin-bottom:14px">Encontre notebooks, celulares e muito mais.</p><a style="background:#ea580c;color:white;padding:8px 18px;border-radius:7px;font-size:12px;font-weight:600;text-decoration:none;display:inline-block">Ver produtos →</a></div><div style="flex:1;font-size:50px;text-align:center;opacity:.25">🖥️</div></div>`},
+{label:"Grade de cards responsiva",
+narr:"<strong>Docente:</strong> \"flex:1 1 200px é o segredo: o card cresce (1), encolhe (1) e tem base de 200px. Com flex-wrap, quando não cabem na linha eles quebram automaticamente. Redimensionem a janela para ver o efeito.\"",
+code:`<span class="c">/* 5. GRADE DE CARDS */</span>
+<span class="k">.grade</span> {
+  <span class="p">display</span>:   <span class="v">flex</span>;
+  <span class="p">flex-wrap</span>: <span class="v">wrap</span>;
+  <span class="p">gap</span>:       <span class="v">20px</span>;
+  <span class="p">padding</span>:   <span class="v">50px 40px</span>;
+}
+
+<span class="k">.card</span> {
+  <span class="p">flex</span>:          <span class="v">1 1 200px</span>;
+  <span class="p">max-width</span>:     <span class="v">280px</span>;
+  <span class="p">background</span>:    <span class="v">white</span>;
+  <span class="p">border-radius</span>: <span class="v">var(--raio)</span>;
+  <span class="p">overflow</span>:      <span class="v">hidden</span>;
+  <span class="p">box-shadow</span>:    <span class="v">var(--sombra)</span>;
+  <span class="p">display</span>:       <span class="v">flex</span>;
+  <span class="p">flex-direction</span>:<span class="v">column</span>;
+  <span class="p">transition</span>:    <span class="v">transform .2s, box-shadow .2s</span>;
+}
+<span class="k">.card:hover</span> {
+  <span class="p">transform</span>:  <span class="v">translateY(-4px)</span>;
+  <span class="p">box-shadow</span>: <span class="v">0 8px 24px rgba(0,0,0,.12)</span>;
+}
+<span class="k">.card-img</span> {
+  <span class="p">height</span>:     <span class="v">160px</span>;
+  <span class="p">object-fit</span>: <span class="v">cover</span>;
+  <span class="p">width</span>:      <span class="v">100%</span>;
+}
+<span class="k">.card-body</span> { <span class="p">padding</span>: <span class="v">16px</span>; <span class="p">flex</span>: <span class="v">1</span>; <span class="p">display</span>: <span class="v">flex</span>; <span class="p">flex-direction</span>: <span class="v">column</span>; }`,
+prev:`<div style="display:flex;flex-wrap:wrap;gap:12px;padding:14px">${[['💻','Notebook Pro','R$ 3.299'],['📱','Smartphone X','R$ 1.899'],['🎧','Fone Bluetooth','R$ 349']].map(function(p){return '<div style="flex:1 1 130px;max-width:180px;background:white;border-radius:10px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.08)"><div style="height:80px;background:linear-gradient(135deg,#e0f2fe,#bfdbfe);display:flex;align-items:center;justify-content:center;font-size:28px">'+p[0]+'</div><div style="padding:10px"><div style="font-size:12px;font-weight:600;margin-bottom:4px">'+p[1]+'</div><div style="font-size:13px;font-weight:700;color:#ea580c;margin-bottom:6px">'+p[2]+'</div><a style="display:block;background:#2563eb;color:white;padding:5px;border-radius:5px;text-align:center;font-size:11px;text-decoration:none">Comprar</a></div></div>';}).join('')}</div>`},
+{label:"Footer em 3 colunas",
+narr:"<strong>Docente:</strong> \"O footer tem 3 colunas com flex:1 cada — dividem o espaço igualmente. O flex-wrap:wrap faz as colunas empilharem em telas estreitas sem nenhuma media query extra. Responsividade gratuita.\"",
+code:`<span class="c">/* 6. FOOTER */</span>
+<span class="k">footer</span> {
+  <span class="p">background</span>: <span class="v">#0f172a</span>;
+  <span class="p">color</span>:      <span class="v">rgba(255,255,255,.7)</span>;
+  <span class="p">padding</span>:    <span class="v">48px 40px 24px</span>;
+}
+
+<span class="k">.footer-grid</span> {
+  <span class="p">display</span>:   <span class="v">flex</span>;
+  <span class="p">gap</span>:       <span class="v">40px</span>;
+  <span class="p">flex-wrap</span>: <span class="v">wrap</span>;
+  <span class="p">margin-bottom</span>: <span class="v">32px</span>;
+}
+
+<span class="k">.footer-col</span> {
+  <span class="p">flex</span>:      <span class="v">1</span>;
+  <span class="p">min-width</span>: <span class="v">180px</span>;
+}
+
+<span class="k">.footer-col h3</span> { <span class="p">color</span>: <span class="v">white</span>; <span class="p">margin-bottom</span>: <span class="v">14px</span>; }
+<span class="k">.footer-col a</span>  { <span class="p">color</span>: <span class="v">rgba(255,255,255,.6)</span>; <span class="p">display</span>: <span class="v">block</span>; <span class="p">margin-bottom</span>: <span class="v">8px</span>; }
+<span class="k">.footer-col a:hover</span> { <span class="p">color</span>: <span class="v">white</span>; }
+
+<span class="k">.footer-bottom</span> {
+  <span class="p">border-top</span>:  <span class="v">1px solid rgba(255,255,255,.1)</span>;
+  <span class="p">padding-top</span>: <span class="v">20px</span>;
+  <span class="p">text-align</span>:  <span class="v">center</span>;
+  <span class="p">font-size</span>:   <span class="v">.85rem</span>;
+}`,
+prev:`<div style="background:#0f172a;padding:18px 20px 12px;border-radius:8px;margin:10px"><div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:14px"><div style="flex:1;min-width:130px"><div style="font-size:14px;font-weight:700;color:white;margin-bottom:8px">Meu<span style="color:#ea580c">Site</span></div><div style="font-size:11px;color:rgba(255,255,255,.5);line-height:1.6">Sua loja de tecnologia com os melhores produtos e preços.</div></div><div style="flex:1;min-width:120px"><div style="font-size:12px;font-weight:600;color:white;margin-bottom:8px">Links</div><a href="#" style="display:block;font-size:11px;color:rgba(255,255,255,.55);text-decoration:none;margin-bottom:4px">Início</a><a href="#" style="display:block;font-size:11px;color:rgba(255,255,255,.55);text-decoration:none;margin-bottom:4px">Sobre</a><a href="#" style="display:block;font-size:11px;color:rgba(255,255,255,.55);text-decoration:none">Contato</a></div><div style="flex:1;min-width:120px"><div style="font-size:12px;font-weight:600;color:white;margin-bottom:8px">Atendimento</div><div style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.9">📞 (47) 9999-0000<br>✉️ contato@site.com<br>⏰ Seg–Sex 8h–18h</div></div></div><div style="border-top:1px solid rgba(255,255,255,.1);padding-top:10px;text-align:center;font-size:10px;color:rgba(255,255,255,.35)">© 2025 MeuSite — Projeto Final SENAI</div></div>`},
+{label:"Botões e componentes reutilizáveis",
+narr:"<strong>Docente:</strong> \"Componentes são classes CSS que reutilizamos em várias páginas. .btn-primario vai no hero, em produtos e em contato. Definindo uma vez, fica consistente em todo o projeto.\"",
+code:`<span class="c">/* 7. COMPONENTES */</span>
+<span class="k">.btn-primario</span> {
+  <span class="p">display</span>:       <span class="v">inline-block</span>;
+  <span class="p">background</span>:    <span class="v">var(--destaque)</span>;
+  <span class="p">color</span>:         <span class="v">white</span>;
+  <span class="p">padding</span>:       <span class="v">12px 28px</span>;
+  <span class="p">border-radius</span>: <span class="v">8px</span>;
+  <span class="p">font-weight</span>:   <span class="v">600</span>;
+  <span class="p">border</span>:        <span class="v">none</span>;
+  <span class="p">cursor</span>:        <span class="v">pointer</span>;
+  <span class="p">font-family</span>:   <span class="v">inherit</span>;
+  <span class="p">transition</span>:    <span class="v">background .2s, transform .1s</span>;
+}
+<span class="k">.btn-primario:hover</span> {
+  <span class="p">background</span>: <span class="v">#c2410c</span>;
+  <span class="p">transform</span>:  <span class="v">translateY(-2px)</span>;
+}
+
+<span class="k">.secao</span> { <span class="p">padding</span>: <span class="v">60px 40px</span>; }
+
+<span class="k">.secao-titulo</span> {
+  <span class="p">text-align</span>:    <span class="v">center</span>;
+  <span class="p">margin-bottom</span>: <span class="v">36px</span>;
+}
+<span class="k">.secao-titulo h2</span> {
+  <span class="p">font-size</span>: <span class="v">1.8rem</span>;
+  <span class="p">color</span>:     <span class="v">var(--primaria)</span>;
+}`,
+prev:`<div style="font-family:system-ui;padding:16px;display:flex;flex-direction:column;gap:14px"><div style="text-align:center"><h2 style="font-size:18px;font-weight:600;color:#2563eb;margin-bottom:5px">Nossos Produtos</h2><p style="font-size:13px;color:#64748b">Os mais vendidos desta semana</p></div><div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a href="#" style="display:inline-block;background:#ea580c;color:white;padding:9px 20px;border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;transition:all .2s">Ver catálogo →</a><a href="#" style="display:inline-block;background:transparent;color:#2563eb;padding:9px 20px;border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;border:1.5px solid #2563eb">Saiba mais</a></div></div>`},
+{label:"Link do CSS em todas as páginas",
+narr:"<strong>Docente:</strong> \"A última etapa: garantir que todas as 5 páginas importam o mesmo CSS com caminho relativo. Caminhos absolutos funcionam apenas no seu computador — ao publicar, quebra tudo.\"",
+code:`<span class="c">&lt;!-- Mesmo &lt;head&gt; em TODAS as 5 páginas --&gt;</span>
+<span class="k">&lt;head&gt;</span>
+  <span class="k">&lt;meta</span> <span class="p">charset</span>=<span class="s">"UTF-8"</span><span class="k">&gt;</span>
+  <span class="k">&lt;meta</span> <span class="p">name</span>=<span class="s">"viewport"</span>
+        <span class="p">content</span>=<span class="s">"width=device-width, initial-scale=1"</span><span class="k">&gt;</span>
+  <span class="k">&lt;title&gt;</span>Página — Meu Site<span class="k">&lt;/title&gt;</span>
+
+  <span class="c">&lt;!-- CSS compartilhado — caminho RELATIVO --&gt;</span>
+  <span class="k">&lt;link</span> <span class="p">rel</span>=<span class="s">"stylesheet"</span>
+        <span class="p">href</span>=<span class="s">"css/estilos.css"</span><span class="k">&gt;</span>
+<span class="k">&lt;/head&gt;</span>
+
+<span class="c">&lt;!-- Teste final: navegar pelo site --&gt;</span>
+<span class="c">&lt;!-- index → sobre → produtos → contato --&gt;</span>
+<span class="c">&lt;!-- preencher form → chegar em obrigado --&gt;</span>`,
+prev:`<div style="font-family:system-ui;font-size:13px"><div style="background:#2563eb;display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:44px"><div style="font-size:13px;font-weight:700;color:white">Meu<span style="color:#ea580c">Site</span></div><div style="display:flex;gap:3px"><a style="color:rgba(255,255,255,.9);padding:4px 10px;border-radius:5px;font-size:11px;text-decoration:none;background:rgba(255,255,255,.15)">Início</a><a style="color:rgba(255,255,255,.65);padding:4px 10px;font-size:11px;text-decoration:none">Sobre</a><a style="color:rgba(255,255,255,.65);padding:4px 10px;font-size:11px;text-decoration:none">Produtos</a><a style="color:rgba(255,255,255,.65);padding:4px 10px;font-size:11px;text-decoration:none">Contato</a></div></div><div style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:22px 16px;background:linear-gradient(135deg,#2563eb,#1d4ed8);color:white"><div style="flex:2"><h1 style="font-size:16px;font-weight:700;margin-bottom:7px">Projeto Final <span style="color:#ea580c">Completo</span> 🚀</h1><p style="font-size:11px;opacity:.85;margin-bottom:10px">5 páginas · CSS compartilhado · Flexbox</p><a style="background:#ea580c;color:white;padding:6px 14px;border-radius:6px;font-size:11px;font-weight:600;text-decoration:none;display:inline-block">Ver projeto →</a></div><div style="flex:1;font-size:36px;text-align:center;opacity:.2">🏆</div></div><div style="background:#0f172a;padding:12px 16px;display:flex;justify-content:center"><div style="font-size:10px;color:rgba(255,255,255,.35)">© 2025 MeuSite — Projeto Final SENAI</div></div></div>`}
+];
+let cur=0,typing=false,typeTimer=null;
+function render(){const s=STEPS[cur];document.getElementById('sbadge').textContent='Etapa '+(cur+1)+' / '+STEPS.length;document.getElementById('sdesc').textContent=s.label;document.getElementById('prog').style.width=Math.round(((cur+1)/STEPS.length)*100)+'%';document.getElementById('bp').disabled=(cur===0);document.getElementById('bn').disabled=(cur===STEPS.length-1);document.getElementById('narr').innerHTML=s.narr;document.getElementById('preview').innerHTML=s.prev||'';}
+function playS(){if(typing)return;typing=true;const s=STEPS[cur];const out=document.getElementById('code-out');out.innerHTML='';document.getElementById('bplay').disabled=true;document.getElementById('bp').disabled=true;document.getElementById('bn').disabled=true;const full=s.code;const parts=[];let i=0;while(i<full.length){if(full[i]==='<'){const end=full.indexOf('>',i);if(end!==-1){parts.push({type:'tag',val:full.slice(i,end+1)});i=end+1;continue;}}parts.push({type:'char',val:full[i]});i++;}let pi=0;function tick(){if(pi>=parts.length){typing=false;document.getElementById('bplay').textContent='Rever';document.getElementById('bplay').disabled=false;document.getElementById('bn').disabled=(cur===STEPS.length-1);document.getElementById('bp').disabled=false;return;}const p=parts[pi];if(p.type==='tag'){out.innerHTML+=p.val;pi++;tick();return;}out.innerHTML+=p.val;pi++;typeTimer=setTimeout(tick,p.val==='\n'?55:p.val===' '?18:Math.random()*20+16);}tick();}
+function nextS(){if(typing){clearTimeout(typeTimer);typing=false;}cur=Math.min(cur+1,STEPS.length-1);render();document.getElementById('code-out').innerHTML=STEPS[cur].code;document.getElementById('bplay').textContent='Rever';document.getElementById('bplay').disabled=false;}
+function prevS(){if(typing){clearTimeout(typeTimer);typing=false;}cur=Math.max(cur-1,0);render();document.getElementById('code-out').innerHTML=STEPS[cur].code;document.getElementById('bplay').textContent='Rever';document.getElementById('bplay').disabled=false;}
+render();document.getElementById('code-out').innerHTML='';
+</script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exposição — CSS Flexbox · Aula 05</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;color:#1e293b;background:#f8fafc;overflow:hidden}
+#app{display:flex;flex-direction:column;height:100vh}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid #e2e8f0;background:#fff;flex-shrink:0;gap:8px;flex-wrap:wrap}
+.badge{background:#EA580C;color:#fff;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+.hdr-title{font-size:14px;font-weight:600}.hdr-sub{font-size:12px;color:#94a3b8;margin-top:1px}
+.timer{font-size:13px;font-weight:500;background:#f1f5f9;padding:5px 14px;border-radius:8px;border:1px solid #e2e8f0;font-family:'Courier New',monospace;color:#475569;min-width:64px;text-align:center}
+.timer.warn{color:#d97706;background:#fffbeb}.timer.danger{color:#dc2626;background:#fef2f2}
+.dots{display:flex;align-items:center;gap:5px;padding:9px 20px;border-bottom:1px solid #e2e8f0;background:#fff;flex-shrink:0;overflow-x:auto}
+.dot{width:8px;height:8px;border-radius:50%;background:#e2e8f0;cursor:pointer;transition:all .2s;flex-shrink:0}
+.dot.active{background:#EA580C;transform:scale(1.4)}.dot.done{background:#fb923c;opacity:.6}
+.dsep{width:10px;height:1px;background:#e2e8f0;flex-shrink:0}
+.slide-wrap{flex:1;overflow:hidden;position:relative}
+.slide{position:absolute;inset:0;padding:22px 28px;overflow-y:auto;display:none}
+.slide.active{display:block;animation:sIn .22s ease}
+@keyframes sIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.ey{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#EA580C;margin-bottom:5px}
+.stitle{font-size:21px;font-weight:600;color:#1e293b;line-height:1.2;margin-bottom:5px}
+.ssub{font-size:13px;color:#64748b;line-height:1.6;margin-bottom:16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:14px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:13px 15px}
+.card.ac{border-left:3px solid #EA580C}
+.ci{font-size:18px;margin-bottom:5px}.ct{font-size:13px;font-weight:600;color:#1e293b;margin-bottom:3px}
+.cb{font-size:12px;color:#64748b;line-height:1.5}
+code{font-family:'Courier New',monospace;font-size:12px;background:#f1f5f9;padding:1px 5px;border-radius:3px;border:1px solid #e2e8f0}
+.cw{border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin:10px 0}
+.ch{display:flex;align-items:center;justify-content:space-between;background:#f8fafc;padding:7px 13px;border-bottom:1px solid #e2e8f0;font-size:11px;font-weight:500;color:#64748b}
+.cd{display:flex;gap:5px}.c1{width:10px;height:10px;border-radius:50%}
+pre{background:#1e293b;color:#e2e8f0;padding:13px 16px;font-size:12px;line-height:1.8;overflow-x:auto;font-family:'Courier New',monospace;white-space:pre}
+.k{color:#93c5fd}.p{color:#c4b5fd}.v{color:#6ee7b7}.s{color:#fda4af}.cm{color:#475569;font-style:italic}
+.hl{background:#fff7ed;border-left:3px solid #EA580C;padding:10px 13px;font-size:12.5px;color:#7c2d12;line-height:1.55;margin:10px 0}
+.hl strong{color:#9a3412;font-weight:600}
+/* FLEX DEMO INTERATIVO */
+.flex-demo{border:1px solid #e2e8f0;border-radius:10px;padding:14px;margin:10px 0;background:#fff}
+.flex-controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.fcbtn{font-size:11px;font-weight:500;padding:4px 11px;border-radius:6px;border:1px solid #e2e8f0;background:#f8fafc;cursor:pointer;font-family:inherit;transition:all .15s}
+.fcbtn:hover{background:#fff7ed;border-color:#fb923c}.fcbtn.on{background:#EA580C;color:#fff;border-color:#EA580C}
+.flex-box{display:flex;gap:8px;padding:10px;border:1.5px dashed #e2e8f0;border-radius:8px;min-height:80px;transition:all .3s;background:#fafafa}
+.flex-item{width:50px;height:50px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;flex-shrink:0}
+.fg-label{font-size:11px;color:#64748b;margin-top:8px;font-style:italic;text-align:center}
+.prop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;margin-bottom:10px}
+.prop-item{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;cursor:pointer;transition:all .15s}
+.prop-item:hover{border-color:#fb923c;background:#fff7ed}.prop-item.on{border-color:#EA580C;background:#ffedd5}
+.prop-code{font-family:'Courier New',monospace;font-size:12px;font-weight:600;color:#EA580C;margin-bottom:3px}
+.prop-name{font-size:11px;color:#94a3b8}
+.prop-desc{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:11px 13px;min-height:50px;font-size:12.5px;color:#64748b;line-height:1.6}
+.qa{font-size:13.5px;font-weight:600;color:#1e293b;margin-bottom:11px;line-height:1.5}
+.qo{display:flex;flex-direction:column;gap:7px}
+.qop{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:9px 13px;font-size:13px;color:#1e293b;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:9px}
+.qop:hover:not(.correct):not(.wrong):not(.dimmed){border-color:#fb923c;background:#fff7ed}
+.qop.correct{background:#f0fdf4;border-color:#86efac;color:#15803d;pointer-events:none}
+.qop.wrong{background:#fef2f2;border-color:#fca5a5;color:#dc2626;pointer-events:none}
+.qop.dimmed{opacity:.4;pointer-events:none}
+.qfb{margin-top:9px;padding:9px 13px;border-radius:8px;font-size:12.5px;line-height:1.5;display:none}
+.qb{margin-bottom:16px}
+.rl{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.ri{display:flex;gap:11px;align-items:flex-start;background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:11px 13px}
+.rn{width:23px;height:23px;min-width:23px;border-radius:6px;background:#ffedd5;color:#EA580C;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.rt{font-size:13px;color:#64748b;line-height:1.55}.rt strong{color:#1e293b;font-weight:600}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:11px 20px;border-top:1px solid #e2e8f0;background:#fff;flex-shrink:0}
+.nb{background:#f1f5f9;border:1px solid #e2e8f0;color:#475569;padding:7px 17px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .15s}
+.nb:hover{background:#e2e8f0;color:#1e293b}.nb.pr{background:#EA580C;color:#fff;border-color:#EA580C}
+.nb.pr:hover{background:#c2410c}.nb:disabled{opacity:.35;pointer-events:none}
+.nc{font-size:12px;color:#94a3b8}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="hdr">
+    <div style="display:flex;align-items:center;gap:11px">
+      <span class="badge">Aula 05</span>
+      <div><div class="hdr-title">CSS Flexbox — Exposição Dialogada</div><div class="hdr-sub">30 minutos · Projetor · Turma</div></div>
+    </div>
+    <div class="timer" id="timer">30:00</div>
+  </div>
+  <div class="dots" id="dots-bar"></div>
+  <div class="slide-wrap" id="slide-wrap"></div>
+  <div class="nav">
+    <button class="nb" id="btn-prev" onclick="nav(-1)" disabled>← Anterior</button>
+    <span class="nc" id="counter">1 / 9</span>
+    <button class="nb pr" id="btn-next" onclick="nav(1)">Próximo →</button>
+  </div>
+</div>
+<script>
+const SL=[
+{id:'s0',r:()=>`<div class="ey">Abertura · 3 min</div>
+<div class="stitle">Flexbox — o fim das gambiarras de layout</div>
+<div class="ssub">Por décadas, desenvolvedores usaram floats e tables para criar layouts. O Flexbox mudou tudo — é o jeito moderno, simples e poderoso de organizar elementos.</div>
+<div class="cards">
+<div class="card ac"><div class="ci">😰</div><div class="ct">O problema antes do Flexbox</div><div class="cb">Centralizar verticalmente era impossível sem hacks. Colunas iguais com float eram imprevisíveis. O código era frágil e difícil de manter.</div></div>
+<div class="card ac"><div class="ci">🎉</div><div class="ct">O Flexbox resolve</div><div class="cb">Com 3 linhas de CSS você centraliza vertical e horizontalmente. Colunas automáticas. Ordem reordenável. Responsivo por padrão.</div></div>
+<div class="card"><div class="ci">💬</div><div class="ct">Pergunta para a turma</div><div class="cb"><em>"Entrem no site do Twitter/X. Abram o DevTools e procurem 'display: flex'. Quantas vezes aparece?"</em> (Spoiler: centenas)</div></div>
+<div class="card"><div class="ci">🎯</div><div class="ct">O que veremos</div><div class="cb">Container vs items, eixos main/cross, justify-content, align-items, flex-wrap, variáveis CSS e layouts reais.</div></div>
+</div>`},
+{id:'s1',r:()=>`<div class="ey">Conceito central · 3 min</div>
+<div class="stitle">Container vs Items — a dualidade do Flexbox</div>
+<div class="ssub">O Flexbox tem dois personagens: o container (quem tem o <code>display: flex</code>) e os items (os filhos diretos). Cada um tem suas próprias propriedades.</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+<div style="border:2px solid #EA580C;border-radius:10px;padding:12px">
+<div style="font-size:12px;font-weight:600;color:#EA580C;margin-bottom:8px">FLEX CONTAINER (o pai)</div>
+<div style="font-size:12px;color:#64748b;line-height:1.8">• display: flex<br>• flex-direction<br>• justify-content<br>• align-items<br>• flex-wrap<br>• gap</div>
+</div>
+<div style="border:1.5px solid #e2e8f0;border-radius:10px;padding:12px">
+<div style="font-size:12px;font-weight:600;color:#64748b;margin-bottom:8px">FLEX ITEMS (os filhos)</div>
+<div style="font-size:12px;color:#64748b;line-height:1.8">• flex: 1 (atalho)<br>• flex-grow<br>• flex-shrink<br>• flex-basis<br>• align-self<br>• order</div>
+</div>
+</div>
+<div class="hl"><strong>Regra de ouro:</strong> as propriedades do container controlam como os filhos são distribuídos. As propriedades dos items controlam o comportamento individual de cada um.</div>`},
+{id:'s2',r:()=>`<div class="ey">Demo interativa · 6 min</div>
+<div class="stitle">justify-content — distribuição no eixo principal</div>
+<div class="ssub">Clique nos valores para ver o efeito em tempo real.</div>
+<div class="flex-demo">
+<div class="flex-controls" id="jc-controls">
+<button class="fcbtn on" onclick="setJC(this,'flex-start')">flex-start</button>
+<button class="fcbtn" onclick="setJC(this,'center')">center</button>
+<button class="fcbtn" onclick="setJC(this,'flex-end')">flex-end</button>
+<button class="fcbtn" onclick="setJC(this,'space-between')">space-between</button>
+<button class="fcbtn" onclick="setJC(this,'space-around')">space-around</button>
+<button class="fcbtn" onclick="setJC(this,'space-evenly')">space-evenly</button>
+</div>
+<div class="flex-box" id="jc-box" style="justify-content:flex-start">
+<div class="flex-item" style="background:#EA580C">1</div>
+<div class="flex-item" style="background:#f97316">2</div>
+<div class="flex-item" style="background:#fb923c">3</div>
+</div>
+<div class="fg-label" id="jc-label">justify-content: flex-start — itens agrupados no início</div>
+</div>
+<div class="hl"><strong>Eixo principal:</strong> quando flex-direction é row (padrão), o eixo principal é horizontal. justify-content controla a distribuição neste eixo.</div>`},
+{id:'s3',r:()=>`<div class="ey">Demo interativa · 5 min</div>
+<div class="stitle">align-items — alinhamento no eixo cruzado</div>
+<div class="ssub">Se justify-content é horizontal, align-items é vertical (no modo padrão row).</div>
+<div class="flex-demo">
+<div class="flex-controls" id="ai-controls">
+<button class="fcbtn on" onclick="setAI(this,'stretch')">stretch</button>
+<button class="fcbtn" onclick="setAI(this,'flex-start')">flex-start</button>
+<button class="fcbtn" onclick="setAI(this,'center')">center</button>
+<button class="fcbtn" onclick="setAI(this,'flex-end')">flex-end</button>
+<button class="fcbtn" onclick="setAI(this,'baseline')">baseline</button>
+</div>
+<div class="flex-box" id="ai-box" style="align-items:stretch;height:120px">
+<div class="flex-item" style="background:#EA580C;height:auto;width:50px">1</div>
+<div class="flex-item" style="background:#f97316;height:auto;width:50px">2</div>
+<div class="flex-item" style="background:#fb923c;height:auto;width:50px">3</div>
+</div>
+<div class="fg-label" id="ai-label">align-items: stretch — itens se esticam para preencher o container</div>
+</div>
+<div class="hl"><strong>Centralizar completamente:</strong> <code>display: flex; justify-content: center; align-items: center;</code> centraliza vertical e horizontalmente — impossível antes do Flexbox!</div>`},
+{id:'s4',r:()=>`<div class="ey">Propriedades · 4 min</div>
+<div class="stitle">flex-wrap, gap e flex — clique para explorar</div>
+<div class="ssub">As três propriedades mais usadas no dia a dia depois de justify e align.</div>
+<div class="prop-grid">
+<div class="prop-item" onclick="showProp(this,'flex-wrap: wrap','Permite que os itens quebrem para a linha seguinte quando não cabem em uma só linha. Essencial para layouts responsivos. Sem isso, os itens encolhem para caber na mesma linha.')"><div class="prop-code">flex-wrap</div><div class="prop-name">Quebra de linha</div></div>
+<div class="prop-item" onclick="showProp(this,'gap: 16px','Espaçamento uniforme entre todos os itens. Substitui margin em todos os filhos. Pode usar gap: row col para separar horizontal e vertical diferentes.')"><div class="prop-code">gap</div><div class="prop-name">Espaçamento</div></div>
+<div class="prop-item" onclick="showProp(this,'flex: 1','Atalho para flex-grow: 1; flex-shrink: 1; flex-basis: 0. Faz o item crescer para preencher o espaço disponível. Colunas iguais: todos os filhos com flex: 1.')"><div class="prop-code">flex: 1</div><div class="prop-name">Crescimento</div></div>
+<div class="prop-item" onclick="showProp(this,'flex-direction: column','Muda o eixo principal de horizontal para vertical. Os itens empilham de cima para baixo. Muito usado em layouts de página com header, main e footer.')"><div class="prop-code">flex-direction</div><div class="prop-name">Direção do eixo</div></div>
+<div class="prop-item" onclick="showProp(this,'align-self: center','Sobrescreve o align-items para UM item específico. Se o container tem align-items: flex-start mas você quer um item específico no centro, use align-self: center nele.')"><div class="prop-code">align-self</div><div class="prop-name">Alinhamento individual</div></div>
+<div class="prop-item" onclick="showProp(this,'order: 2','Reordena os itens visualmente sem mudar o HTML. Padrão é 0. Menor número = aparece primeiro. Muito útil para reordenar layouts em mobile com media queries.')"><div class="prop-code">order</div><div class="prop-name">Ordem visual</div></div>
+</div>
+<div class="prop-desc" id="prop-desc">Clique em uma propriedade acima para ver a descrição.</div>`},
+{id:'s5',r:()=>`<div class="ey">Código · 3 min</div>
+<div class="stitle">Variáveis CSS — o segredo do design system</div>
+<div class="ssub">Variáveis CSS (Custom Properties) permitem definir valores reutilizáveis. Mude uma variável e toda a página atualiza.</div>
+<div class="cw"><div class="ch"><span>CSS · Variáveis e Flexbox juntos</span><div class="cd"><div class="c1" style="background:#ef4444"></div><div class="c1" style="background:#f59e0b"></div><div class="c1" style="background:#10b981"></div></div></div>
+<pre><span class="cm">/* Variáveis no :root — disponíveis em toda a página */</span>
+<span class="k">:root</span> {
+  <span class="p">--cor-primaria</span>: <span class="v">#2563eb</span>;
+  <span class="p">--cor-secundaria</span>: <span class="v">#1d4ed8</span>;
+  <span class="p">--cor-destaque</span>: <span class="v">#ea580c</span>;
+  <span class="p">--fonte-principal</span>: <span class="v">'Segoe UI', sans-serif</span>;
+  <span class="p">--raio</span>: <span class="v">10px</span>;
+  <span class="p">--sombra</span>: <span class="v">0 4px 12px rgba(0,0,0,.08)</span>;
+}
+
+<span class="cm">/* Usando as variáveis */</span>
+<span class="k">header</span> {
+  <span class="p">background</span>: <span class="v">var(--cor-primaria)</span>;
+  <span class="p">display</span>: <span class="v">flex</span>;
+  <span class="p">align-items</span>: <span class="v">center</span>;
+  <span class="p">justify-content</span>: <span class="v">space-between</span>;
+  <span class="p">padding</span>: <span class="v">16px 40px</span>;
+}
+
+<span class="k">.cards-grid</span> {
+  <span class="p">display</span>: <span class="v">flex</span>;
+  <span class="p">flex-wrap</span>: <span class="v">wrap</span>;
+  <span class="p">gap</span>: <span class="v">20px</span>;
+}
+
+<span class="k">.cards-grid .card</span> {
+  <span class="p">flex</span>: <span class="v">1</span>;
+  <span class="p">min-width</span>: <span class="v">220px</span>; <span class="cm">/* evita cards muito estreitos */</span>
+  <span class="p">border-radius</span>: <span class="v">var(--raio)</span>;
+  <span class="p">box-shadow</span>: <span class="v">var(--sombra)</span>;
+}</pre></div>`},
+{id:'s6',r:()=>`<div class="ey">Código · 3 min</div>
+<div class="stitle">Layouts reais com Flexbox</div>
+<div class="ssub">Os três padrões de layout mais usados em projetos reais — todos com Flexbox.</div>
+<div class="cw"><div class="ch"><span>CSS · Padrões de layout Flexbox</span><div class="cd"><div class="c1" style="background:#ef4444"></div><div class="c1" style="background:#f59e0b"></div><div class="c1" style="background:#10b981"></div></div></div>
+<pre><span class="cm">/* 1. Header: logo à esquerda, nav à direita */</span>
+<span class="k">header</span> {
+  <span class="p">display</span>: <span class="v">flex</span>;
+  <span class="p">align-items</span>: <span class="v">center</span>;
+  <span class="p">justify-content</span>: <span class="v">space-between</span>;
+  <span class="p">padding</span>: <span class="v">0 40px</span>;
+  <span class="p">height</span>: <span class="v">64px</span>;
+}
+
+<span class="cm">/* 2. Layout 2 colunas: conteúdo + sidebar */</span>
+<span class="k">.layout-2col</span> {
+  <span class="p">display</span>: <span class="v">flex</span>;
+  <span class="p">gap</span>: <span class="v">32px</span>;
+}
+<span class="k">.layout-2col main</span> { <span class="p">flex</span>: <span class="v">2</span>; } <span class="cm">/* 2/3 do espaço */</span>
+<span class="k">.layout-2col aside</span> { <span class="p">flex</span>: <span class="v">1</span>; } <span class="cm">/* 1/3 do espaço */</span>
+
+<span class="cm">/* 3. Grade de cards responsiva */</span>
+<span class="k">.grade-cards</span> {
+  <span class="p">display</span>: <span class="v">flex</span>;
+  <span class="p">flex-wrap</span>: <span class="v">wrap</span>;
+  <span class="p">gap</span>: <span class="v">20px</span>;
+}
+<span class="k">.card</span> {
+  <span class="p">flex</span>: <span class="v">1 1 220px</span>; <span class="cm">/* cresce, encolhe, base 220px */</span>
+  <span class="p">max-width</span>: <span class="v">300px</span>;
+}</pre></div>`},
+{id:'s7',r:()=>`<div class="ey">Verificação · 3 min</div>
+<div class="stitle">Quiz — turma responde junto</div>
+<div class="ssub">Consolidando Flexbox.</div>
+<div class="qb">
+<div class="qa">1. Qual propriedade CSS distribui os itens com espaço igual entre eles (sem espaço nas bordas)?</div>
+<div class="qo">
+<div class="qop" onclick="ans(this,'w','f0')"><span>A</span>justify-content: space-around</div>
+<div class="qop" onclick="ans(this,'c','f0')"><span>B</span>justify-content: space-between</div>
+<div class="qop" onclick="ans(this,'w','f0')"><span>C</span>justify-content: space-evenly</div>
+<div class="qop" onclick="ans(this,'w','f0')"><span>D</span>align-items: center</div>
+</div>
+<div class="qfb" id="f0" style="background:#f0fdf4;color:#15803d">Correto! space-between coloca todo o espaço livre ENTRE os itens. space-around distribui espaço ao redor (metade nas bordas). space-evenly distribui igualmente incluindo bordas.</div>
+</div>
+<div class="qb">
+<div class="qa">2. Para fazer um container flex crescer/diminuir para preencher o espaço disponível, qual propriedade você usa nos FILHOS?</div>
+<div class="qo">
+<div class="qop" onclick="ans(this,'w','f1')"><span>A</span>display: flex</div>
+<div class="qop" onclick="ans(this,'w','f1')"><span>B</span>width: 100%</div>
+<div class="qop" onclick="ans(this,'c','f1')"><span>C</span>flex: 1</div>
+<div class="qop" onclick="ans(this,'w','f1')"><span>D</span>flex-direction: row</div>
+</div>
+<div class="qfb" id="f1" style="background:#f0fdf4;color:#15803d">Correto! flex: 1 nos filhos faz cada um crescer para preencher o espaço disponível igualmente. É o jeito mais simples de criar colunas iguais.</div>
+</div>`},
+{id:'s8',r:()=>`<div class="ey">Encerramento · 1 min</div>
+<div class="stitle">Recapitulando</div>
+<div class="ssub">O que aprendemos e o que fazemos agora.</div>
+<div class="rl">
+<div class="ri"><div class="rn">1</div><div class="rt"><strong>display: flex</strong> no container ativa o Flexbox. Os filhos diretos viram flex items.</div></div>
+<div class="ri"><div class="rn">2</div><div class="rt"><strong>justify-content</strong> distribui no eixo principal (horizontal em row). <strong>align-items</strong> alinha no eixo cruzado.</div></div>
+<div class="ri"><div class="rn">3</div><div class="rt"><strong>flex: 1</strong> nos filhos distribui o espaço igualmente. <strong>flex-wrap: wrap</strong> quebra linha quando necessário.</div></div>
+<div class="ri"><div class="rn">4</div><div class="rt"><strong>Variáveis CSS</strong> no :root centralizam cores, fontes e valores reutilizáveis do projeto.</div></div>
+<div class="ri"><div class="rn">5</div><div class="rt"><strong>Zero floats</strong> — tudo que fazia com float agora faz com Flexbox, de forma mais simples e previsível.</div></div>
+</div>
+<div class="hl"><strong>Próximo passo:</strong> refatorar todas as páginas do projeto usando Flexbox no header, cards e footer — ao vivo.</div>`}
+];
+const JC_LABELS={
+'flex-start':'flex-start — itens agrupados no início do container',
+'center':'center — itens centralizados horizontalmente',
+'flex-end':'flex-end — itens agrupados no final do container',
+'space-between':'space-between — espaço máximo ENTRE os itens',
+'space-around':'space-around — espaço ao REDOR de cada item (metade nas bordas)',
+'space-evenly':'space-evenly — espaço igual em todos os lados'
+};
+const AI_LABELS={
+'stretch':'stretch — itens se esticam para preencher a altura do container',
+'flex-start':'flex-start — itens alinhados no topo',
+'center':'center — itens centralizados verticalmente',
+'flex-end':'flex-end — itens alinhados na base',
+'baseline':'baseline — alinhados pela linha de base do texto'
+};
+let cur=0,ts=false,ti=null;
+function bd(){const b=document.getElementById('dots-bar');SL.forEach((s,i)=>{const d=document.createElement('span');d.className='dot'+(i===0?' active':'');d.onclick=()=>gt(i);b.appendChild(d);if(i<SL.length-1){const sep=document.createElement('div');sep.className='dsep';b.appendChild(sep);}});}
+function bs(){const w=document.getElementById('slide-wrap');SL.forEach((s,i)=>{const d=document.createElement('div');d.className='slide'+(i===0?' active':'');d.id='sl-'+s.id;d.innerHTML=s.r();w.appendChild(d);});}
+function gt(i){const p=cur;document.getElementById('sl-'+SL[p].id).classList.remove('active');const dots=document.querySelectorAll('.dot');dots[p].classList.remove('active');if(i>p)dots[p].classList.add('done');cur=i;const el=document.getElementById('sl-'+SL[cur].id);el.innerHTML=SL[cur].r();el.classList.add('active');dots[cur].classList.add('active');dots[cur].classList.remove('done');document.getElementById('btn-prev').disabled=cur===0;const bn=document.getElementById('btn-next');bn.disabled=cur===SL.length-1;bn.textContent=cur===SL.length-1?'Finalizar':'Próximo →';document.getElementById('counter').textContent=(cur+1)+' / '+SL.length;if(!ts){ts=true;st();}}
+function nav(d){const ni=cur+d;if(ni>=0&&ni<SL.length)gt(ni);}
+function st(){let r=30*60;const el=document.getElementById('timer');ti=setInterval(()=>{r--;const m=Math.floor(r/60),s=r%60;el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;if(r<=300)el.className='timer warn';if(r<=60)el.className='timer danger';if(r<=0){clearInterval(ti);el.textContent='00:00';}},1000);}
+function setJC(btn,val){document.querySelectorAll('#jc-controls .fcbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const box=document.getElementById('jc-box');if(box)box.style.justifyContent=val;const lbl=document.getElementById('jc-label');if(lbl)lbl.textContent='justify-content: '+JC_LABELS[val];}
+function setAI(btn,val){document.querySelectorAll('#ai-controls .fcbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const box=document.getElementById('ai-box');if(box){box.style.alignItems=val;box.querySelectorAll('.flex-item').forEach(item=>{item.style.height=val==='stretch'?'auto':'50px';});}const lbl=document.getElementById('ai-label');if(lbl)lbl.textContent='align-items: '+AI_LABELS[val];}
+function showProp(el,nome,desc){document.querySelectorAll('.prop-item').forEach(c=>c.classList.remove('on'));el.classList.add('on');document.getElementById('prop-desc').innerHTML='<strong style="color:#EA580C;font-family:monospace">'+nome+'</strong><br>'+desc;}
+function ans(el,t,id){const b=el.closest('.qb');b.querySelectorAll('.qop').forEach(o=>{if(o===el)o.classList.add(t==='c'?'correct':'wrong');else o.classList.add('dimmed');});const fb=document.getElementById(id);if(t!=='c'){fb.style.background='#fef2f2';fb.style.color='#dc2626';fb.textContent='Não exatamente — pense na diferença entre os 3 valores "space-*".';}fb.style.display='block';}
+bd();bs();document.getElementById('btn-prev').disabled=true;
+</script>
+</body>
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exposição — Formulários & Tabelas · Aula 04</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;color:#1e293b;background:#f8fafc;overflow:hidden}
+#app{display:flex;flex-direction:column;height:100vh}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid #e2e8f0;background:#fff;flex-shrink:0;gap:8px;flex-wrap:wrap}
+.badge{background:#7C3AED;color:#fff;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+.hdr-title{font-size:14px;font-weight:600}
+.hdr-sub{font-size:12px;color:#94a3b8;margin-top:1px}
+.timer{font-size:13px;font-weight:500;background:#f1f5f9;padding:5px 14px;border-radius:8px;border:1px solid #e2e8f0;font-family:monospace;color:#475569;min-width:64px;text-align:center}
+.timer.warn{color:#d97706;background:#fffbeb}.timer.danger{color:#dc2626;background:#fef2f2}
+.dots{display:flex;align-items:center;gap:5px;padding:9px 20px;border-bottom:1px solid #e2e8f0;background:#fff;flex-shrink:0;overflow-x:auto}
+.dot{width:8px;height:8px;border-radius:50%;background:#e2e8f0;cursor:pointer;transition:all .2s;flex-shrink:0}
+.dot.active{background:#7C3AED;transform:scale(1.4)}
+.dot.done{background:#a78bfa;opacity:.6}
+.dsep{width:10px;height:1px;background:#e2e8f0;flex-shrink:0}
+.slide-area{flex:1;overflow-y:auto;padding:22px 28px}
+.slide{display:none}
+.slide.active{display:block;animation:sIn .22s ease}
+@keyframes sIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.ey{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#7C3AED;margin-bottom:5px}
+.stitle{font-size:21px;font-weight:600;color:#1e293b;line-height:1.2;margin-bottom:5px}
+.ssub{font-size:13px;color:#64748b;line-height:1.6;margin-bottom:16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:14px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:13px 15px}
+.card.ac{border-left:3px solid #7C3AED}
+.ci{font-size:18px;margin-bottom:5px}
+.ct{font-size:13px;font-weight:600;color:#1e293b;margin-bottom:3px}
+.cb{font-size:12px;color:#64748b;line-height:1.5}
+code{font-family:monospace;font-size:12px;background:#f1f5f9;padding:1px 5px;border-radius:3px;border:1px solid #e2e8f0}
+.cw{border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin:10px 0}
+.ch{display:flex;align-items:center;justify-content:space-between;background:#f8fafc;padding:7px 13px;border-bottom:1px solid #e2e8f0;font-size:11px;font-weight:500;color:#64748b}
+.cd{display:flex;gap:5px}
+.c1{width:10px;height:10px;border-radius:50%}
+pre{background:#1e293b;color:#e2e8f0;padding:13px 16px;font-size:12px;line-height:1.8;overflow-x:auto;font-family:monospace;white-space:pre}
+.tk{color:#93c5fd}.tp{color:#c4b5fd}.tv{color:#6ee7b7}.ts{color:#fda4af}.tc{color:#475569;font-style:italic}
+.hl{background:#f5f3ff;border-left:3px solid #7C3AED;padding:10px 13px;font-size:12.5px;color:#3b1f8c;line-height:1.55;margin:10px 0}
+.hl strong{color:#5b21b6;font-weight:600}
+.inp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin:10px 0}
+.inp-card{border:1px solid #e2e8f0;border-radius:8px;padding:9px 11px;cursor:pointer;transition:all .15s;background:#fff}
+.inp-card:hover{border-color:#a78bfa;background:#f5f3ff}
+.inp-card.on{border-color:#7C3AED;background:#ede9fe}
+.inp-type{font-family:monospace;font-size:12px;font-weight:600;color:#7C3AED;margin-bottom:3px}
+.inp-use{font-size:11px;color:#94a3b8}
+.inp-prev{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:12px;min-height:52px;font-size:13px;color:#64748b;line-height:1.6;margin-top:6px}
+.qb{margin-bottom:16px}
+.qa{font-size:13.5px;font-weight:600;color:#1e293b;margin-bottom:11px;line-height:1.5}
+.qo{display:flex;flex-direction:column;gap:7px}
+.qop{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:9px 13px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:9px;transition:all .15s;color:#1e293b}
+.qop:hover:not(.correct):not(.wrong):not(.dimmed){border-color:#a78bfa;background:#f5f3ff}
+.qop.correct{background:#f0fdf4;border-color:#86efac;color:#15803d;pointer-events:none}
+.qop.wrong{background:#fef2f2;border-color:#fca5a5;color:#dc2626;pointer-events:none}
+.qop.dimmed{opacity:.4;pointer-events:none}
+.qfb{margin-top:9px;padding:9px 13px;border-radius:8px;font-size:12.5px;line-height:1.5;display:none}
+.rl{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.ri{display:flex;gap:11px;align-items:flex-start;background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:11px 13px}
+.rn{width:23px;height:23px;min-width:23px;border-radius:6px;background:#ede9fe;color:#7C3AED;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.rt{font-size:13px;color:#64748b;line-height:1.55}
+.rt strong{color:#1e293b;font-weight:600}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:11px 20px;border-top:1px solid #e2e8f0;background:#fff;flex-shrink:0}
+.nb{background:#f1f5f9;border:1px solid #e2e8f0;color:#475569;padding:7px 17px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .15s}
+.nb:hover{background:#e2e8f0;color:#1e293b}
+.nb.pr{background:#7C3AED;color:#fff;border-color:#7C3AED}
+.nb.pr:hover{background:#6d28d9}
+.nb:disabled{opacity:.35;pointer-events:none}
+.nc{font-size:12px;color:#94a3b8}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+@media(max-width:560px){.two-col{grid-template-columns:1fr}}
+.box{border:1px solid #e2e8f0;border-radius:10px;overflow:hidden}
+.box-h{padding:8px 13px;font-size:12px;font-weight:600}
+.box-b{padding:10px 13px;font-size:12px;color:#64748b;line-height:1.7}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="hdr">
+    <div style="display:flex;align-items:center;gap:11px">
+      <span class="badge">Aula 04</span>
+      <div>
+        <div class="hdr-title">Formulários &amp; Tabelas — Exposição Dialogada</div>
+        <div class="hdr-sub">30 minutos · Projetor · Turma</div>
+      </div>
+    </div>
+    <div class="timer" id="timer">30:00</div>
+  </div>
+  <div class="dots" id="dots-bar"></div>
+  <div class="slide-area" id="slide-area"></div>
+  <div class="nav">
+    <button class="nb" id="btn-prev" onclick="goNav(-1)" disabled>← Anterior</button>
+    <span class="nc" id="counter">1 / 9</span>
+    <button class="nb pr" id="btn-next" onclick="goNav(1)">Próximo →</button>
+  </div>
+</div>
+
+<script>
+var cur = 0, timerStarted = false, timerInterval = null;
+
+var SLIDES = [
+  // SLIDE 0
+  function() {
+    return '<div class="ey">Abertura · 3 min</div>' +
+      '<div class="stitle">Formulários — a porta de entrada de dados na web</div>' +
+      '<div class="ssub">Todo sistema web recebe dados do usuário. Formulários bem construídos são seguros, acessíveis e fáceis de usar.</div>' +
+      '<div class="cards">' +
+        '<div class="card ac"><div class="ci">📋</div><div class="ct">Por que formulários importam</div><div class="cb">Login, cadastro, busca, checkout — qualquer entrada de dados usa formulários HTML. É a fundação de toda aplicação web.</div></div>' +
+        '<div class="card ac"><div class="ci">♿</div><div class="ct">Acessibilidade obrigatória</div><div class="cb">A Lei Brasileira de Inclusão (Art. 63) exige que sites sejam acessíveis. Label correto é obrigatório por lei.</div></div>' +
+        '<div class="card"><div class="ci">💬</div><div class="ct">Atividade de abertura</div><div class="cb"><em>"Abram o formulário de cadastro do iFood. Quais campos vocês identificam? Quais têm validação automática?"</em></div></div>' +
+        '<div class="card"><div class="ci">🎯</div><div class="ct">O que veremos</div><div class="cb">Tag form, tipos de input, label/for, select, textarea, fieldset, validação HTML5 e tabelas semânticas.</div></div>' +
+      '</div>';
+  },
+  // SLIDE 1
+  function() {
+    return '<div class="ey">Estrutura · 3 min</div>' +
+      '<div class="stitle">A tag form — estrutura mínima</div>' +
+      '<div class="ssub">Todo formulário precisa de <code>form</code> com <code>action</code> e <code>method</code>. Sem eles o HTML não sabe para onde enviar os dados.</div>' +
+      '<div class="cw"><div class="ch"><span>HTML · Formulário mínimo correto</span><div class="cd"><div class="c1" style="background:#ef4444"></div><div class="c1" style="background:#f59e0b"></div><div class="c1" style="background:#10b981"></div></div></div>' +
+      '<pre>' +
+        '<span class="tk">&lt;form</span>\n' +
+        '  <span class="tp">action</span>=<span class="ts">"obrigado.html"</span>   <span class="tc">&lt;!-- para onde enviar --&gt;</span>\n' +
+        '  <span class="tp">method</span>=<span class="ts">"post"</span>            <span class="tc">&lt;!-- POST = dados no corpo; GET = na URL --&gt;</span>\n' +
+        '<span class="tk">&gt;</span>\n\n' +
+        '  <span class="tc">&lt;!-- label DEVE estar associado ao input via for/id --&gt;</span>\n' +
+        '  <span class="tk">&lt;label</span> <span class="tp">for</span>=<span class="ts">"nome"</span><span class="tk">&gt;</span>Nome completo<span class="tk">&lt;/label&gt;</span>\n' +
+        '  <span class="tk">&lt;input</span>\n' +
+        '    <span class="tp">type</span>=<span class="ts">"text"</span>\n' +
+        '    <span class="tp">id</span>=<span class="ts">"nome"</span>\n' +
+        '    <span class="tp">name</span>=<span class="ts">"nome"</span>\n' +
+        '    <span class="tp">placeholder</span>=<span class="ts">"Digite seu nome"</span>\n' +
+        '    <span class="tp">required</span>\n' +
+        '  <span class="tk">&gt;</span>\n\n' +
+        '  <span class="tk">&lt;button</span> <span class="tp">type</span>=<span class="ts">"submit"</span><span class="tk">&gt;</span>Enviar<span class="tk">&lt;/button&gt;</span>\n' +
+        '<span class="tk">&lt;/form&gt;</span>' +
+      '</pre></div>' +
+      '<div class="hl"><strong>label for + input id:</strong> o valor do <code>for</code> do label deve ser igual ao <code>id</code> do input. Clicar no label foca o campo — obrigatório para acessibilidade.</div>';
+  },
+  // SLIDE 2
+  function() {
+    return '<div class="ey">Tipos de input · 5 min</div>' +
+      '<div class="stitle">Tipos de input — clique para explorar</div>' +
+      '<div class="ssub">O atributo <code>type</code> define comportamento e validação automática. Use sempre o tipo correto para cada dado.</div>' +
+      '<div class="inp-grid">' +
+        '<div class="inp-card" onclick="showInp(this,\'text\',\'Texto livre — padrão quando type não é especificado. Aceita qualquer caractere.\')"><div class="inp-type">text</div><div class="inp-use">texto livre</div></div>' +
+        '<div class="inp-card" onclick="showInp(this,\'email\',\'Valida formato de e-mail automaticamente. No mobile abre teclado com @ visível.\')"><div class="inp-type">email</div><div class="inp-use">valida formato</div></div>' +
+        '<div class="inp-card" onclick="showInp(this,\'password\',\'Oculta os caracteres digitados com bolinhas. Nunca use type=text para campos de senha.\')"><div class="inp-type">password</div><div class="inp-use">oculta texto</div></div>' +
+        '<div class="inp-card" onclick="showInp(this,\'number\',\'Valida que o valor é numérico. Use min e max para definir o intervalo válido.\')"><div class="inp-type">number</div><div class="inp-use">só números</div></div>' +
+        '<div class="inp-card" onclick="showInp(this,\'tel\',\'Abre teclado numérico no mobile. Não valida formato — use o atributo pattern para isso.\')"><div class="inp-type">tel</div><div class="inp-use">teclado numérico</div></div>' +
+        '<div class="inp-card" onclick="showInp(this,\'date\',\'Abre o seletor de data nativo do sistema. Valor retornado sempre em formato AAAA-MM-DD.\')"><div class="inp-type">date</div><div class="inp-use">seletor de data</div></div>' +
+        '<div class="inp-card" onclick="showInp(this,\'radio\',\'Mesmo name = mesmo grupo. Apenas uma opção pode ser selecionada por vez dentro do grupo.\')"><div class="inp-type">radio</div><div class="inp-use">escolha única</div></div>' +
+        '<div class="inp-card" onclick="showInp(this,\'checkbox\',\'Pode selecionar múltiplas opções. Cada checkbox tem seu próprio name independente.\')"><div class="inp-type">checkbox</div><div class="inp-use">múltipla escolha</div></div>' +
+        '<div class="inp-card" onclick="showInp(this,\'file\',\'Abre o seletor de arquivo do sistema. Use accept=&quot;.pdf,.jpg&quot; para filtrar os tipos permitidos.\')"><div class="inp-type">file</div><div class="inp-use">upload arquivo</div></div>' +
+      '</div>' +
+      '<div class="inp-prev" id="inp-prev">Clique em um tipo de input acima para ver a descrição.</div>';
+  },
+  // SLIDE 3
+  function() {
+    return '<div class="ey">Agrupamento · 3 min</div>' +
+      '<div class="stitle">fieldset, legend, select e textarea</div>' +
+      '<div class="ssub">Para formulários maiores, <code>fieldset</code> agrupa campos relacionados. <code>select</code> e <code>textarea</code> complementam os controles.</div>' +
+      '<div class="cw"><div class="ch"><span>HTML · Controles avançados</span><div class="cd"><div class="c1" style="background:#ef4444"></div><div class="c1" style="background:#f59e0b"></div><div class="c1" style="background:#10b981"></div></div></div>' +
+      '<pre>' +
+        '<span class="tc">&lt;!-- fieldset agrupa campos relacionados --&gt;</span>\n' +
+        '<span class="tk">&lt;fieldset&gt;</span>\n' +
+        '  <span class="tk">&lt;legend&gt;</span>Dados pessoais<span class="tk">&lt;/legend&gt;</span>\n' +
+        '  <span class="tc">&lt;!-- campos aqui --&gt;</span>\n' +
+        '<span class="tk">&lt;/fieldset&gt;</span>\n\n' +
+        '<span class="tc">&lt;!-- Lista suspensa --&gt;</span>\n' +
+        '<span class="tk">&lt;label</span> <span class="tp">for</span>=<span class="ts">"assunto"</span><span class="tk">&gt;</span>Assunto<span class="tk">&lt;/label&gt;</span>\n' +
+        '<span class="tk">&lt;select</span> <span class="tp">id</span>=<span class="ts">"assunto"</span> <span class="tp">name</span>=<span class="ts">"assunto"</span> <span class="tp">required</span><span class="tk">&gt;</span>\n' +
+        '  <span class="tk">&lt;option</span> <span class="tp">value</span>=<span class="ts">""</span><span class="tk">&gt;</span>Selecione...<span class="tk">&lt;/option&gt;</span>\n' +
+        '  <span class="tk">&lt;option</span> <span class="tp">value</span>=<span class="ts">"suporte"</span><span class="tk">&gt;</span>Suporte técnico<span class="tk">&lt;/option&gt;</span>\n' +
+        '<span class="tk">&lt;/select&gt;</span>\n\n' +
+        '<span class="tc">&lt;!-- Área de texto multilinha --&gt;</span>\n' +
+        '<span class="tk">&lt;textarea</span>\n' +
+        '  <span class="tp">id</span>=<span class="ts">"msg"</span> <span class="tp">name</span>=<span class="ts">"msg"</span>\n' +
+        '  <span class="tp">rows</span>=<span class="ts">"5"</span>\n' +
+        '  <span class="tp">minlength</span>=<span class="ts">"20"</span>\n' +
+        '  <span class="tp">required</span>\n' +
+        '<span class="tk">&gt;&lt;/textarea&gt;</span>' +
+      '</pre></div>';
+  },
+  // SLIDE 4
+  function() {
+    return '<div class="ey">Validação HTML5 · 3 min</div>' +
+      '<div class="stitle">Validação nativa — sem JavaScript</div>' +
+      '<div class="ssub">O HTML5 valida campos automaticamente ao enviar o formulário. Nenhuma linha de JavaScript necessária para validações básicas.</div>' +
+      '<div class="cw"><div class="ch"><span>HTML · Atributos de validação</span><div class="cd"><div class="c1" style="background:#ef4444"></div><div class="c1" style="background:#f59e0b"></div><div class="c1" style="background:#10b981"></div></div></div>' +
+      '<pre>' +
+        '<span class="tk">&lt;input</span>\n' +
+        '  <span class="tp">type</span>=<span class="ts">"text"</span>\n' +
+        '  <span class="tp">required</span>                           <span class="tc">&lt;!-- campo obrigatório --&gt;</span>\n' +
+        '  <span class="tp">minlength</span>=<span class="ts">"3"</span>                     <span class="tc">&lt;!-- mínimo de caracteres --&gt;</span>\n' +
+        '  <span class="tp">maxlength</span>=<span class="ts">"100"</span>                   <span class="tc">&lt;!-- máximo de caracteres --&gt;</span>\n' +
+        '<span class="tk">&gt;</span>\n\n' +
+        '<span class="tk">&lt;input</span>\n' +
+        '  <span class="tp">type</span>=<span class="ts">"number"</span>\n' +
+        '  <span class="tp">min</span>=<span class="ts">"18"</span>                          <span class="tc">&lt;!-- valor mínimo --&gt;</span>\n' +
+        '  <span class="tp">max</span>=<span class="ts">"120"</span>                         <span class="tc">&lt;!-- valor máximo --&gt;</span>\n' +
+        '<span class="tk">&gt;</span>\n\n' +
+        '<span class="tk">&lt;input</span>\n' +
+        '  <span class="tp">type</span>=<span class="ts">"text"</span>\n' +
+        '  <span class="tp">pattern</span>=<span class="ts">"[0-9]{5}-[0-9]{3}"</span>      <span class="tc">&lt;!-- regex — padrão de CEP --&gt;</span>\n' +
+        '  <span class="tp">title</span>=<span class="ts">"CEP no formato 00000-000"</span>  <span class="tc">&lt;!-- mensagem de erro --&gt;</span>\n' +
+        '<span class="tk">&gt;</span>' +
+      '</pre></div>' +
+      '<div class="hl"><strong>Dica profissional:</strong> validação HTML5 é a primeira linha de defesa. Sempre adicione validação no servidor também — o usuário pode inspecionar e remover atributos pelo DevTools.</div>';
+  },
+  // SLIDE 5
+  function() {
+    return '<div class="ey">CSS · 3 min</div>' +
+      '<div class="stitle">Estilizando formulários — :focus e :hover</div>' +
+      '<div class="ssub">O estado <code>:focus</code> é essencial para usabilidade — indica visualmente qual campo está ativo. Sem ele o formulário parece quebrado.</div>' +
+      '<div class="cw"><div class="ch"><span>CSS · Campos com foco estilizado</span><div class="cd"><div class="c1" style="background:#ef4444"></div><div class="c1" style="background:#f59e0b"></div><div class="c1" style="background:#10b981"></div></div></div>' +
+      '<pre>' +
+        '<span class="tc">/* Reset dos campos — padrão profissional */</span>\n' +
+        '<span class="tk">input, select, textarea</span> {\n' +
+        '  <span class="tp">width</span>: <span class="tv">100%</span>;\n' +
+        '  <span class="tp">padding</span>: <span class="tv">10px 14px</span>;\n' +
+        '  <span class="tp">border</span>: <span class="tv">1px solid #e2e8f0</span>;\n' +
+        '  <span class="tp">border-radius</span>: <span class="tv">8px</span>;\n' +
+        '  <span class="tp">font-size</span>: <span class="tv">1rem</span>;\n' +
+        '  <span class="tp">font-family</span>: <span class="tv">inherit</span>;\n' +
+        '  <span class="tp">transition</span>: <span class="tv">border-color .2s, box-shadow .2s</span>;\n' +
+        '}\n\n' +
+        '<span class="tc">/* Anel de foco visível */</span>\n' +
+        '<span class="tk">input:focus, select:focus, textarea:focus</span> {\n' +
+        '  <span class="tp">outline</span>: <span class="tv">none</span>;\n' +
+        '  <span class="tp">border-color</span>: <span class="tv">#7C3AED</span>;\n' +
+        '  <span class="tp">box-shadow</span>: <span class="tv">0 0 0 3px rgba(124,58,237,.15)</span>;\n' +
+        '}' +
+      '</pre></div>' +
+      '<div class="hl"><strong>font-family: inherit</strong> é obrigatório — sem ele os inputs usam a fonte do sistema operacional, diferente do restante do site.</div>';
+  },
+  // SLIDE 6
+  function() {
+    return '<div class="ey">Tabelas · 4 min</div>' +
+      '<div class="stitle">Tabelas semânticas — para dados tabulares</div>' +
+      '<div class="ssub">Tabelas são para dados — nunca para layout. Com as tags corretas, leitores de tela entendem a relação entre cabeçalhos e células.</div>' +
+      '<div class="cw"><div class="ch"><span>HTML · Tabela semântica completa</span><div class="cd"><div class="c1" style="background:#ef4444"></div><div class="c1" style="background:#f59e0b"></div><div class="c1" style="background:#10b981"></div></div></div>' +
+      '<pre>' +
+        '<span class="tk">&lt;table&gt;</span>\n' +
+        '  <span class="tk">&lt;caption&gt;</span>Horários de atendimento<span class="tk">&lt;/caption&gt;</span>\n\n' +
+        '  <span class="tk">&lt;thead&gt;</span>\n' +
+        '    <span class="tk">&lt;tr&gt;</span>\n' +
+        '      <span class="tk">&lt;th</span> <span class="tp">scope</span>=<span class="ts">"col"</span><span class="tk">&gt;</span>Dia<span class="tk">&lt;/th&gt;</span>\n' +
+        '      <span class="tk">&lt;th</span> <span class="tp">scope</span>=<span class="ts">"col"</span><span class="tk">&gt;</span>Horário<span class="tk">&lt;/th&gt;</span>\n' +
+        '    <span class="tk">&lt;/tr&gt;</span>\n' +
+        '  <span class="tk">&lt;/thead&gt;</span>\n\n' +
+        '  <span class="tk">&lt;tbody&gt;</span>\n' +
+        '    <span class="tk">&lt;tr&gt;&lt;td&gt;</span>Seg–Sex<span class="tk">&lt;/td&gt;&lt;td&gt;</span>8h–18h<span class="tk">&lt;/td&gt;&lt;/tr&gt;</span>\n' +
+        '    <span class="tk">&lt;tr&gt;&lt;td&gt;</span>Sábado<span class="tk">&lt;/td&gt;&lt;td&gt;</span>9h–13h<span class="tk">&lt;/td&gt;&lt;/tr&gt;</span>\n' +
+        '  <span class="tk">&lt;/tbody&gt;</span>\n\n' +
+        '  <span class="tk">&lt;tfoot&gt;</span>\n' +
+        '    <span class="tk">&lt;tr&gt;&lt;td</span> <span class="tp">colspan</span>=<span class="ts">"2"</span><span class="tk">&gt;</span>Domingo: fechado<span class="tk">&lt;/td&gt;&lt;/tr&gt;</span>\n' +
+        '  <span class="tk">&lt;/tfoot&gt;</span>\n' +
+        '<span class="tk">&lt;/table&gt;</span>' +
+      '</pre></div>' +
+      '<div class="hl"><strong>border-collapse: collapse</strong> no CSS é obrigatório para tabelas — sem ele aparecem bordas duplas entre as células.</div>';
+  },
+  // SLIDE 7
+  function() {
+    return '<div class="ey">Quiz · 3 min</div>' +
+      '<div class="stitle">Verificação de aprendizagem</div>' +
+      '<div class="ssub">Turma responde junto.</div>' +
+      '<div class="qb"><div class="qa">1. Para associar um label a um input, qual par de atributos deve ter o mesmo valor?</div>' +
+      '<div class="qo">' +
+        '<div class="qop" onclick="ansQ(this,\'w\',\'f0\')"><span>A</span>label name + input name</div>' +
+        '<div class="qop" onclick="ansQ(this,\'c\',\'f0\')"><span>B</span>label for + input id</div>' +
+        '<div class="qop" onclick="ansQ(this,\'w\',\'f0\')"><span>C</span>label class + input class</div>' +
+        '<div class="qop" onclick="ansQ(this,\'w\',\'f0\')"><span>D</span>label id + input name</div>' +
+      '</div>' +
+      '<div class="qfb" id="f0" style="background:#f0fdf4;color:#15803d">Correto! O valor do <strong>for</strong> do label deve ser idêntico ao <strong>id</strong> do input. É isso que cria a associação semântica — clicar no label foca o campo.</div></div>' +
+      '<div class="qb"><div class="qa">2. O atributo <code>required</code> em um input faz o quê?</div>' +
+      '<div class="qo">' +
+        '<div class="qop" onclick="ansQ(this,\'w\',\'f1\')"><span>A</span>Deixa o campo vermelho automaticamente</div>' +
+        '<div class="qop" onclick="ansQ(this,\'c\',\'f1\')"><span>B</span>Bloqueia o envio do formulário se o campo estiver vazio</div>' +
+        '<div class="qop" onclick="ansQ(this,\'w\',\'f1\')"><span>C</span>Adiciona um asterisco (*) ao label</div>' +
+        '<div class="qop" onclick="ansQ(this,\'w\',\'f1\')"><span>D</span>Aplica validação somente no mobile</div>' +
+      '</div>' +
+      '<div class="qfb" id="f1" style="background:#f0fdf4;color:#15803d">Correto! <strong>required</strong> é validação HTML5 nativa. Ao clicar em submit, o browser bloqueia o envio e exibe mensagem se o campo estiver vazio — sem JavaScript.</div></div>';
+  },
+  // SLIDE 8
+  function() {
+    return '<div class="ey">Encerramento · 1 min</div>' +
+      '<div class="stitle">Recapitulando</div>' +
+      '<div class="ssub">O que aprendemos e o que fazemos agora.</div>' +
+      '<div class="rl">' +
+        '<div class="ri"><div class="rn">1</div><div class="rt"><strong>form com action + method.</strong> label for deve ser igual ao input id — sempre, sem exceção.</div></div>' +
+        '<div class="ri"><div class="rn">2</div><div class="rt"><strong>Tipos de input</strong> definem comportamento e validação automática. Use o tipo certo para cada dado coletado.</div></div>' +
+        '<div class="ri"><div class="rn">3</div><div class="rt"><strong>fieldset + legend</strong> agrupam campos relacionados. select e textarea completam os controles de formulário.</div></div>' +
+        '<div class="ri"><div class="rn">4</div><div class="rt"><strong>Validação HTML5</strong> — required, minlength, maxlength, pattern — funciona sem JavaScript.</div></div>' +
+        '<div class="ri"><div class="rn">5</div><div class="rt"><strong>Tabelas</strong> são para dados tabulares. Sempre use thead, tbody, tfoot e caption.</div></div>' +
+      '</div>' +
+      '<div class="hl"><strong>Próximo passo:</strong> criar ao vivo a página contato.html com formulário completo e tabela de horários.</div>';
+  }
+];
+
+function buildDots() {
+  var bar = document.getElementById('dots-bar');
+  bar.innerHTML = '';
+  for (var i = 0; i < SLIDES.length; i++) {
+    var d = document.createElement('span');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('data-i', i);
+    d.onclick = (function(idx){ return function(){ goTo(idx); }; })(i);
+    bar.appendChild(d);
+    if (i < SLIDES.length - 1) {
+      var sep = document.createElement('div');
+      sep.className = 'dsep';
+      bar.appendChild(sep);
+    }
+  }
+}
+
+function buildSlides() {
+  var area = document.getElementById('slide-area');
+  area.innerHTML = '';
+  for (var i = 0; i < SLIDES.length; i++) {
+    var div = document.createElement('div');
+    div.className = 'slide' + (i === 0 ? ' active' : '');
+    div.id = 'slide-' + i;
+    div.innerHTML = SLIDES[i]();
+    area.appendChild(div);
+  }
+}
+
+function goTo(i) {
+  // hide current
+  document.getElementById('slide-' + cur).classList.remove('active');
+  var dots = document.querySelectorAll('.dot');
+  dots[cur].classList.remove('active');
+  if (i > cur) dots[cur].classList.add('done');
+
+  cur = i;
+
+  // show new
+  var el = document.getElementById('slide-' + cur);
+  el.innerHTML = SLIDES[cur]();
+  el.classList.add('active');
+  dots[cur].classList.add('active');
+  dots[cur].classList.remove('done');
+
+  // scroll to top
+  document.getElementById('slide-area').scrollTop = 0;
+
+  // update buttons
+  document.getElementById('btn-prev').disabled = (cur === 0);
+  var btnNext = document.getElementById('btn-next');
+  btnNext.disabled = (cur === SLIDES.length - 1);
+  btnNext.textContent = (cur === SLIDES.length - 1) ? 'Finalizar' : 'Próximo →';
+  document.getElementById('counter').textContent = (cur + 1) + ' / ' + SLIDES.length;
+
+  // start timer on first navigation
+  if (!timerStarted) { timerStarted = true; startTimer(); }
+}
+
+function goNav(dir) {
+  var ni = cur + dir;
+  if (ni >= 0 && ni < SLIDES.length) goTo(ni);
+}
+
+function startTimer() {
+  var rem = 30 * 60;
+  var el = document.getElementById('timer');
+  timerInterval = setInterval(function() {
+    rem--;
+    var m = Math.floor(rem / 60), s = rem % 60;
+    el.textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+    if (rem <= 300) el.className = 'timer warn';
+    if (rem <= 60)  el.className = 'timer danger';
+    if (rem <= 0)   { clearInterval(timerInterval); el.textContent = '00:00'; }
+  }, 1000);
+}
+
+function showInp(el, tipo, desc) {
+  document.querySelectorAll('.inp-card').forEach(function(c){ c.classList.remove('on'); });
+  el.classList.add('on');
+  document.getElementById('inp-prev').innerHTML =
+    '<strong style="color:#7C3AED">type="' + tipo + '"</strong><br><span style="font-size:12px">' + desc + '</span>';
+}
+
+function ansQ(el, t, id) {
+  var qb = el.closest('.qb');
+  qb.querySelectorAll('.qop').forEach(function(o){
+    if (o === el) o.classList.add(t === 'c' ? 'correct' : 'wrong');
+    else o.classList.add('dimmed');
+  });
+  var fb = document.getElementById(id);
+  if (t !== 'c') {
+    fb.style.background = '#fef2f2';
+    fb.style.color = '#dc2626';
+    fb.textContent = 'Não exatamente — pense na associação semântica entre label e input.';
+  }
+  fb.style.display = 'block';
+}
+
+// Init
+buildDots();
+buildSlides();
+document.getElementById('btn-prev').disabled = true;
+</script>
+</body>
+</html>
