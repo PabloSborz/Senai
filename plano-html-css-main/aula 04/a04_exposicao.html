@@ -8,7 +8,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:system-ui,sans-serif;color:#1e293b;background:#f8fafc;overflow:hidden}
 #app{display:flex;flex-direction:column;height:100vh}
-.hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid #e2e8f0;background:#fff;flex-shrink:0;gap:8px;flex-wrap:wrap}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;border-bottom:1px solid #e2e8f0;background:#fff;flex-shrink:0;gap:8px;flex-wrap:wrap;min-height:52px}
 .badge{background:#7C3AED;color:#fff;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
 .hdr-title{font-size:14px;font-weight:600}
 .hdr-sub{font-size:12px;color:#94a3b8;margin-top:1px}
@@ -74,6 +74,18 @@ pre{background:#1e293b;color:#e2e8f0;padding:13px 16px;font-size:12px;line-heigh
 .box{border:1px solid #e2e8f0;border-radius:10px;overflow:hidden}
 .box-h{padding:8px 13px;font-size:12px;font-weight:600}
 .box-b{padding:10px 13px;font-size:12px;color:#64748b;line-height:1.7}
+
+/* RODAPÉ DE AUTORIA */
+.kz-footer{height:32px;background:#1e293b;display:flex;align-items:center;justify-content:center;gap:10px;font-family:system-ui,sans-serif;flex-shrink:0;width:100%}
+.kz-footer a{color:#a78bfa;font-size:11px;font-weight:600;text-decoration:none;letter-spacing:.03em;display:flex;align-items:center;gap:5px}
+.kz-footer a:hover{color:#c4b5fd}
+.kz-footer span{color:#475569;font-size:11px}
+
+/* BOTÃO PRÓXIMA ETAPA */
+.next-stage{font-size:12px;font-weight:600;background:#fff;border:1.5px solid #7C3AED;color:#7C3AED;padding:5px 13px;border-radius:8px;cursor:pointer;font-family:inherit;transition:background .15s;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.next-stage:hover{background:#f5f3ff}
+.next-stage.solid{background:#7C3AED;color:#fff;border-color:#7C3AED}
+.next-stage.solid:hover{background:#6d28d9}
 </style>
 </head>
 <body>
@@ -86,7 +98,10 @@ pre{background:#1e293b;color:#e2e8f0;padding:13px 16px;font-size:12px;line-heigh
         <div class="hdr-sub">30 minutos · Projetor · Turma</div>
       </div>
     </div>
-    <div class="timer" id="timer">30:00</div>
+    <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+      <div class="timer" id="timer">30:00</div>
+      <button class="next-stage" onclick="window.location.href='a04_demo_ao_vivo.html'">💻 Demo ao Vivo →</button>
+    </div>
   </div>
   <div class="dots" id="dots-bar"></div>
   <div class="slide-area" id="slide-area"></div>
@@ -95,6 +110,14 @@ pre{background:#1e293b;color:#e2e8f0;padding:13px 16px;font-size:12px;line-heigh
     <span class="nc" id="counter">1 / 9</span>
     <button class="nb pr" id="btn-next" onclick="goNav(1)">Próximo →</button>
   </div>
+  <div class="kz-footer">
+  <a href="https://instagram.com/karizeviecelli" target="_blank" rel="noopener">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    @karizeviecelli
+  </a>
+  <span>·</span>
+  <span>© 2026</span>
+</div>
 </div>
 
 <script>

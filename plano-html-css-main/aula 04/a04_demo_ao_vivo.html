@@ -6,7 +6,7 @@
 <title>Demonstração ao Vivo — Formulários & Tabelas · Aula 04</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,sans-serif;color:#1e293b;background:#f8fafc;min-height:100vh;padding:20px}
+body{font-family:system-ui,sans-serif;color:#1e293b;background:#f8fafc;min-height:100vh}
 .wrap{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .full{grid-column:1/-1}
 .page-hdr{display:flex;align-items:center;justify-content:space-between}
@@ -31,11 +31,23 @@ body{font-family:system-ui,sans-serif;color:#1e293b;background:#f8fafc;min-heigh
 .cb2:disabled{opacity:.35;pointer-events:none}
 .k{color:#93c5fd}.p{color:#c4b5fd}.v{color:#6ee7b7}.s{color:#fda4af}.c{color:#475569;font-style:italic}
 @media(max-width:680px){.wrap{grid-template-columns:1fr}.panel:nth-child(3){display:none}}
+
+/* RODAPÉ DE AUTORIA */
+.kz-footer{height:32px;background:#1e293b;display:flex;align-items:center;justify-content:center;gap:10px;font-family:system-ui,sans-serif;flex-shrink:0;width:100%}
+.kz-footer a{color:#a78bfa;font-size:11px;font-weight:600;text-decoration:none;letter-spacing:.03em;display:flex;align-items:center;gap:5px}
+.kz-footer a:hover{color:#c4b5fd}
+.kz-footer span{color:#475569;font-size:11px}
+
+/* BOTÃO PRÓXIMA ETAPA */
+.next-stage{font-size:12px;font-weight:600;background:#fff;border:1.5px solid #7C3AED;color:#7C3AED;padding:5px 13px;border-radius:8px;cursor:pointer;font-family:inherit;transition:background .15s;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.next-stage:hover{background:#f5f3ff}
+.next-stage.solid{background:#7C3AED;color:#fff;border-color:#7C3AED}
+.next-stage.solid:hover{background:#6d28d9}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="full page-hdr"><h1>Demonstração ao Vivo — Formulários & Tabelas</h1><p>Aula 04 · 45 min · Docente digita, alunos acompanham</p></div>
+  <div class="full page-hdr"><h1>Demonstração ao Vivo — Formulários &amp; Tabelas</h1><div style="display:flex;align-items:center;gap:10px"><p>Aula 04 · 45 min · Docente digita, alunos acompanham</p><button class="next-stage" onclick="window.location.href='a04_pratica_guiada.html'">📝 Prática →</button></div></div>
   <div class="full prog-track"><div class="prog-fill" id="prog"></div></div>
   <div class="panel">
     <div class="ph"><span>VS Code — contato.html</span><div class="cd"><div class="c1" style="background:#ef4444"></div><div class="c1" style="background:#f59e0b"></div><div class="c1" style="background:#10b981"></div></div></div>
@@ -243,5 +255,13 @@ function nextS(){if(typing){clearTimeout(typeTimer);typing=false;}cur=Math.min(c
 function prevS(){if(typing){clearTimeout(typeTimer);typing=false;}cur=Math.max(cur-1,0);render();showCode(STEPS[cur]);document.getElementById('bplay').textContent='Rever';document.getElementById('bplay').disabled=false;}
 render();document.getElementById('code-out').innerHTML='';
 </script>
+<div class="kz-footer">
+  <a href="https://instagram.com/karizeviecelli" target="_blank" rel="noopener">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    @karizeviecelli
+  </a>
+  <span>·</span>
+  <span>© 2026</span>
+</div>
 </body>
 </html>

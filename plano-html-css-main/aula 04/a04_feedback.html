@@ -52,6 +52,15 @@ body{font-family:system-ui,sans-serif;color:#1e293b;background:#f8fafc;min-heigh
 .add-area input:focus{border-color:#7C3AED}
 .add-area button{font-size:12px;padding:6px 14px;border-radius:6px;border:1px solid #ddd6fe;background:#ede9fe;color:#4c1d95;cursor:pointer;font-family:inherit;font-weight:500}
 @media(max-width:580px){.stats{grid-template-columns:1fr 1fr}}
+
+/* RODAPÉ DE AUTORIA */
+.kz-footer{height:32px;background:#1e293b;display:flex;align-items:center;justify-content:center;gap:10px;font-family:system-ui,sans-serif;flex-shrink:0;width:100%}
+.kz-footer a{color:#a78bfa;font-size:11px;font-weight:600;text-decoration:none;letter-spacing:.03em;display:flex;align-items:center;gap:5px}
+.kz-footer a:hover{color:#c4b5fd}
+.kz-footer span{color:#475569;font-size:11px}
+
+.next-stage{font-size:12px;font-weight:600;background:#fff;border:1.5px solid #7C3AED;color:#7C3AED;padding:5px 13px;border-radius:8px;cursor:pointer;font-family:inherit;transition:background .15s;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.next-stage:hover{background:#f5f3ff}
 </style>
 </head>
 <body>
@@ -61,6 +70,7 @@ body{font-family:system-ui,sans-serif;color:#1e293b;background:#f8fafc;min-heigh
     <span class="chip" id="tchip">45:00</span>
     <button class="tbtn" id="tbtn" onclick="startTimer()">Iniciar sessão</button>
     <button class="tbtn" onclick="addAluno()">+ Aluno</button>
+    <button class="tbtn" onclick="if(confirm('Encerrar a sessão?'))window.close()" style="background:#f0fdf4;color:#15803d;border-color:#86efac">✅ Encerrar</button>
   </div>
   <div class="stats">
     <div class="stat"><div class="sn" id="s-total">0</div><div class="sl">Alunos</div></div>
@@ -102,5 +112,13 @@ function addPonto(){const inp=document.getElementById('novo');const v=inp.value.
 function startTimer(){const btn=document.getElementById('tbtn');if(!ticking){ticking=true;btn.textContent='Pausar';btn.className='tbtn act';tInterval=setInterval(()=>{tSec--;const m=Math.floor(tSec/60),s=tSec%60;const chip=document.getElementById('tchip');chip.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;if(tSec<=300)chip.style.color='#d97706';if(tSec<=60)chip.style.color='#dc2626';if(tSec<=0){clearInterval(tInterval);ticking=false;btn.textContent='Encerrado';btn.disabled=true;}},1000);}else{ticking=false;clearInterval(tInterval);btn.textContent='Continuar';btn.className='tbtn';}}
 buildAlunos();buildPontos();
 </script>
+<div class="kz-footer">
+  <a href="https://instagram.com/karizeviecelli" target="_blank" rel="noopener">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    @karizeviecelli
+  </a>
+  <span>·</span>
+  <span>© 2026</span>
+</div>
 </body>
 </html>

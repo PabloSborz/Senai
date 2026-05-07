@@ -49,6 +49,15 @@ code{font-family:'Courier New',monospace;font-size:11.5px;background:#f1f5f9;pad
 .sb.show{display:block}
 .sb h3{font-size:15px;font-weight:600;color:#15803d;margin-bottom:5px}
 .sb p{font-size:13px;color:#475569}
+
+/* RODAPÉ DE AUTORIA */
+.kz-footer{height:32px;background:#1e293b;display:flex;align-items:center;justify-content:center;gap:10px;font-family:system-ui,sans-serif;flex-shrink:0;width:100%}
+.kz-footer a{color:#a78bfa;font-size:11px;font-weight:600;text-decoration:none;letter-spacing:.03em;display:flex;align-items:center;gap:5px}
+.kz-footer a:hover{color:#c4b5fd}
+.kz-footer span{color:#475569;font-size:11px}
+
+.next-stage{font-size:12px;font-weight:600;background:#fff;border:1.5px solid #7C3AED;color:#7C3AED;padding:5px 13px;border-radius:8px;cursor:pointer;font-family:inherit;transition:background .15s;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.next-stage:hover{background:#f5f3ff}
 </style>
 </head>
 <body>
@@ -57,7 +66,10 @@ code{font-family:'Courier New',monospace;font-size:11.5px;background:#f1f5f9;pad
     <div class="bt">
       <div class="bbadge">Desafio autônomo · 60 minutos</div>
       <div class="btitle">Página de Contato Profissional</div>
-      <div class="bsub">Formulário completo + tabela de dados. Sem copiar do colega.</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <div class="bsub">Formulário completo + tabela de dados. Sem copiar do colega.</div>
+        <button class="next-stage" onclick="window.location.href='a04_feedback.html'" style="background:#7C3AED;color:#fff;border-color:#7C3AED">📋 Feedback →</button>
+      </div>
     </div>
     <div class="bb">
       <div class="ctx"><strong>Contexto real</strong>O gestor aprovou as páginas anteriores e agora precisa da página de contato para receber orçamentos de clientes. Ele exige: formulário com pelo menos 5 campos diferentes, agrupados em seções, e uma tabela de horários de atendimento.</div>
@@ -114,5 +126,13 @@ function timerClick(){if(!ticking){ticking=true;document.getElementById('tbtn').
 function timerReset(){clearInterval(tInterval);ticking=false;tSec=60*60;document.getElementById('tnum').textContent='60:00';document.getElementById('tbtn').textContent='Iniciar';document.getElementById('tbtn').style.background='#7C3AED';document.getElementById('tbtn').disabled=false;document.getElementById('tmsg').textContent='Inicie quando o docente autorizar';}
 buildReqs();
 </script>
+<div class="kz-footer">
+  <a href="https://instagram.com/karizeviecelli" target="_blank" rel="noopener">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    @karizeviecelli
+  </a>
+  <span>·</span>
+  <span>© 2026</span>
+</div>
 </body>
 </html>
