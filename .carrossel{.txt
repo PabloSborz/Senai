@@ -1,0 +1,96 @@
+.carrossel{
+    width: 800px;
+    height: 450px;
+
+    overflow: hidden;
+
+    border-radius: 20px;
+    border: 2px solid #D4AF37;
+
+    position: relative;
+}
+
+.slides{
+    display: flex;
+    width: 100%;
+
+    transition: 0.5s;
+}
+
+.slides img{
+    width: 800px;
+    height: 450px;
+
+    object-fit: cover;
+}
+
+button{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    background: rgba(0,0,0,0.5);
+    color: white;
+
+    border: none;
+    padding: 15px;
+
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.prev{
+    left: 10px;
+}
+
+.next{
+    right: 10px;
+}
+
+
+
+
+
+<script>
+
+let index = 0;
+
+function avancar(){
+
+    const slides = document.getElementById("slides");
+
+    if(index < 3){
+        index++;
+    }else{
+        index = 0;
+    }
+
+    slides.style.transform =
+    `translateX(-${index * 800}px)`;
+}
+
+function voltar(){
+
+    const slides = document.getElementById("slides");
+
+    if(index > 0){
+        index--;
+    }else{
+        index = 3;
+    }
+
+    slides.style.transform =
+    `translateX(-${index * 800}px)`;
+}
+
+</script>
+
+        <div class="carrossel">
+        <div class="slides" id="slides">
+
+        </div>
+
+    <button class="prev" onclick="voltar()">❮</button>
+    <button class="next" onclick="avancar()">❯</button>
+
+</div>
