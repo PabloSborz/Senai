@@ -36,7 +36,7 @@ header{
 
 nav{
     background-color: var(--primaria);
-    padding: 10px;
+    padding: 5px;
     display: flex;
     gap: 20px;
     justify-content: center;
@@ -48,7 +48,7 @@ nav{
 nav a{
     text-decoration: none;
     color: var(--texto);
-    padding: 10px;
+    padding: 9px;
 }
 
  nav a:hover{
@@ -75,11 +75,6 @@ nav a{
     box-shadow: 5px 5px 5px  var(--destaque);
 }
 
-a{
-    text-decoration: none;
-    color: var(--texto);
-}
-
 .card:hover {
     transform:  translateY(-4px);
 }
@@ -91,11 +86,26 @@ img {
   
 }
 
+a{
+    text-decoration: none;
+    color: var(--texto); 
+}
+
 footer{
     padding: 50px;
     border: 1px solid var(--destaque);
     border-radius: 5px 5px 0px 0px;
     row-gap: 20px;
+    text-align: center;
+}
+
+footer a{
+    padding: 10px;
+    text-decoration: none;
+    color: var(--texto);
+    display: flex;
+    justify-content: end;
+    align-items: center;
 }
 
 footer a:hover{
@@ -110,10 +120,19 @@ footer a:hover{
     justify-content: start;
     align-items: center;
 }
-
+footer h3{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
 footer h2{
     color: var(--destaque);
+    text-align: center;
+    font-size: 50px;
     display: flex;
+    justify-content: left;
+    align-items: center;
 }
+
 
 
