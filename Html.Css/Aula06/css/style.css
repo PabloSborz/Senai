@@ -26,12 +26,16 @@ header{
     background-repeat: no-repeat;
     height: 300px;
     color: var(--destaque);
-    padding-bottom: 20px;
+    padding-top: 100px;
     text-align: end;
     border:1px solid var(--destaque);
     border-radius: 5px 5px 0px 0px;
-    font-size: 30px;
+    font-size: 40px;
     font-family: "Dancing Script", cursive;
+}
+
+header h1{
+    padding: auto;
 }
 
 nav{
@@ -55,6 +59,11 @@ nav a{
     background: var(--hover);
     border: 1px solid var(--destaque);
     border-radius: 10px;
+}
+
+main{
+    padding: 30px;
+
 }
 
 .grade {
@@ -136,4 +145,71 @@ footer{
 }
 
 
+.top-bar{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
 
+.filter-box{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    background: var(--primaria);
+    backdrop-filter: blur(12px);
+
+    padding: 15px 20px;
+    border-radius: 18px;
+
+    border: 1px solid var(--destaque);
+
+    box-shadow: 0 8px 25px rgba(0,0,0,.25);
+}
+
+.filter-box input,
+.filter-box select{
+    background: rgba(255,255,255,.1);
+    border: none;
+    outline: none;
+
+    padding: 12px 15px;
+    border-radius: 12px;
+
+    color: var(--destaque);
+    font-size: 14px;
+
+    min-width: 170px;
+}
+
+.filter-box input::placeholder{
+    color: var(--destaque);
+}
+
+.filter-box select{
+    cursor: pointer;
+}
+
+.filter-box option{
+    color: black;
+}
+
+.filter-box button{
+    border: none;
+    padding: 12px 22px;
+    border-radius: 12px;
+
+    background: var(--destaque);
+
+    color: var(--primaria);
+    font-weight: bold;
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+.filter-box button:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px var(--destaque);
+}

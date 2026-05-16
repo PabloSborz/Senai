@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Playwrite+MX+Guides&display=swap" rel="stylesheet">
-    <title>CompreCarros</title>
+    <title>ApexSupercars</title>
 </head>
 <body>
     <header>
@@ -15,79 +15,110 @@
     </header>
 
     <nav>
-            <a href="contato.html">Contato</a>
+            <a href="https://beacons.ai/pablosborz">Contato</a>
             <a href="sobre.html">Sobre</a>
-            <a href="filtro.html">Filtro</a>
+            
     </nav>
 
     <main class="grade">
 
-        <section class="card">
+    <div class="top-bar">
+
+    <div class="filter-box">
+        <input type="text" placeholder="Pesquisar...">
+
+        <select id="categoria">
+            <option value="all">Categoria</option>
+            <option value="Audi">Audi</option>
+            <option value="Ferrari">Ferrari</option>
+            <option value="Lamborghini">Lamborghini</option>
+            <option value="Porsche">Porsche</option>
+            <option value="Bugati">Bugati</option>
+            <option value="Mercedes-Benz">Mercedes-Benz</option>
+            <option value="Rolls-Royce">Rolls-Royce</option>
+        </select>
+
+<button id="filtrar">Filtrar</button>
+<button id="limpar">Limpar</button>
+
+    </div>
+
+    </div>
+
+        <section class="card" data-category="Audi">
             <a href="Compre1.html">
             <figure class="img">
+                <p>Audi Rs6</p>
             <img src="Img/Audi.jpg" alt="foto de carro" loading="lazy">
             Ver Detalhes
             </figure>
             </a>
         </section>
 
-        <section class="card">
+        <section class="card" data-category="Ferrari">
             <a href="Compre2.html">
             <figure class="img">
+                <p>Ferrari</p>
             <img src="Img/Ferrari.jpg" alt="foto de carro" loading="lazy">
             Ver Detalhes
             </figure>
             </a>
         </section>
 
-        <section class="card">
+        <section class="card" data-category="Lamborghini">
             <a href="Compre3.html">
             <figure class="img">
+                <p>Lamborghini</p>
             <img src="Img/lamborghini.jpg" alt="foto de carro" loading="lazy">
             Ver Detalhes
             </figure>
             </a>
         </section>
 
-        <section class="card">
+        <section class="card" data-category="Porsche">
             <a href="Compre4.html">
             <figure class="img">
+                <p>Porsche</p>
             <img src="Img/porsche.jpg" alt="foto de carro" loading="lazy">
             Ver Detalhes
             </figure>
             </a>
         </section>
 
-        <section class="card">
+        <section class="card" data-category="Audi">
             <a href="Compre5.html">
             <figure class="img">
+                <p>Audi R8</p>
             <img src="Img/audi2.jpg" alt="foto de carro" loading="lazy">
             Ver Detalhes
             </figure>
             </a>
         </section>
 
-        <section class="card">
+        <section class="card" data-category="Bugati">
             <a href="Compre6.html">
             <figure class="img">
+                <p>Bugati</p>
             <img src="Img/bugati.jpg" alt="foto de carro" loading="lazy">
             Ver Detalhes
             </figure>
             </a>
         </section>
 
-        <section class="card">
+        <section class="card" data-category="Mercedes-Benz">
             <a href="Compre7.html">
             <figure class="img">
+                <p>Mercedes-Benz</p>
             <img src="Img/mercedes.jpg" alt="foto de carro" loading="lazy">
             Ver Detalhes
             </figure>
             </a>
         </section>
 
-        <section class="card">
+        <section class="card" data-category="Rolls-Royce">
             <a href="Compre8.html">
             <figure class="img">
+                <p>Rolls-Royce</p>
             <img src="Img/rols.jpg" alt="foto de carro" loading="lazy">
             Ver Detalhes
             </figure>
@@ -104,11 +135,52 @@
         </div>
 
         <div class="test2">
-        <a href="contato.html">Contato</a>
+        <a href="https://beacons.ai/pablosborz">Contato</a>
         <a href="sobre.html">Sobre</a>
         </div>
 
     </footer>
+
+<script>
+
+const botao = document.getElementById("filtrar");
+const limpar = document.getElementById("limpar");
+
+const categoria = document.getElementById("categoria");
+
+const cards = document.querySelectorAll(".card");
+
+botao.addEventListener("click", () => {
+
+    const valor = categoria.value;
+
+    cards.forEach(card => {
+
+        if(valor === "all"){
+            card.style.display = "block";
+        }
+        else if(card.dataset.category === valor){
+            card.style.display = "block";
+        }
+        else{
+            card.style.display = "none";
+        }
+
+    });
+
+});
+
+limpar.addEventListener("click", () => {
+
+    categoria.value = "all";
+
+    cards.forEach(card => {
+        card.style.display = "block";
+    });
+
+});
+
+</script>
 
 </body>
 </html>
