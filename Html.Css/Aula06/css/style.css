@@ -4,7 +4,8 @@
     --secundario: #8C6A43;
     --texto: #F5F5F5;
     --texto2: #eeff01;
-    --hover: #444444;    
+    --hover: #444444;  
+    --table: #0f0e0e;  
 }
 
 * { 
@@ -14,6 +15,7 @@
 body{
     background-color: var(--primaria);
     color: var(--texto);
+    
 }
 
 header{
@@ -55,7 +57,7 @@ nav a{
     padding: 9px;
 }
 
- nav a:hover{
+nav a:hover{
     background: var(--hover);
     border: 1px solid var(--destaque);
     border-radius: 10px;
@@ -64,6 +66,77 @@ nav a{
 main{
     padding: 30px;
 
+}
+
+section img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 900px;
+    height: 350px;
+    border: 1px solid var(--destaque);
+    margin: auto;
+    border-radius: 20px;
+}
+
+section h2{
+    font-size: 60px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+section p{
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.compre{
+    background-color: var(--primaria);
+    color: var(--texto);
+    border: 1px solid var(--destaque);
+    border-radius: 20px;
+    padding: 20px;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px auto;
+}
+
+.compre:hover{
+    background-color: var(--hover);
+}
+
+table{
+    width: 700px;
+    border-collapse: collapse;
+    background: var(--table);
+    color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: auto;
+}
+
+thead{
+    background: var(--hover);
+}
+
+th, td{
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--destaque);
+}
+
+th{
+    font-size: 18px;
+}
+
+tbody tr:hover{
+    background: #2a2a2a;
+    transition: 0.3s;
 }
 
 .grade {
@@ -88,16 +161,21 @@ main{
     transform:  translateY(-4px);
 }
 
-img {
+.card img {
     height:200px;
     width: 200px;
     object-fit: cover;
   
 }
+.card p{
+    font-size: 25px;
+    margin-bottom: auto;
+}
 
-a{
+section a{
     text-decoration: none;
-    color: var(--texto); 
+    color: var(--texto);
+    font-size: 20px; 
 }
 
 footer{

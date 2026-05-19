@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
+    <script src="script.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Playwrite+MX+Guides&display=swap" rel="stylesheet">
@@ -46,17 +47,17 @@
     </div>
 
         <section class="card" data-category="Audi">
-            <a href="Compre1.html">
+            <a href="comprei1.html">
             <figure class="img">
                 <p>Audi Rs6</p>
-            <img src="Img/Audi.jpg" alt="foto de carro" loading="lazy">
+            <img src="Img/audirs6.jpg" alt="foto de carro" loading="lazy">
             Ver Detalhes
             </figure>
             </a>
         </section>
 
         <section class="card" data-category="Ferrari">
-            <a href="Compre2.html">
+            <a href="compre2.html">
             <figure class="img">
                 <p>Ferrari</p>
             <img src="Img/Ferrari.jpg" alt="foto de carro" loading="lazy">
@@ -140,47 +141,6 @@
         </div>
 
     </footer>
-
-<script>
-
-const botao = document.getElementById("filtrar");
-const limpar = document.getElementById("limpar");
-
-const categoria = document.getElementById("categoria");
-
-const cards = document.querySelectorAll(".card");
-
-botao.addEventListener("click", () => {
-
-    const valor = categoria.value;
-
-    cards.forEach(card => {
-
-        if(valor === "all"){
-            card.style.display = "block";
-        }
-        else if(card.dataset.category === valor){
-            card.style.display = "block";
-        }
-        else{
-            card.style.display = "none";
-        }
-
-    });
-
-});
-
-limpar.addEventListener("click", () => {
-
-    categoria.value = "all";
-
-    cards.forEach(card => {
-        card.style.display = "block";
-    });
-
-});
-
-</script>
 
 </body>
 </html>
