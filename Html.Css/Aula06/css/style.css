@@ -104,7 +104,7 @@ section p{
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 30px auto;
+    margin-bottom: 20px;
 }
 
 .compre:hover{
@@ -295,17 +295,82 @@ footer img{
     border: none;
     padding: 12px 22px;
     border-radius: 12px;
-
     background: var(--destaque);
-
     color: var(--primaria);
     font-weight: bold;
     cursor: pointer;
-
     transition: .3s;
 }
 
 .filter-box button:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px var(--destaque);
+}
+
+input, select, textarea{
+    background-color: var(--primaria);
+    width: 80%;
+    padding: 10px 14px;
+    border: 1px solid var(--destaque);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color .2s, box-shadow .2s;
+    color: var(--texto);
+}
+
+form{
+    align-items: center;
+    margin: auto;
+    text-align: center;
+}
+
+textarea, select{
+    text-align: center;
+    margin:auto;
+    width: 50%;
+    align-items: center;
+}
+
+.id{
+    margin-bottom: 20px;
+}
+
+.assunto{
+    margin-bottom: 20px;
+}
+
+textarea{
+    margin-bottom: 20px;
+}
+
+legend, label{
+    color: var(--texto);
+    text-align: center;
+    padding: 20px;
+    display: block;
+    text-align: center;
+}
+
+input:focus, select:focus, textarea:focus{
+    outline: none;
+    border-color: var(--destaque);
+    box-shadow: 0 0 0 3px rbga(34,58,237,.15);
+}
+
+button{
+    margin-top: 20px;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 12px;
+    background: var(--destaque);
+    color: var(--primaria);
+    font-weight: bold;
+    cursor: pointer;
+    transition: .3s;
+}
+
+button:hover{
     transform: translateY(-2px);
     box-shadow: 0 5px 15px var(--destaque);
 }
