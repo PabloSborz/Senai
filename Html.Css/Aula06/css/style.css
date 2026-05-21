@@ -69,14 +69,15 @@ main{
 }
 
 section img{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 900px;
+    display: block;
+    width: 700px;
+    max-width: 100%;
     height: 350px;
+    object-fit: cover;
     border: 1px solid var(--destaque);
     margin: auto;
     border-radius: 20px;
+    align-items: center;
 }
 
 section h2{
@@ -188,18 +189,35 @@ footer{
     background: var(--primaria);
 }
 
+.test{
+    display: flex;
+    align-items: center;
+    gap: 0px;
+}
+
+footer img{
+    width: 160px;
+    height: auto;
+    margin-left: 100px;
+    margin-top: 20px;
+}
+
+.test-text{
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+}
+
 .test h2{
     color: var(--destaque);
     font-size: 35px;
-    margin-left: 100px;
+    margin: 0;
 }
 
 .test h3{
     color: var(--texto);
     font-size: 16px;
-    display: flex;
-    justify-content: first baseline;
-    margin-left: 100px;
+    margin: 0;
 }
 
 .test2{
@@ -213,7 +231,7 @@ footer{
 .test2 a{
     text-decoration: none;
     color: var(--texto);
-    padding: 10px ;
+    padding: 10px;
 }
 
 .test2 a:hover{
