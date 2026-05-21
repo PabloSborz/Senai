@@ -166,11 +166,18 @@ tbody tr:hover{
     height:200px;
     width: 200px;
     object-fit: cover;
+    margin: 10px;
   
 }
-.card p{
+
+.card h4{
+    margin-top: 10px;
     font-size: 25px;
-    margin-bottom: auto;
+}
+
+.card p{
+    font-size: 20px;
+    margin-bottom: 10px;
 }
 
 section a{
@@ -251,10 +258,11 @@ footer img{
 .filter-box{
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 12px;
     background: var(--primaria);
     backdrop-filter: blur(12px);
-    padding: 15px 20px;
+    padding: 15px ;
     border-radius: 18px;
     border: 1px solid var(--destaque);
     box-shadow: 0 8px 25px rgba(0,0,0,.25);
@@ -265,7 +273,7 @@ footer img{
     background: rgba(255,255,255,.1);
     border: none;
     outline: none;
-    padding: 12px 15px;
+    padding: 12px ;
     border-radius: 12px;
     color: var(--destaque);
     font-size: 14px;
@@ -278,15 +286,26 @@ footer img{
 
 .filter-box select{
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    
 }
 
 .filter-box option{
-    color: black;
+    text-decoration: none;
+    color: var(--destaque);
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    background-color: var(--hover);
 }
 
 .filter-box button{
     border: none;
-    padding: 12px 22px;
+    padding: 12px ;
     border-radius: 12px;
     background: var(--destaque);
     color: var(--primaria);
@@ -370,7 +389,7 @@ input:focus, select:focus, textarea:focus{
     box-shadow: 0 0 0 3px rbga(34,58,237,.15);
 }
 
-button{
+.botao{
     margin-top: 20px;
     border: none;
     padding: 12px 22px;
