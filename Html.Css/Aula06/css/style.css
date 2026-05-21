@@ -252,15 +252,11 @@ footer img{
     display: flex;
     align-items: center;
     gap: 12px;
-
     background: var(--primaria);
     backdrop-filter: blur(12px);
-
     padding: 15px 20px;
     border-radius: 18px;
-
     border: 1px solid var(--destaque);
-
     box-shadow: 0 8px 25px rgba(0,0,0,.25);
 }
 
@@ -269,13 +265,10 @@ footer img{
     background: rgba(255,255,255,.1);
     border: none;
     outline: none;
-
     padding: 12px 15px;
     border-radius: 12px;
-
     color: var(--destaque);
     font-size: 14px;
-
     min-width: 170px;
 }
 
@@ -325,6 +318,21 @@ form{
     text-align: center;
 }
 
+.obrigado{
+    text-align: center;
+    font-size: 50px;
+    padding: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.obrigado img{
+    width: 200px;
+    margin-right: 10px;
+}
+
 textarea, select{
     text-align: center;
     margin:auto;
@@ -333,6 +341,10 @@ textarea, select{
 }
 
 .id{
+    margin-bottom: auto;
+}
+
+.email{
     margin-bottom: 20px;
 }
 
