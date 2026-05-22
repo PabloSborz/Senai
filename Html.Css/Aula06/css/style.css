@@ -111,6 +111,13 @@ section p{
     background-color: var(--hover);
 }
 
+.sobre{
+    
+    text-align: left;
+    font-size: 30px;
+    
+}
+
 table{
     width: 700px;
     border-collapse: collapse;
