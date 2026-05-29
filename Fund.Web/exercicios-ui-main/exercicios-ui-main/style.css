@@ -1,0 +1,102 @@
+  * {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+  }
+
+  body {
+      background: #fff8fb;
+      color: #333;
+  }
+
+  header {
+      background: linear-gradient(135deg, #ff4f81, #ff9bb5);
+      color: white;
+      padding: 20px 10%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+  }
+
+  header h1 {
+      font-size: 2rem;
+  }
+
+  nav a {
+      color: white;
+      margin-left: 20px;
+      font-weight: bold;
+      transition: 0.3s;
+  }
+
+  .hero {
+      height: 85vh;
+      background: url('https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1400&auto=format&fit=crop') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+  }
+
+  .hero-content {
+      background: rgba(255, 255, 255, 0.85);
+      padding: 40px;
+      border-radius: 20px;
+      max-width: 600px;
+  }
+
+  .hero h2 {
+      font-size: 3rem;
+      color: #ff4f81;
+      margin-bottom: 20px;
+  }
+
+  .hero p {
+      font-size: 1.1rem;
+      margin-bottom: 25px;
+      line-height: 1.6;
+  }
+
+  .btn {
+      background: #ff4f81;
+      color: white;
+      padding: 15px 30px;
+  }
+
+  .section-title {
+      color: #ff4f81;
+      margin: 60px 0 30px;
+  }
+
+  .products {
+      padding: 0 10% 60px;
+  }
+
+  .card {
+      display: inline-block;
+  }
+
+  .card img {
+      width: 300px;
+  }
+
+  .card h3 {
+      color: #444;
+  }
+
+  .price {
+      color: #ff4f81;
+  }
+
+  .about {
+      background: #ffe4ec;
+      padding: 25px;
+  }
+
+  footer {
+      background: #898888;
+      padding: 25px;
+  }
