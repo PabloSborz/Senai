@@ -61,7 +61,6 @@ nav a {
     font-weight: bold;
     border-radius: 10px;
     text-decoration: none;
-    background: var(--nav-bg);
     border: 1px solid transparent;
     transition: background 0.3s ease, border-color 0.3s ease;
 }
