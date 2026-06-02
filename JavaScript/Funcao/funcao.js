@@ -58,3 +58,17 @@ alert("A soma dos números é: " + soma2);
 
 let nomeUsuario = prompt("Digite seu nome:");
 alert("Olá, " + nomeUsuario + "! Bem-vindo(a)!");
+
+let aluno = true
+if(aluno == true){
+    console.log("Presença confirmada.")
+}else{
+    console.log("Presença não confirmada.")
+}
+
+let aluno2 = prompt("Presença ou falta")
+if(aluno2 == "Presença"){
+    console.log("Presença confirmada.")
+}else{
+    console.log("Presença não confirmada.")
+}
