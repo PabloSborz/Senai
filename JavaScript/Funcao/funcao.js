@@ -50,25 +50,55 @@ saudacao("João");
 saudacao("Maria");
 saudacao("Pedro");
 
+function somaNumeros() {
 let num1 = Number(prompt("Digite o primeiro número:"));
 let num2 = Number(prompt("Digite o segundo número:"));
 
 let soma2 = num1 + num2;
 alert("A soma dos números é: " + soma2);
+}
+somaNumeros();
 
+function nome(){
 let nomeUsuario = prompt("Digite seu nome:");
 alert("Olá, " + nomeUsuario + "! Bem-vindo(a)!");
+}
+nome();
 
+function alunoPresente(){
 let aluno = true
 if(aluno == true){
     console.log("Presença confirmada.")
 }else{
     console.log("Presença não confirmada.")
 }
+}
 
+alunoPresente();
+
+function alunoPresente2(){
 let aluno2 = prompt("Presença ou falta")
 if(aluno2 == "Presença"){
     console.log("Presença confirmada.")
 }else if(aluno2 == "Falta"){
     console.log("Presença não confirmada.")
 }
+
+}
+alunoPresente2();
+
+function situacaoAluno(){
+    let nota1 = Number(prompt("Digite a primeira nota:"));
+    let nota2 = Number(prompt("Digite a segunda nota:"));
+    let nota3 = Number(prompt("Digite a terceira nota:"));
+    let media = (nota1 + nota2 + nota3) / 3;
+
+    if(media >= 7){
+        alert("Aprovado");
+    }else if(media >= 5){
+        alert("Recuperação");
+    }else{
+        alert("Reprovado");
+    }
+}
+situacaoAluno();
