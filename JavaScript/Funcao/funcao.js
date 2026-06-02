@@ -42,3 +42,10 @@ function calcularAreaRetangulo(base, altura) {
 calcularAreaRetangulo(5, 3);
 calcularAreaRetangulo(10, 4);
 calcularAreaRetangulo(7, 2);
+
+function saudacao(nome) {
+    console.log("Olá, " + nome + "! Bem-vindo(a)!");
+}
+saudacao("João");
+saudacao("Maria");
+saudacao("Pedro");
