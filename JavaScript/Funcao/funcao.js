@@ -49,3 +49,12 @@ function saudacao(nome) {
 saudacao("João");
 saudacao("Maria");
 saudacao("Pedro");
+
+let num1 = Number(prompt("Digite o primeiro número:"));
+let num2 = Number(prompt("Digite o segundo número:"));
+
+let soma2 = num1 + num2;
+alert("A soma dos números é: " + soma2);
+
+let nomeUsuario = prompt("Digite seu nome:");
+alert("Olá, " + nomeUsuario + "! Bem-vindo(a)!");
