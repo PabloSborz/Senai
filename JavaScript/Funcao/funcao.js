@@ -69,6 +69,6 @@ if(aluno == true){
 let aluno2 = prompt("Presença ou falta")
 if(aluno2 == "Presença"){
     console.log("Presença confirmada.")
-}else{
+}else if(aluno2 == "Falta"){
     console.log("Presença não confirmada.")
 }
