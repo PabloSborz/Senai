@@ -64,6 +64,38 @@ p{
     padding: 10px;
 }
 
-main{
+.texto{
     padding: 20px;
+}
+
+.fotos{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    gap: 30px;
+    padding: 50px;
+    margin-top: 30px;
+}
+
+.fotos img{
+    width: 250px;
+    max-width: 100%;
+    border-radius: 30px;
+    border: 5px solid var(--primary-color);
+    box-sizing: border-box;
+}
+
+footer{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 50px;
+    text-align: center;
+    color: var(--secondary-color);
+}
+
+footer p{
+    font-size: 14px;
 }
