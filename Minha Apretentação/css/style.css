@@ -40,13 +40,20 @@ main.conteudo {
     padding-bottom: 40px;
 }
 
+.hi {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--secondary-color);
+    font-weight: 400;
+    margin: 20px;
+}
+
 header {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 32px 0 12px;
+    padding: 32px 20px 12px;
     gap: 14px;
 }
 
@@ -59,17 +66,28 @@ header img {
 }
 
 nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
     display: flex;
+    align-items: center;
     justify-content: center;
     flex-wrap: wrap;
     gap: 12px;
-    padding: 0 0 22px;
+    min-height: 70px;
+    padding: 12px 0;
+    background: transparent;
 }
 
 header h1 {
     font-size: clamp(2.2rem, 4vw, 3.6rem);
     margin: 0;
     line-height: 1.05;
+}
+
+.hi {
+    align-self: flex-start;
+    margin-left: 18px;
 }
 
 nav a {
