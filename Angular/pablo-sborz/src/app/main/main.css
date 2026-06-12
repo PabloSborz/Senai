@@ -1,0 +1,6 @@
+:root{
+    --fundo:black;
+}
+*{
+    background-color: var(--fundo);
+}
