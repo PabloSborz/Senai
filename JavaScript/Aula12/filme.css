@@ -1,0 +1,151 @@
+/* :root{
+    --cor-fundo: black;
+    --cor-texto: white;
+    --cor-borda: white;
+
+} */
+
+
+body {
+    font-family: Arial, sans-serif;
+    margin: auto;
+    background: black;
+    color: white;
+    border: 1px solid white;
+}
+
+body.claro{
+    background-color: rgb(216, 216, 216);
+    color: black;
+    
+}
+
+header{
+    padding: 20px;
+    border-bottom: 1px solid white;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    margin: 20px auto;
+    border: 1px solid white;
+    padding: 20px;
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    
+}
+
+input {
+    margin: 5px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    
+}
+#tema{
+    padding: 10px;
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#tema:hover{
+    background-color: black;
+    color: white;
+    border: 2px solid white;
+}
+
+#botaoCadastrarFilme {
+    padding: 10px;
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    
+}
+
+#botaoCadastrarFilme:hover {
+    background-color: black;
+    color: white;
+    border: 2px solid white;
+}
+
+.text{
+    border: 1px solid white;
+    padding: 20px;
+    margin: 20px ;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+#listaFilme {
+    padding: 10px;
+    max-width: 1000px;
+    margin:  auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    align-items: center;
+    background-color: black;
+    border: 1px solid white;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.card h3 {
+    margin: 0 0 8px;
+}
+
+.card p {
+    margin: 4px 0;
+}
+
+.card:hover{
+    background: rgb(58, 58, 58);
+    color: white;
+}
+
+.card button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    background-color: white;
+    color: black;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+}
+
+.card button:hover {
+    background-color: black;
+    color: white;
+    border: 1px solid white;
+}
+
+footer{
+    border-top: 1px solid white;
+    text-align: center;
+    padding: 20px;
+}

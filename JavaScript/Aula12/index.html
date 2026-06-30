@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="filme.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <h1>Locadora de Filmes</h1>
+        <!-- <button id="tema">Alterar Tema</button> -->
+    </header>
+
+<main class="hero">
+    <form id="formFilme">
+        <h2>Cadastro de Filmes</h2>
+        <label for="nomeFilme">Nome do Filme:</label>
+        <input type="text" id="nomeFilme" placeholder="Digite o nome do filme" required>
+        <br>
+        <label for="generoFilme">Gênero:</label>
+        <input type="text" id="generoFilme" placeholder="Digite o gênero do filme" required>
+        <br>
+        <label for="anoFilme">Ano de Lançamento:</label>
+        <input type="number" id="anoFilme" placeholder="Digite o ano de lançamento" required>
+        <br>
+        <button type="button" id="botaoCadastrarFilme">Cadastrar Filme</button>
+    </form>
+    <h2 class="text">Lista de Filmes</h2>
+    <div id="listaFilme">
+        
+    </div>
+
+</main>
+
+<footer>
+    <h3>@Locadora</h3>
+</footer>
+
+    <script src="filme.js"></script>
+</body>
+</html>
