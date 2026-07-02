@@ -144,6 +144,35 @@ button { cursor: pointer; }
 .barra-album h2 { font-size: 28px; }
 .barra-album p { margin-top: 5px; color: var(--texto-suave); font-size: 14px; }
 
+.titulo-sonhos {
+    margin: 36px 0 12px;
+    text-align: center;
+    font-size: 28px;
+}
+
+.texto-sonhos {
+    max-width: 760px;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 1.6;
+}
+
+footer {
+    padding: 36px max(24px, calc((100% - 1240px) / 2));
+    background: var(--cabecalho);
+    color: white;
+    border-top: 4px solid var(--destaque);
+    text-align: center;
+}
+
+footer .titulo-sonhos {
+    margin: 0 0 12px;
+}
+
+footer .texto-sonhos {
+    color: #bec7c3;
+}
+
 .filtros {
     display: flex;
     flex-wrap: wrap;
@@ -358,6 +387,50 @@ body.escuro .filtro.ativo { color: #8eb9a6; }
 .botao-editar { background: transparent; color: white; border-color: #77837d; }
 .botao-editar:hover { background: var(--verde); }
 
+.modal-alerta {
+    width: min(400px, calc(100% - 30px));
+    padding: 28px;
+    background: var(--superficie);
+    color: var(--texto);
+    text-align: center;
+}
+
+.alerta-icone {
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 16px;
+    background: var(--destaque);
+    color: white;
+    border-radius: 50%;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.modal-alerta h2 {
+    font-size: 22px;
+}
+
+.modal-alerta p {
+    margin: 10px 0 22px;
+    color: var(--texto-suave);
+    line-height: 1.5;
+}
+
+.alerta-acoes {
+    display: flex;
+    gap: 10px;
+}
+
+.alerta-acoes .botao {
+    flex: 1;
+}
+
+.alerta-acoes .botao[hidden] {
+    display: none;
+}
+
 @media (max-width: 760px) {
     .cabecalho { min-height: 78px; padding: 14px 16px; }
     .marca-icone { width: 42px; height: 42px; flex-basis: 42px; }
@@ -376,6 +449,7 @@ body.escuro .filtro.ativo { color: #8eb9a6; }
     .modal-visualizacao figure { grid-template-rows: minmax(260px, calc(100vh - 210px)) auto; }
     .modal-visualizacao figcaption { align-items: flex-start; padding: 16px; }
     .navegacao { top: 38%; }
+    footer { padding: 28px 18px; }
 }
 
 @media (max-width: 430px) {

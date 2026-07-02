@@ -32,12 +32,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const arquivoPerfil = document.getElementById("arquivoPerfil");
     const fotoPerfil = document.getElementById("fotoPerfil");
     const inicialPerfil = document.getElementById("inicialPerfil");
+    const modalAlerta = document.getElementById("modalAlerta");
+    const tituloAlerta = document.getElementById("tituloAlerta");
+    const mensagemAlerta = document.getElementById("mensagemAlerta");
+    const fecharAlerta = document.getElementById("fecharAlerta");
+    const cancelarAlerta = document.getElementById("cancelarAlerta");
 
     let fotos = carregarFotos();
     let filtroAtual = "Todos";
     let fotoAtualId = null;
     let fotoEmEdicaoId = null;
     let urlPreview = null;
+    let resolverConfirmacao = null;
 
     function aplicarTema(temaEscuro) {
         document.body.classList.toggle("escuro", temaEscuro);
@@ -57,6 +63,35 @@ document.addEventListener("DOMContentLoaded", function () {
     const fotoPerfilSalva = localStorage.getItem(CHAVE_PERFIL);
     if (fotoPerfilSalva) exibirFotoPerfil(fotoPerfilSalva);
 
+    function mostrarAlerta(mensagem, titulo = "Atenção") {
+        tituloAlerta.textContent = titulo;
+        mensagemAlerta.textContent = mensagem;
+        cancelarAlerta.hidden = true;
+        fecharAlerta.textContent = "Entendi";
+        modalAlerta.showModal();
+    }
+
+    function mostrarConfirmacao(mensagem, titulo = "Confirmar") {
+        tituloAlerta.textContent = titulo;
+        mensagemAlerta.textContent = mensagem;
+        cancelarAlerta.hidden = false;
+        fecharAlerta.textContent = "Excluir";
+        modalAlerta.showModal();
+
+        return new Promise(function (resolve) {
+            resolverConfirmacao = resolve;
+        });
+    }
+
+    function concluirAlerta(confirmado) {
+        modalAlerta.close();
+
+        if (resolverConfirmacao) {
+            resolverConfirmacao(confirmado);
+            resolverConfirmacao = null;
+        }
+    }
+
     function carregarFotos() {
         try {
             return JSON.parse(localStorage.getItem(CHAVE_STORAGE)) || [];
@@ -72,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
             fotos = novasFotos;
             return true;
         } catch (erro) {
-            alert("O armazenamento do navegador está cheio. Exclua uma foto antes de adicionar outra.");
+            mostrarAlerta("O armazenamento do navegador está cheio. Exclua uma foto antes de adicionar outra.");
             return false;
         }
     }
@@ -277,7 +312,7 @@ document.addEventListener("DOMContentLoaded", function () {
             exibirFotoPerfil(imagem);
             arquivoPerfil.value = "";
         } catch (erro) {
-            alert("Não foi possível salvar a foto do perfil.");
+            mostrarAlerta("Não foi possível salvar a foto do perfil.");
             console.error(erro);
         }
     });
@@ -315,7 +350,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         if (!arquivo && !fotoExistente) {
-            alert("Selecione uma imagem para adicionar ao álbum.");
+            mostrarAlerta("Selecione uma imagem para adicionar ao álbum.");
             return;
         }
 
@@ -354,7 +389,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 fecharCadastro();
             }
         } catch (erro) {
-            alert("Não foi possível processar esta imagem.");
+            mostrarAlerta("Não foi possível processar esta imagem.");
             console.error(erro);
         } finally {
             botaoSalvar.disabled = false;
@@ -376,16 +411,36 @@ document.addEventListener("DOMContentLoaded", function () {
         navegarFoto(-1);
     });
 
+    fecharAlerta.addEventListener("click", function () {
+        concluirAlerta(true);
+    });
+
+    cancelarAlerta.addEventListener("click", function () {
+        concluirAlerta(false);
+    });
+
+    modalAlerta.addEventListener("cancel", function (evento) {
+        evento.preventDefault();
+        concluirAlerta(false);
+    });
+
     document.getElementById("proximaFoto").addEventListener("click", function () {
         navegarFoto(1);
     });
 
-    document.getElementById("excluirFoto").addEventListener("click", function () {
+    document.getElementById("excluirFoto").addEventListener("click", async function () {
         const foto = fotos.find(function (item) {
             return item.id === fotoAtualId;
         });
 
-        if (!foto || !confirm("Excluir a foto “" + foto.titulo + "” do álbum?")) return;
+        if (!foto) return;
+
+        const exclusaoConfirmada = await mostrarConfirmacao(
+            "Excluir a foto “" + foto.titulo + "” do álbum?",
+            "Excluir foto"
+        );
+
+        if (!exclusaoConfirmada) return;
 
         const novasFotos = fotos.filter(function (item) {
             return item.id !== fotoAtualId;
