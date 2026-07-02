@@ -1,87 +1,123 @@
-/* :root{
-    --cor-fundo: black;
-    --cor-texto: white;
-    --cor-borda: white;
+:root {
+    --fonte-principal: Arial, sans-serif;
 
-} */
+    --cor-fundo: rgb(26, 26, 26);
+    --cor-fundo-claro: rgb(216, 216, 216);
+    --cor-fundo-botao: rgb(32, 32, 32);
+    --cor-fundo-card-hover: rgb(58, 58, 58);
+    --cor-texto: white;
+    --cor-texto-escuro: black;
+    --cor-placeholder: black;
+    --cor-borda: #d4af37;
+    --cor-borda-input: #d4af37;
+    --cor-sombra-card: rgba(0, 0, 0, 0.1);
+
+    --borda-padrao: 1px solid var(--cor-borda);
+    --borda-hover: 2px solid var(--cor-borda);
+    --borda-input: 1px solid var(--cor-borda-input);
+    --raio-padrao: 4px;
+    --raio-card: 8px;
+
+    --espaco-pequeno: 5px;
+    --espaco-medio: 10px;
+    --espaco-grande: 20px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body.claro {
+    --cor-fundo: var(--cor-fundo-claro);
+    --cor-fundo-botao: rgb(216, 216, 216);
+    --cor-fundo-card-hover: white;
+    --cor-texto: black;
+    --cor-texto-escuro: white;
+    --cor-borda: #d4af37;
+    --cor-sombra-card: rgba(0, 0, 0, 0.2);
+}
 
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: var(--fonte-principal);
     margin: auto;
-    background: black;
-    color: white;
-    border: 1px solid white;
+    background-color: var(--cor-fundo);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url("imagens/cinema-header.png");
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    color: var(--cor-borda);
+    border: var(--borda-padrao);
 }
 
-body.claro{
-    background-color: rgb(216, 216, 216);
-    color: black;
-    
+header {
+    min-height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--espaco-grande);
+    padding: var(--espaco-grande);
+    border-bottom: var(--borda-padrao);
+    color: var(--cor-borda);
 }
 
-header{
-    padding: 20px;
-    border-bottom: 1px solid white;
+.logo {
+    width: 140px;
+    height: 140px;
+    object-fit: contain;
+}
+
+header h1 {
+    font-size: 50px;
 }
 
 form {
     display: flex;
     flex-direction: column;
-    max-width: 500px;
-    margin: 20px auto;
-    border: 1px solid white;
-    padding: 20px;
+    max-width: 1000px;
+    margin: var(--espaco-grande) auto;
+    border: var(--borda-padrao);
+    padding: var(--espaco-grande);
 }
 
 label {
-    margin-bottom: 5px;
+    margin-bottom: var(--espaco-pequeno);
     font-weight: bold;
-    
 }
 
 input {
-    margin: 5px;
+    margin: var(--espaco-pequeno);
     padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    
-}
-#tema{
-    padding: 10px;
-    background-color: white;
-    color: black;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    color: var(--cor-borda);
+    border: var(--borda-input);
+    border-radius: var(--raio-padrao);
 }
 
-#tema:hover{
-    background-color: black;
-    color: white;
-    border: 2px solid white;
+input::placeholder {
+    color: var(--cor-placeholder);
 }
 
 #botaoCadastrarFilme {
-    padding: 10px;
-    background-color: white;
-    color: black;
+    padding: var(--espaco-medio);
+    background-color: var(--cor-fundo-botao);
+    color: var(--cor-borda);
     border: none;
-    border-radius: 4px;
+    border-radius: var(--raio-padrao);
     cursor: pointer;
-    
 }
 
 #botaoCadastrarFilme:hover {
-    background-color: black;
-    color: white;
-    border: 2px solid white;
+    background-color: var(--cor-fundo-botao);
+    color: var(--cor-borda);
+    border: var(--borda-hover);
 }
 
-.text{
-    border: 1px solid white;
-    padding: 20px;
-    margin: 20px ;
+.text {
+    width: 100%;
+    flex-basis: 100%;
+    padding: var(--espaco-grande);
+    max-width: 1000px;
+    margin: 0 auto var(--espaco-medio);
 }
 
 h1, h2 {
@@ -89,9 +125,10 @@ h1, h2 {
 }
 
 #listaFilme {
-    padding: 10px;
+    border: var(--borda-padrao);
+    padding: var(--espaco-medio);
     max-width: 1000px;
-    margin:  auto;
+    margin: var(--espaco-grande) auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -102,50 +139,152 @@ h1, h2 {
 .card {
     display: flex;
     flex-direction: column;
-    box-sizing: border-box;
     align-items: center;
-    background-color: black;
-    border: 1px solid white;
-    border-radius: 8px;
+    flex: 0 0 220px;
+    width: 220px;
+    height: 220px;
+    background-color: var(--cor-fundo);
+    border: var(--borda-padrao);
+    border-radius: var(--raio-card);
     padding: 16px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    box-shadow: 0 2px 4px var(--cor-sombra-card);
+    margin-bottom: var(--espaco-grande);
+    overflow: hidden;
 }
 
 .card h3 {
     margin: 0 0 8px;
+    width: 100%;
+    font-size: 18px;
+    text-align: center;
+    overflow-wrap: anywhere;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
 }
 
 .card p {
     margin: 4px 0;
+    width: 100%;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    overflow-wrap: anywhere;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
 }
 
-.card:hover{
-    background: rgb(58, 58, 58);
-    color: white;
+.card:hover {
+    background: var(--cor-fundo-card-hover);
+    color: var(--cor-borda);
 }
 
 .card button {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 10px;
-    background-color: white;
-    color: black;
+    margin-top: auto;
+    background-color: var(--cor-fundo-botao);
+    color: var(--cor-borda);
     padding: 8px 12px;
-    border-radius: 4px;
+    border-radius: var(--raio-padrao);
     cursor: pointer;
     border: none;
 }
 
 .card button:hover {
-    background-color: black;
-    color: white;
-    border: 1px solid white;
+    background-color: var(--cor-fundo-botao);
+    color: var(--cor-borda);
+    border: var(--borda-padrao);
 }
 
-footer{
-    border-top: 1px solid white;
+footer {
+    border-top: var(--borda-padrao);
     text-align: center;
-    padding: 20px;
+    padding: var(--espaco-grande);
+}
+
+@media (max-width: 600px) {
+    body {
+        margin: 0;
+        border: none;
+    }
+
+    header {
+        min-height: 190px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--espaco-medio);
+        padding: 16px;
+    }
+
+    .logo {
+        width: 80px;
+        height: 80px;
+    }
+
+    h1 {
+        font-size: 28px;
+        margin: 0;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    form {
+        width: calc(100% - 24px);
+        max-width: none;
+        margin: 12px auto;
+        padding: 16px;
+    }
+
+    form br {
+        display: none;
+    }
+
+    input,
+    #botaoCadastrarFilme {
+        width: 100%;
+    }
+
+    input {
+        margin: 0 0 var(--espaco-medio);
+    }
+
+    label {
+        margin-top: var(--espaco-medio);
+    }
+
+    .text {
+        width: 100%;
+        margin: 0 auto;
+        padding: 16px;
+    }
+
+    #listaFilme {
+        width: calc(100% - 24px);
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .card {
+        width: 100%;
+        height: 220px;
+        flex-basis: 220px;
+        margin-bottom: 0;
+        padding: 14px;
+    }
+
+    .card button {
+        width: 100%;
+    }
+
+    footer {
+        padding: 16px;
+    }
 }

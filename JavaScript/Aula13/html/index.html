@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#171918">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Lembranças Entra21</title>
+</head>
+<body>
+    <header class="cabecalho">
+        <div class="marca">
+            <button class="marca-icone" id="alterarFotoPerfil" type="button" aria-label="Alterar foto do perfil" title="Alterar foto do perfil">
+                <span id="inicialPerfil">M</span>
+                <img id="fotoPerfil" alt="Foto do perfil" hidden>
+            </button>
+            <input class="arquivo-oculto" id="arquivoPerfil" type="file" accept="image/*">
+            <div>
+                <h1>Lembranças Entra21</h1>
+                <p>Memórias que merecem ficar</p>
+            </div>
+        </div>
+
+        <div class="cabecalho-acoes">
+            <button class="botao botao-tema" id="alternarTema" type="button" aria-pressed="false">
+                <span aria-hidden="true">◐</span>
+                <span id="textoTema">Tema escuro</span>
+            </button>
+            <button class="botao botao-destaque" id="abrirCadastro" type="button">
+                <span aria-hidden="true">+</span>
+                <span class="texto-adicionar">Adicionar foto</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="conteudo">
+        <section class="barra-album" aria-labelledby="tituloAlbum">
+            <div>
+                <h2 id="tituloAlbum">Minhas memórias</h2>
+                <p id="contadorFotos">0 fotos</p>
+            </div>
+
+            <div class="filtros" role="group" aria-label="Filtrar fotos">
+                <button class="filtro ativo" type="button" data-filtro="Todos">Todos</button>
+                <button class="filtro" type="button" data-filtro="Família">Família</button>
+                <button class="filtro" type="button" data-filtro="Viagens">Viagens</button>
+                <button class="filtro" type="button" data-filtro="Amigos">Amigos</button>
+                <button class="filtro" type="button" data-filtro="Outros">Outros</button>
+            </div>
+        </section>
+
+        <section class="galeria" id="galeria" aria-live="polite"></section>
+
+        <section class="estado-vazio" id="estadoVazio">
+            <div class="estado-icone" aria-hidden="true">+</div>
+            <h2>Seu álbum está vazio</h2>
+            <button class="botao botao-destaque" id="adicionarPrimeiraFoto" type="button">
+                Adicionar primeira foto
+            </button>
+        </section>
+    </main>
+
+    <dialog class="modal modal-cadastro" id="modalCadastro">
+        <form id="formFoto">
+            <div class="modal-cabecalho">
+                <div>
+                    <p class="modal-etiqueta" id="etiquetaCadastro">Nova memória</p>
+                    <h2 id="tituloCadastro">Adicionar foto</h2>
+                </div>
+                <button class="botao-icone" id="fecharCadastro" type="button" aria-label="Fechar" title="Fechar">×</button>
+            </div>
+
+            <label class="seletor-imagem" for="arquivoFoto">
+                <img id="previewFoto" alt="Pré-visualização da foto" hidden>
+                <span id="mensagemUpload">Selecionar imagem</span>
+                <input id="arquivoFoto" type="file" accept="image/*">
+            </label>
+
+            <div class="campos">
+                <label for="tituloFoto">Título</label>
+                <input id="tituloFoto" type="text" maxlength="60" placeholder="Nome desta memória" required>
+
+                <label for="descricaoFoto">Descrição</label>
+                <textarea id="descricaoFoto" maxlength="300" rows="4" placeholder="Conte um pouco sobre este momento"></textarea>
+
+                <div class="campos-linha">
+                    <div>
+                        <label for="categoriaFoto">Categoria</label>
+                        <select id="categoriaFoto" required>
+                            <option value="Família">Família</option>
+                            <option value="Viagens">Viagens</option>
+                            <option value="Amigos">Amigos</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="dataFoto">Data</label>
+                        <input id="dataFoto" type="date" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-acoes">
+                <button class="botao botao-secundario" id="cancelarCadastro" type="button">Cancelar</button>
+                <button class="botao botao-destaque" id="salvarFoto" type="submit">Salvar no álbum</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog class="modal modal-visualizacao" id="modalVisualizacao">
+        <button class="botao-icone fechar-visualizacao" id="fecharVisualizacao" type="button" aria-label="Fechar" title="Fechar">×</button>
+        <button class="navegacao anterior" id="fotoAnterior" type="button" aria-label="Foto anterior" title="Foto anterior">←</button>
+
+        <figure>
+            <img id="fotoAmpliada" alt="">
+            <figcaption>
+                <div>
+                    <span id="categoriaAmpliada"></span>
+                    <h2 id="tituloAmpliado"></h2>
+                    <p id="descricaoAmpliada"></p>
+                    <time id="dataAmpliada"></time>
+                </div>
+                <div class="visualizacao-acoes">
+                    <button class="botao botao-editar" id="editarFoto" type="button">Editar</button>
+                    <button class="botao botao-excluir" id="excluirFoto" type="button">Excluir</button>
+                </div>
+            </figcaption>
+        </figure>
+
+        <button class="navegacao proxima" id="proximaFoto" type="button" aria-label="Próxima foto" title="Próxima foto">→</button>
+    </dialog>
+
+    <script src="../js/javascript.js"></script>
+</body>
+</html>

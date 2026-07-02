@@ -1,17 +1,22 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // let botao = document.getElementById("tema");
-    // botao.addEventListener("click", () =>{
-    //     document.body.classList.toggle("claro");
-    // });
-    let botaoCadastrarFilme = document.getElementById("botaoCadastrarFilme");
+    let formFilme = document.getElementById("formFilme");
     let listaFilme = document.getElementById("listaFilme");
 
-    botaoCadastrarFilme.addEventListener("click", function () {
+    function primeiraLetraMaiuscula(texto) {
+        return texto.charAt(0).toUpperCase() + texto.slice(1);
+    }
+
+    formFilme.addEventListener("submit", function (event) {
+        event.preventDefault();
+
         let nome = document.getElementById("nomeFilme").value.trim();
         let genero = document.getElementById("generoFilme").value.trim();
         let anoLancamento = document.getElementById("anoFilme").value.trim();
 
         if (nome !== "" && genero !== "" && anoLancamento !== "") {
+
+            nome = primeiraLetraMaiuscula(nome);
+            genero = primeiraLetraMaiuscula(genero);
 
             let card = document.createElement("div");
             card.classList.add("card");
