@@ -112,12 +112,23 @@ input::placeholder {
     border: var(--borda-hover);
 }
 
+#botaoCadastrarFilme:disabled {
+    opacity: 0.7;
+    cursor: wait;
+}
+
 .text {
     width: 100%;
     flex-basis: 100%;
     padding: var(--espaco-grande);
     max-width: 1000px;
     margin: 0 auto var(--espaco-medio);
+}
+
+#contadorFilmes {
+    display: block;
+    margin-top: var(--espaco-pequeno);
+    font-size: 14px;
 }
 
 h1, h2 {
@@ -142,14 +153,53 @@ h1, h2 {
     align-items: center;
     flex: 0 0 220px;
     width: 220px;
-    height: 220px;
+    height: 370px;
     background-color: var(--cor-fundo);
     border: var(--borda-padrao);
     border-radius: var(--raio-card);
-    padding: 16px;
+    padding: 0 14px 14px;
     box-shadow: 0 2px 4px var(--cor-sombra-card);
     margin-bottom: var(--espaco-grande);
     overflow: hidden;
+}
+
+.link-capa {
+    width: calc(100% + 28px);
+    height: 190px;
+    display: block;
+    flex: 0 0 190px;
+    margin: 0 -14px 12px;
+    overflow: hidden;
+}
+
+.capa-filme {
+    width: calc(100% + 28px);
+    height: 190px;
+    display: block;
+    flex: 0 0 190px;
+    margin: 0 -14px 12px;
+    object-fit: cover;
+    border-bottom: var(--borda-padrao);
+}
+
+.link-capa .capa-filme {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    transition: transform 0.2s ease;
+}
+
+.link-capa:hover .capa-filme {
+    transform: scale(1.04);
+}
+
+.sem-capa {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cor-fundo-botao);
+    color: var(--cor-borda);
+    font-weight: bold;
 }
 
 .card h3 {
@@ -274,10 +324,10 @@ footer {
 
     .card {
         width: 100%;
-        height: 220px;
-        flex-basis: 220px;
+        height: 390px;
+        flex: 1 1 100%;
         margin-bottom: 0;
-        padding: 14px;
+        padding: 0 14px 14px;
     }
 
     .card button {
