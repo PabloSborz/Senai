@@ -1,0 +1,20 @@
+<header>
+    <h1>My App</h1>
+    <button
+        type="button"
+        class="theme-button"
+        (click)="toggleTheme()"
+        [attr.aria-label]="darkMode() ? 'Ativar modo claro' : 'Ativar modo escuro'"
+        [attr.aria-pressed]="darkMode()"
+    >
+        {{ darkMode() ? '☀️ Modo claro' : '🌙 Modo escuro' }}
+    </button>
+</header>
+<hr>
+<nav>
+    <a routerLink="/home" routerLinkActive="active">Home</a>
+    <a routerLink="/introducao" routerLinkActive="active">Introdução</a>
+    <a routerLink="/contato" routerLinkActive="active">Contato</a>
+    <a routerLink="/pessoa" routerLinkActive="active">Pessoa</a>
+    <a routerLink="/mercado" routerLinkActive="active">Mercado</a>
+</nav>

@@ -1,0 +1,73 @@
+:host{
+    display: block;
+    background-color: var(--header-bg);
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+}
+
+header {
+    position: relative;
+}
+
+h1{
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 60px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 5px;
+    margin: auto;
+    text-decoration: none;
+    color: black;
+}
+
+nav a {
+    
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+nav a.active {
+    
+    text-decoration: none;
+    color: red;
+    border-bottom: 2px solid red;
+}
+
+nav a:hover {
+    text-decoration: none;
+    color: var(--text-color);
+    border-bottom: 2px solid var(--text-color);
+}
+
+.theme-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-color);
+    background-color: var(--button-bg);
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.theme-button:hover {
+    filter: brightness(0.9);
+}
+
+@media (max-width: 600px) {
+    .theme-button {
+        position: static;
+        margin-bottom: 10px;
+    }
+}
