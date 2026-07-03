@@ -1,9 +1,13 @@
 "use strict";
 
+// Aguarda o HTML ser carregado antes de procurar elementos e registrar eventos.
 document.addEventListener("DOMContentLoaded", function () {
+    // Chaves usadas para identificar os dados salvos no armazenamento do navegador.
     const CHAVE_STORAGE = "meu-album-aula13";
     const CHAVE_TEMA = "tema-meu-album-aula13";
     const CHAVE_PERFIL = "foto-perfil-meu-album-aula13";
+
+    // Referências aos elementos do HTML que serão lidos ou alterados pelo JavaScript.
     const galeria = document.getElementById("galeria");
     const estadoVazio = document.getElementById("estadoVazio");
     const tituloEstadoVazio = estadoVazio.querySelector("h2");
@@ -38,6 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const fecharAlerta = document.getElementById("fecharAlerta");
     const cancelarAlerta = document.getElementById("cancelarAlerta");
 
+    // Estado atual da aplicação: fotos, filtro, seleção, edição e confirmação.
     let fotos = carregarFotos();
     let filtroAtual = "Todos";
     let fotoAtualId = null;
@@ -45,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let urlPreview = null;
     let resolverConfirmacao = null;
 
+    // Liga ou desliga o tema escuro e atualiza os textos de acessibilidade do botão.
     function aplicarTema(temaEscuro) {
         document.body.classList.toggle("escuro", temaEscuro);
         botaoTema.setAttribute("aria-pressed", String(temaEscuro));
@@ -52,8 +58,10 @@ document.addEventListener("DOMContentLoaded", function () {
         textoTema.textContent = temaEscuro ? "Tema claro" : "Tema escuro";
     }
 
+    // Recupera a preferência de tema salva anteriormente.
     aplicarTema(localStorage.getItem(CHAVE_TEMA) === "escuro");
 
+    // Substitui a inicial do perfil pela imagem escolhida.
     function exibirFotoPerfil(imagem) {
         fotoPerfil.src = imagem;
         fotoPerfil.hidden = false;
@@ -63,6 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const fotoPerfilSalva = localStorage.getItem(CHAVE_PERFIL);
     if (fotoPerfilSalva) exibirFotoPerfil(fotoPerfilSalva);
 
+    // Abre o modal com apenas uma mensagem e o botão "Entendi".
     function mostrarAlerta(mensagem, titulo = "Atenção") {
         tituloAlerta.textContent = titulo;
         mensagemAlerta.textContent = mensagem;
@@ -71,6 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
         modalAlerta.showModal();
     }
 
+    // Abre o modal de confirmação e devolve uma Promise com a escolha do usuário.
     function mostrarConfirmacao(mensagem, titulo = "Confirmar") {
         tituloAlerta.textContent = titulo;
         mensagemAlerta.textContent = mensagem;
@@ -83,6 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // Fecha o alerta e, se houver confirmação pendente, entrega sua resposta.
     function concluirAlerta(confirmado) {
         modalAlerta.close();
 
@@ -92,6 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    // Lê do localStorage as fotos salvas; se não houver dados válidos, retorna uma lista vazia.
     function carregarFotos() {
         try {
             return JSON.parse(localStorage.getItem(CHAVE_STORAGE)) || [];
@@ -101,6 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    // Converte a lista em texto JSON e a salva no navegador.
     function salvarFotos(novasFotos) {
         try {
             localStorage.setItem(CHAVE_STORAGE, JSON.stringify(novasFotos));
@@ -112,6 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    // Transforma a data do campo (AAAA-MM-DD) em uma data por extenso no padrão brasileiro.
     function formatarData(data) {
         if (!data) return "Data não informada";
 
@@ -122,6 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }).format(new Date(data + "T12:00:00"));
     }
 
+    // Retorna todas as fotos ou somente as que pertencem à categoria selecionada.
     function obterFotosVisiveis() {
         if (filtroAtual === "Todos") return fotos;
         return fotos.filter(function (foto) {
@@ -129,6 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // Cria, via JavaScript, todo o HTML de um cartão da galeria.
     function criarCard(foto) {
         const card = document.createElement("article");
         card.className = "foto-card";
@@ -166,6 +182,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return card;
     }
 
+    // Reconstrói a galeria e atualiza o contador e a mensagem de álbum vazio.
     function renderizarAlbum() {
         const fotosVisiveis = obterFotosVisiveis();
         galeria.replaceChildren();
@@ -182,6 +199,7 @@ document.addEventListener("DOMContentLoaded", function () {
             : "Nenhuma foto nesta categoria";
     }
 
+    // Descarta a URL temporária da prévia para liberar memória do navegador.
     function limparPreview() {
         if (urlPreview) URL.revokeObjectURL(urlPreview);
         urlPreview = null;
@@ -190,6 +208,7 @@ document.addEventListener("DOMContentLoaded", function () {
         mensagemUpload.hidden = false;
     }
 
+    // Prepara e abre o formulário no modo de cadastro de uma nova foto.
     function abrirCadastro() {
         fotoEmEdicaoId = null;
         formFoto.reset();
@@ -206,6 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {
         modalCadastro.showModal();
     }
 
+    // Preenche o formulário com os dados da foto selecionada para permitir sua edição.
     function abrirEdicao() {
         const foto = fotos.find(function (item) {
             return item.id === fotoAtualId;
@@ -230,12 +250,14 @@ document.addEventListener("DOMContentLoaded", function () {
         modalCadastro.showModal();
     }
 
+    // Fecha o formulário e limpa dados temporários da edição e da prévia.
     function fecharCadastro() {
         modalCadastro.close();
         limparPreview();
         fotoEmEdicaoId = null;
     }
 
+    // Redimensiona e comprime uma imagem usando canvas antes de salvá-la.
     function otimizarImagem(arquivo, limite = 1200) {
         return new Promise(function (resolve, reject) {
             const leitor = new FileReader();
@@ -263,12 +285,14 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // Guarda o ID da foto clicada e abre seu modal de visualização.
     function abrirVisualizacao(id) {
         fotoAtualId = id;
         atualizarVisualizacao();
         modalVisualizacao.showModal();
     }
 
+    // Localiza a foto atual e coloca seus dados no modal de visualização.
     function atualizarVisualizacao() {
         const foto = fotos.find(function (item) {
             return item.id === fotoAtualId;
@@ -285,6 +309,7 @@ document.addEventListener("DOMContentLoaded", function () {
         dataAmpliada.textContent = formatarData(foto.data);
     }
 
+    // Avança ou volta na lista visível; o cálculo circular volta ao início no final.
     function navegarFoto(direcao) {
         const fotosVisiveis = obterFotosVisiveis();
         if (fotosVisiveis.length < 2) return;
@@ -297,6 +322,7 @@ document.addEventListener("DOMContentLoaded", function () {
         atualizarVisualizacao();
     }
 
+    // Eventos dos botões de cadastro e da foto de perfil.
     document.getElementById("abrirCadastro").addEventListener("click", abrirCadastro);
     alterarFotoPerfil.addEventListener("click", function () {
         arquivoPerfil.click();
@@ -317,11 +343,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // Alterna o tema e salva a nova preferência no localStorage.
     botaoTema.addEventListener("click", function () {
         const temaEscuro = !document.body.classList.contains("escuro");
         aplicarTema(temaEscuro);
         localStorage.setItem(CHAVE_TEMA, temaEscuro ? "escuro" : "claro");
     });
+
+    // Eventos para abrir e fechar os modais de cadastro e visualização.
     document.getElementById("adicionarPrimeiraFoto").addEventListener("click", abrirCadastro);
     document.getElementById("fecharCadastro").addEventListener("click", fecharCadastro);
     document.getElementById("cancelarCadastro").addEventListener("click", fecharCadastro);
@@ -330,6 +359,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     document.getElementById("editarFoto").addEventListener("click", abrirEdicao);
 
+    // Mostra imediatamente uma prévia local quando o usuário escolhe um arquivo.
     arquivoFoto.addEventListener("change", function () {
         const arquivo = arquivoFoto.files[0];
         limparPreview();
@@ -342,7 +372,9 @@ document.addEventListener("DOMContentLoaded", function () {
         mensagemUpload.hidden = true;
     });
 
+    // Valida, otimiza e salva uma foto nova ou as alterações de uma foto existente.
     formFoto.addEventListener("submit", async function (evento) {
+        // Impede o comportamento padrão do formulário, que recarregaria a página.
         evento.preventDefault();
         const arquivo = arquivoFoto.files[0];
         const fotoExistente = fotos.find(function (foto) {
@@ -360,10 +392,12 @@ document.addEventListener("DOMContentLoaded", function () {
         botaoSalvar.textContent = "Salvando...";
 
         try {
+            // Mantém a imagem antiga na edição, caso nenhuma imagem nova seja escolhida.
             const imagemOtimizada = arquivo
                 ? await otimizarImagem(arquivo)
                 : fotoExistente.imagem;
             const novaFoto = {
+                // Reutiliza o ID na edição ou cria um ID único em um novo cadastro.
                 id: fotoExistente
                     ? fotoExistente.id
                     : (typeof crypto.randomUUID === "function" ? crypto.randomUUID() : String(Date.now())),
@@ -381,6 +415,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 : [novaFoto].concat(fotos);
 
             if (salvarFotos(fotosAtualizadas)) {
+                // Depois de salvar, volta ao filtro "Todos" para a foto ficar visível.
                 filtroAtual = "Todos";
                 document.querySelectorAll(".filtro").forEach(function (botao) {
                     botao.classList.toggle("ativo", botao.dataset.filtro === "Todos");
@@ -397,6 +432,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // Adiciona a cada filtro o evento que muda a categoria visível e redesenha o álbum.
     document.querySelectorAll(".filtro").forEach(function (botao) {
         botao.addEventListener("click", function () {
             filtroAtual = botao.dataset.filtro;
@@ -407,10 +443,12 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    // Navegação para a foto anterior no modal.
     document.getElementById("fotoAnterior").addEventListener("click", function () {
         navegarFoto(-1);
     });
 
+    // Botões e tecla Esc do modal de alerta/confirmacão.
     fecharAlerta.addEventListener("click", function () {
         concluirAlerta(true);
     });
@@ -424,10 +462,12 @@ document.addEventListener("DOMContentLoaded", function () {
         concluirAlerta(false);
     });
 
+    // Navegação para a próxima foto no modal.
     document.getElementById("proximaFoto").addEventListener("click", function () {
         navegarFoto(1);
     });
 
+    // Pede confirmação e, se aceita, remove a foto do armazenamento e da galeria.
     document.getElementById("excluirFoto").addEventListener("click", async function () {
         const foto = fotos.find(function (item) {
             return item.id === fotoAtualId;
@@ -453,17 +493,20 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // Fecha os modais quando o usuário clica na área escura ao redor do conteúdo.
     [modalCadastro, modalVisualizacao].forEach(function (modal) {
         modal.addEventListener("click", function (evento) {
             if (evento.target === modal) modal.close();
         });
     });
 
+    // Permite navegar pelas fotos usando as setas esquerda e direita do teclado.
     document.addEventListener("keydown", function (evento) {
         if (!modalVisualizacao.open) return;
         if (evento.key === "ArrowLeft") navegarFoto(-1);
         if (evento.key === "ArrowRight") navegarFoto(1);
     });
 
+    // Exibe o estado inicial do álbum assim que a página termina de carregar.
     renderizarAlbum();
 });

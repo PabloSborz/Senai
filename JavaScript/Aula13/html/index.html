@@ -1,19 +1,28 @@
 <!DOCTYPE html>
+<!-- Define que o documento usa a versão atual do HTML (HTML5). -->
 <html lang="pt-br">
 <head>
+    <!-- Permite usar corretamente acentos e caracteres especiais. -->
     <meta charset="UTF-8">
+    <!-- Faz a página se adaptar à largura de celulares e tablets. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Define a cor usada pelo navegador na barra superior em dispositivos móveis. -->
     <meta name="theme-color" content="#171918">
+    <!-- Conecta este HTML ao arquivo responsável pela aparência da página. -->
     <link rel="stylesheet" href="../css/style.css">
     <title>Lembranças Entra21</title>
 </head>
 <body>
+    <!-- Cabeçalho: reúne a identidade do álbum, a foto de perfil e as ações principais. -->
     <header class="cabecalho">
         <div class="marca">
+            <!-- Ao clicar, o JavaScript abre o seletor de uma nova foto de perfil. -->
             <button class="marca-icone" id="alterarFotoPerfil" type="button" aria-label="Alterar foto do perfil" title="Alterar foto do perfil">
+                <!-- A inicial aparece enquanto nenhuma foto de perfil foi escolhida. -->
                 <span id="inicialPerfil">M</span>
                 <img id="fotoPerfil" alt="Foto do perfil" hidden>
             </button>
+            <!-- Input invisível usado para selecionar uma imagem no computador. -->
             <input class="arquivo-oculto" id="arquivoPerfil" type="file" accept="image/*">
             <div>
                 <h1>Lembranças Entra21</h1>
@@ -22,10 +31,12 @@
         </div>
 
         <div class="cabecalho-acoes">
+            <!-- Alterna entre os temas claro e escuro. -->
             <button class="botao botao-tema" id="alternarTema" type="button" aria-pressed="false">
                 <span aria-hidden="true">◐</span>
                 <span id="textoTema">Tema escuro</span>
             </button>
+            <!-- Abre o formulário para cadastrar uma nova foto. -->
             <button class="botao botao-destaque" id="abrirCadastro" type="button">
                 <span aria-hidden="true">+</span>
                 <span class="texto-adicionar">Adicionar foto</span>
@@ -33,7 +44,9 @@
         </div>
     </header>
 
+    <!-- Conteúdo principal do álbum. -->
     <main class="conteudo">
+        <!-- Título, contador de fotos e botões que filtram a galeria por categoria. -->
         <section class="barra-album" aria-labelledby="tituloAlbum">
             <div>
                 <h2 id="tituloAlbum">Minhas memórias</h2>
@@ -49,8 +62,10 @@
             </div>
         </section>
 
+        <!-- O JavaScript cria e insere os cartões das fotos dentro desta seção. -->
         <section class="galeria" id="galeria" aria-live="polite"></section>
 
+        <!-- Mensagem exibida quando o álbum ou a categoria selecionada não possui fotos. -->
         <section class="estado-vazio" id="estadoVazio">
             <div class="estado-icone" aria-hidden="true">+</div>
             <h2>Seu álbum está vazio</h2>
@@ -59,10 +74,9 @@
             </button>
         </section>
 
-       
-
     </main>
 
+    <!-- Modal com o formulário usado tanto para adicionar quanto para editar uma memória. -->
     <dialog class="modal modal-cadastro" id="modalCadastro">
         <form id="formFoto">
             <div class="modal-cabecalho">
@@ -73,12 +87,14 @@
                 <button class="botao-icone" id="fecharCadastro" type="button" aria-label="Fechar" title="Fechar">×</button>
             </div>
 
+            <!-- Área clicável para selecionar uma imagem e mostrar sua pré-visualização. -->
             <label class="seletor-imagem" for="arquivoFoto">
                 <img id="previewFoto" alt="Pré-visualização da foto" hidden>
                 <span id="mensagemUpload">Selecionar imagem</span>
                 <input id="arquivoFoto" type="file" accept="image/*">
             </label>
 
+            <!-- Campos com as informações que serão salvas junto da foto. -->
             <div class="campos">
                 <label for="tituloFoto">Título</label>
                 <input id="tituloFoto" type="text" maxlength="60" placeholder="Nome desta memória" required>
@@ -104,6 +120,7 @@
                 </div>
             </div>
 
+            <!-- Ações finais do formulário. O botão Salvar dispara o evento submit. -->
             <div class="modal-acoes">
                 <button class="botao botao-secundario" id="cancelarCadastro" type="button">Cancelar</button>
                 <button class="botao botao-destaque" id="salvarFoto" type="submit">Salvar no álbum</button>
@@ -111,6 +128,7 @@
         </form>
     </dialog>
 
+    <!-- Modal que mostra uma foto ampliada e permite navegar, editar ou excluir. -->
     <dialog class="modal modal-visualizacao" id="modalVisualizacao">
         <button class="botao-icone fechar-visualizacao" id="fecharVisualizacao" type="button" aria-label="Fechar" title="Fechar">×</button>
         <button class="navegacao anterior" id="fotoAnterior" type="button" aria-label="Foto anterior" title="Foto anterior">←</button>
@@ -134,6 +152,7 @@
         <button class="navegacao proxima" id="proximaFoto" type="button" aria-label="Próxima foto" title="Próxima foto">→</button>
     </dialog>
 
+    <!-- Modal reutilizado para avisos simples e confirmações de exclusão. -->
     <dialog class="modal modal-alerta" id="modalAlerta">
         <div class="alerta-icone" aria-hidden="true">!</div>
         <h2 id="tituloAlerta">Atenção</h2>
@@ -144,11 +163,13 @@
         </div>
     </dialog>
 
+    <!-- Rodapé com uma mensagem motivacional. -->
     <footer> 
         <h3 class="titulo-sonhos">Frase Motivacional</h3>
         <p class="texto-sonhos">“A vida é feita de momentos, e cada memória é uma peça do quebra-cabeça que forma a nossa história. Que possamos colecionar lembranças que nos façam sorrir, refletir e nos conectar com o que realmente importa.”</p>
     </footer>
 
+    <!-- Carrega a lógica da página depois que todo o HTML já foi interpretado. -->
     <script src="../js/javascript.js"></script>
 </body>
 </html>
