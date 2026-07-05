@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { Nav } from "./nav/nav";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-sobremim',
-  imports: [Nav],
+  imports: [RouterLink],
   templateUrl: './sobremim.html',
   styleUrl: './sobremim.css',
 })

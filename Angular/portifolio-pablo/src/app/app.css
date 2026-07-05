@@ -1,0 +1,11 @@
+:host {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+  isolation: isolate;
+}
+
+.page-content {
+  display: block;
+  min-height: 0;
+}
