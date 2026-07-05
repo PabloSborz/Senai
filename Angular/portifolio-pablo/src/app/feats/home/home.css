@@ -250,3 +250,49 @@ h1 {
     object-position: 50% 20%;
   }
 }
+
+@media (max-width: 480px) {
+  .hero {
+    min-height: 650px;
+  }
+
+  .hero-copy {
+    padding: 44px 0 280px;
+  }
+
+  .eyebrow {
+    font-size: 1.2rem;
+  }
+
+  h1 {
+    font-size: clamp(2.65rem, 14vw, 3.2rem);
+  }
+
+  .role {
+    margin-top: 14px;
+  }
+
+  .description {
+    font-size: 0.87rem;
+    line-height: 1.7;
+  }
+
+  .hero-actions {
+    flex-wrap: wrap;
+    gap: 17px 22px;
+  }
+
+  .portrait-area {
+    right: -68px;
+    width: 125%;
+    height: 360px;
+  }
+}
+
+@media (max-width: 350px) {
+  .primary-action {
+    min-width: 126px;
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+}

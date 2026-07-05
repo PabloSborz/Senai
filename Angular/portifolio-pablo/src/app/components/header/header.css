@@ -29,7 +29,10 @@
 
 .navigation a {
   position: relative;
+  display: inline-flex;
+  min-height: 40px;
   padding: 8px 0;
+  align-items: center;
   color: #c8c5cf;
   font-size: 0.76rem;
   font-weight: 500;
@@ -75,5 +78,27 @@
 
   .navigation a {
     text-align: right;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-header {
+    padding-top: 20px;
+    padding-bottom: 12px;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .navigation {
+    width: 100%;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+  }
+
+  .navigation a {
+    justify-content: center;
+    font-size: 0.7rem;
+    text-align: center;
   }
 }

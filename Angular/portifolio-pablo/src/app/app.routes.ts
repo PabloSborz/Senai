@@ -3,6 +3,7 @@ import { Home } from './feats/home/home';
 import { Contato } from './feats/contato/contato';
 import { Sobremim } from './feats/sobremim/sobremim';
 import { Projetos } from './feats/projetos/projetos';
+import { NotFound } from './feats/not-found/not-found';
 
 export const routes: Routes = [
     {path: 'home', component: Home},
@@ -10,4 +11,5 @@ export const routes: Routes = [
     {path: 'projetos', component: Projetos},
     {path: 'contato', component: Contato},
     {path: '', redirectTo: 'home', pathMatch: 'full'},
+    {path: '**', component: NotFound},
 ];

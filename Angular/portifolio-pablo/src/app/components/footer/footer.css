@@ -12,8 +12,8 @@
 
 .site-footer a {
   display: grid;
-  width: 23px;
-  height: 23px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   color: #e8e5ed;
   place-items: center;
