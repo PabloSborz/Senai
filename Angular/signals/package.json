@@ -35,4 +35,8 @@
     "typescript": "~6.0.2",
     "vitest": "^4.0.8"
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 915e5cb28d86ef310dc20de3daf91be0e3e1c7a3
