@@ -1,0 +1,9 @@
+<div class="imagem">
+  <label for="image-url">URL da imagem:</label>
+  <input id="image-url" [(ngModel)]="imageUrl" placeholder="Cole a URL da imagem aqui" />
+
+  <div class="preview" *ngIf="imageUrl">
+    <img [src]="imageUrl" alt="Preview" (load)="onLoad()" (error)="onError()" />
+    <p class="error" *ngIf="imageError">Não foi possível carregar a imagem.</p>
+  </div>
+</div>

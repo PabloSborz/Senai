@@ -1,0 +1,14 @@
+.contador {
+  font-size: 2rem;
+  padding: 0.5rem 1rem;
+  display: inline-block;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+}
+
+button {
+  cursor: pointer;
+}
