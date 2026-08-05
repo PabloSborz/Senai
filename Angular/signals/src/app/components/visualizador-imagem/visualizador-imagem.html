@@ -1,0 +1,16 @@
+<section class="card" aria-labelledby="titulo-imagem">
+  <h1 id="titulo-imagem">Visualizador de imagem</h1>
+
+  <label for="url-imagem">URL da imagem</label>
+  <input
+    id="url-imagem"
+    type="url"
+    placeholder="https://exemplo.com/imagem.jpg"
+    [value]="urlImagem()"
+    (input)="atualizarUrl($event)"
+  />
+
+  @if (urlImagem()) {
+    <img [src]="urlImagem()" alt="Imagem fornecida pelo usuário" />
+  }
+</section>

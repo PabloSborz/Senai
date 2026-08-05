@@ -1,0 +1,43 @@
+:host {
+  display: block;
+}
+
+.card {
+  display: grid;
+  gap: 1rem;
+  padding: 2rem;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 10%);
+}
+
+h1 {
+  margin: 0;
+  text-align: center;
+}
+
+label {
+  font-weight: 700;
+}
+
+input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.75rem;
+  border: 1px solid #9ca3af;
+  border-radius: 0.5rem;
+  font: inherit;
+}
+
+input:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 2px;
+}
+
+img {
+  display: block;
+  width: 100%;
+  max-height: 20rem;
+  border-radius: 0.5rem;
+  object-fit: contain;
+}

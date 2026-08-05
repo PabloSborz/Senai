@@ -1,0 +1,44 @@
+:host {
+  display: block;
+}
+
+.card {
+  display: grid;
+  place-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 10%);
+}
+
+h1 {
+  margin: 0;
+}
+
+.valor {
+  border: 0;
+  background: transparent;
+  font-size: 4rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.acao {
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: #2563eb;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.acao:hover {
+  background: #1d4ed8;
+}
+
+button:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}

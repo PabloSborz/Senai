@@ -1,0 +1,9 @@
+<section class="card" aria-labelledby="titulo-autenticacao">
+  <h1 id="titulo-autenticacao">Autenticação</h1>
+
+  <p>O usuário está {{ usuarioLogado() ? 'logado' : 'deslogado' }}</p>
+
+  <button type="button" (click)="alternarLogin()">
+    {{ usuarioLogado() ? 'Deslogar' : 'Logar' }}
+  </button>
+</section>

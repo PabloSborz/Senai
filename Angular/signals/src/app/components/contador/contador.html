@@ -1,0 +1,17 @@
+<section class="card" aria-labelledby="titulo-contador">
+  <h1 id="titulo-contador">Contador</h1>
+
+  <button
+    type="button"
+    class="valor"
+    aria-label="Zerar contador"
+    title="Clique para zerar"
+    (click)="resetar()"
+  >
+    {{ valor() }}
+  </button>
+
+  <button type="button" class="acao" (click)="incrementar()">
+    Incrementar
+  </button>
+</section>
