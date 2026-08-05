@@ -4,13 +4,13 @@
 
 .card {
   display: grid;
-  place-items: center;
-  gap: 1.5rem;
+  gap: 1.25rem;
+  height: 100%;
   padding: 2rem;
+  box-sizing: border-box;
   border-radius: 1rem;
   background: #fff;
   box-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 10%);
-  text-align: center;
 }
 
 h1,
@@ -18,8 +18,36 @@ p {
   margin: 0;
 }
 
-p {
-  font-size: 1.25rem;
+form,
+.campo {
+  display: grid;
+}
+
+form {
+  gap: 1rem;
+}
+
+.campo {
+  gap: 0.4rem;
+}
+
+label {
+  color: #374151;
+  font-weight: 600;
+}
+
+input {
+  width: 100%;
+  padding: 0.75rem;
+  box-sizing: border-box;
+  border: 1px solid #9ca3af;
+  border-radius: 0.5rem;
+  font: inherit;
+}
+
+input:focus {
+  border-color: #059669;
+  outline: 3px solid rgb(5 150 105 / 20%);
 }
 
 button {
@@ -32,11 +60,30 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+button:hover:not(:disabled) {
   background: #047857;
 }
 
 button:focus-visible {
   outline: 3px solid #f59e0b;
   outline-offset: 3px;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.estado {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.erro {
+  color: #b91c1c;
+}
+
+.dica {
+  color: #6b7280;
+  font-size: 0.875rem;
 }

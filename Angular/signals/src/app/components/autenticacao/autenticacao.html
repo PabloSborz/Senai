@@ -1,9 +1,43 @@
 <section class="card" aria-labelledby="titulo-autenticacao">
-  <h1 id="titulo-autenticacao">Autenticação</h1>
+  <h1 id="titulo-autenticacao">Login</h1>
 
-  <p>O usuário está {{ usuarioLogado() ? 'logado' : 'deslogado' }}</p>
+  <form (submit)="realizarLogin($event)">
+    <div class="campo">
+      <label for="nome-usuario">Nome de usuário</label>
+      <input
+        id="nome-usuario"
+        name="nomeUsuario"
+        type="text"
+        autocomplete="username"
+        [value]="nomeUsuario()"
+        (input)="atualizarNomeUsuario($event)"
+        required
+      />
+    </div>
 
-  <button type="button" (click)="alternarLogin()">
-    {{ usuarioLogado() ? 'Deslogar' : 'Logar' }}
-  </button>
+    <div class="campo">
+      <label for="senha">Senha</label>
+      <input
+        id="senha"
+        name="senha"
+        type="password"
+        autocomplete="current-password"
+        [value]="senha()"
+        (input)="atualizarSenha($event)"
+        required
+      />
+    </div>
+
+    <button type="submit" [disabled]="!nomeUsuario() || !senha()">Entrar</button>
+  </form>
+
+  <p class="estado" role="status">
+    {{ usuarioLogado() ? 'O usuário está logado' : 'O usuário não está logado' }}
+  </p>
+
+  @if (loginInvalido()) {
+    <p class="erro" role="alert">Nome de usuário ou senha incorretos.</p>
+  }
+
+  <p class="dica">Credenciais de demonstração: <strong>admin</strong> / <strong>senai123</strong></p>
 </section>
