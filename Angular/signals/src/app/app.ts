@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { Autenticacao } from './components/autenticacao/autenticacao';
-import { Contador } from './components/contador/contador';
-import { ListaUsuarios } from './components/lista-usuarios/lista-usuarios';
-import { VisualizadorImagem } from './components/visualizador-imagem/visualizador-imagem';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [Autenticacao, Contador, ListaUsuarios, VisualizadorImagem],
+  // Diretivas do Router usadas pela navegação e pela área de conteúdo.
+  imports: [RouterLink, RouterLinkActive, RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

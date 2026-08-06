@@ -1,24 +1,95 @@
 <section class="card" aria-labelledby="titulo-lista-usuarios">
   <h1 id="titulo-lista-usuarios">Lista de usuários</h1>
 
+  <button class="botao-cadastrar" type="button" (click)="abrirCadastro()">
+    <span aria-hidden="true">+</span>
+    Cadastrar usuário
+  </button>
+
   <div class="tabela-container">
+    <!-- O @for cria uma linha para cada usuário armazenado no signal. -->
     <table>
       <thead>
         <tr>
           <th scope="col">ID</th>
           <th scope="col">Nome</th>
           <th scope="col">Idade</th>
+          <th class="coluna-acoes" scope="col">Ações</th>
         </tr>
       </thead>
       <tbody>
-        @for (usuario of usuarios; track usuario.id) {
+        @for (usuario of usuarios(); track usuario.id) {
           <tr>
             <td>{{ usuario.id }}</td>
             <td>{{ usuario.nome }}</td>
             <td>{{ usuario.idade }} anos</td>
+            <td class="coluna-acoes">
+              <button
+                class="botao-excluir"
+                type="button"
+                [attr.aria-label]="'Excluir ' + usuario.nome"
+                (click)="excluirUsuario(usuario.id)"
+              >
+                <span aria-hidden="true">&times;</span>
+                Excluir
+              </button>
+            </td>
           </tr>
         }
       </tbody>
     </table>
   </div>
 </section>
+
+@if (modalAberto()) {
+  <!-- Modal exibido somente enquanto modalAberto for verdadeiro. -->
+  <div class="modal-fundo" (click)="fecharCadastro()">
+    <section
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="titulo-cadastro"
+      (click)="$event.stopPropagation()"
+    >
+      <button class="botao-fechar" type="button" aria-label="Fechar" (click)="fecharCadastro()">
+        &times;
+      </button>
+
+      <div class="modal-icone" aria-hidden="true">+</div>
+      <h2 id="titulo-cadastro">Novo usuário</h2>
+      <p class="modal-descricao">Preencha os dados para adicionar uma pessoa à lista.</p>
+
+      <form (submit)="cadastrarUsuario($event)">
+        <label for="novo-nome">Nome</label>
+        <input
+          id="novo-nome"
+          type="text"
+          placeholder="Digite o nome"
+          [value]="nome()"
+          (input)="atualizarNome($event)"
+          autofocus
+        />
+
+        <label for="nova-idade">Idade</label>
+        <input
+          id="nova-idade"
+          type="number"
+          min="1"
+          step="1"
+          placeholder="Digite a idade"
+          [value]="idade()"
+          (input)="atualizarIdade($event)"
+        />
+
+        @if (mensagemErro()) {
+          <p class="mensagem-erro" role="alert">{{ mensagemErro() }}</p>
+        }
+
+        <div class="modal-acoes">
+          <button class="botao-cancelar" type="button" (click)="fecharCadastro()">Cancelar</button>
+          <button class="botao-confirmar" type="submit">Cadastrar</button>
+        </div>
+      </form>
+    </section>
+  </div>
+}

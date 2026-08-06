@@ -1,0 +1,140 @@
+:host {
+  display: block;
+}
+.card {
+  padding: 2rem;
+  border-radius: 1.25rem;
+  background: #fff;
+  box-shadow: 0 0.75rem 2rem rgb(15 23 42 / 10%);
+}
+.titulo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.titulo > span,
+.avatar {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  color: #fff;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+}
+.titulo > span {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.8rem;
+  font-size: 2rem;
+}
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+h1 {
+  margin-bottom: 0.25rem;
+  color: #111827;
+  font-size: 1.5rem;
+}
+.titulo p {
+  margin-bottom: 0;
+  color: #6b7280;
+}
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.campo {
+  display: grid;
+  gap: 0.4rem;
+  color: #374151;
+  font-weight: 700;
+}
+.campo-inteiro,
+.erro,
+form > button {
+  grid-column: 1 / -1;
+}
+input {
+  min-width: 0;
+  padding: 0.8rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.65rem;
+  font: inherit;
+  outline: none;
+}
+input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 15%);
+}
+form > button {
+  padding: 0.85rem;
+  border: 0;
+  border-radius: 0.65rem;
+  color: #fff;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.erro {
+  margin: 0;
+  padding: 0.75rem;
+  border-radius: 0.6rem;
+  color: #b91c1c;
+  background: #fef2f2;
+}
+.lista {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+.lista h2 {
+  color: #111827;
+  font-size: 1.15rem;
+}
+.grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1rem;
+}
+.usuario-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.85rem;
+  background: #f8fafc;
+  box-shadow: 0 0.25rem 0.75rem rgb(15 23 42 / 6%);
+}
+.avatar {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  font-weight: 800;
+}
+.usuario-card h3 {
+  margin-bottom: 0.2rem;
+  color: #1f2937;
+  font-size: 1rem;
+}
+.usuario-card p,
+.usuario-card small {
+  color: #64748b;
+  overflow-wrap: anywhere;
+}
+.usuario-card p {
+  margin-bottom: 0.25rem;
+}
+@media (max-width: 36rem) {
+  .card {
+    padding: 1.25rem;
+  }
+  form {
+    grid-template-columns: 1fr;
+  }
+}

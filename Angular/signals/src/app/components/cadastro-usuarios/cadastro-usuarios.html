@@ -1,0 +1,86 @@
+<section class="card" aria-labelledby="titulo-cadastro-usuarios">
+  <header class="titulo">
+    <span aria-hidden="true">+</span>
+    <div>
+      <h1 id="titulo-cadastro-usuarios">Cadastro de usuários</h1>
+      <p>Preencha os dados para criar um cadastro.</p>
+    </div>
+  </header>
+
+  <form (submit)="cadastrar($event)" novalidate>
+    <label class="campo campo-inteiro">
+      Nome completo
+      <input
+        id="usuario-nome"
+        type="text"
+        autocomplete="name"
+        [value]="nome()"
+        (input)="atualizar('nome', $event)"
+      />
+    </label>
+    <label class="campo campo-inteiro">
+      E-mail
+      <input
+        id="usuario-email"
+        type="email"
+        autocomplete="email"
+        [value]="email()"
+        (input)="atualizar('email', $event)"
+      />
+    </label>
+    <label class="campo">
+      Senha
+      <input
+        id="usuario-senha"
+        type="password"
+        autocomplete="new-password"
+        minlength="6"
+        [value]="senha()"
+        (input)="atualizar('senha', $event)"
+      />
+    </label>
+    <label class="campo">
+      Confirmação de senha
+      <input
+        id="usuario-confirmacao"
+        type="password"
+        autocomplete="new-password"
+        [value]="confirmacao()"
+        (input)="atualizar('confirmacao', $event)"
+      />
+    </label>
+    <label class="campo campo-inteiro">
+      Data de nascimento
+      <input
+        id="usuario-nascimento"
+        type="date"
+        [max]="dataMaxima"
+        [value]="nascimento()"
+        (input)="atualizar('nascimento', $event)"
+      />
+    </label>
+
+    @if (erro()) {
+      <p class="erro" role="alert">{{ erro() }}</p>
+    }
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  @if (usuarios().length) {
+    <div class="lista" aria-live="polite">
+      <h2>Usuários cadastrados</h2>
+      <div class="grade">
+        @for (usuario of usuarios(); track usuario.id) {
+          <article class="usuario-card">
+            <span class="avatar" aria-hidden="true">{{ usuario.nome.charAt(0) }}</span>
+            <div>
+              <h3>{{ usuario.nome }}</h3>
+              <p>{{ usuario.email }}</p>
+              <small>Nascimento: {{ formatarData(usuario.nascimento) }}</small>
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+  }
+</section>

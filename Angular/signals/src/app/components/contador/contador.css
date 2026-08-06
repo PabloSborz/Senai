@@ -42,3 +42,18 @@ button:focus-visible {
   outline: 3px solid #f59e0b;
   outline-offset: 3px;
 }
+
+@media (max-width: 32rem) {
+  .card {
+    gap: 1rem;
+    padding: 1.25rem;
+  }
+
+  .valor {
+    font-size: 3rem;
+  }
+
+  .acao {
+    width: 100%;
+  }
+}

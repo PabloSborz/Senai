@@ -1,0 +1,77 @@
+<main class="pagina-mercado">
+  <section class="card" aria-labelledby="titulo-mercado">
+    <h1 id="titulo-mercado">Cadastro de produtos</h1>
+    <p class="descricao">Preencha os dados para adicionar um produto ao mercado.</p>
+
+    <form (submit)="cadastrarProduto($event)">
+      <!-- Os formField mantêm os inputs sincronizados com produtoModel. -->
+      <div class="campo">
+        <label for="produto-titulo">Título do produto</label>
+        <input
+          id="produto-titulo"
+          type="text"
+          placeholder="Ex.: Arroz integral"
+          autocomplete="off"
+          [formField]="produtoForm.titulo"
+          required
+        />
+      </div>
+
+      <div class="campo">
+        <label for="produto-descricao">Descrição</label>
+        <input
+          id="produto-descricao"
+          type="text"
+          placeholder="Descreva o produto"
+          autocomplete="off"
+          [formField]="produtoForm.descricao"
+          required
+        />
+      </div>
+
+      <div class="campo">
+        <label for="produto-preco">Preço</label>
+        <div class="campo-preco">
+          <span aria-hidden="true">R$</span>
+          <input
+            id="produto-preco"
+            type="text"
+            placeholder="0,00"
+            inputmode="decimal"
+            [formField]="produtoForm.preco"
+            required
+          />
+        </div>
+      </div>
+
+      <button type="submit">
+        <span aria-hidden="true">+</span>
+        Cadastrar produto
+      </button>
+    </form>
+  </section>
+</main>
+
+@if (alertaVisivel()) {
+  <!-- Confirmação personalizada que substitui o alert nativo. -->
+  <div class="alerta-fundo" (click)="fecharAlerta()">
+    <section
+      class="alerta-sucesso"
+      role="alertdialog"
+      aria-modal="true"
+      aria-labelledby="titulo-alerta"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="alerta-icone" aria-hidden="true">✓</div>
+      <h2 id="titulo-alerta">Produto cadastrado!</h2>
+      <p>
+        @if (produtoCadastrado()) {
+          <strong>{{ produtoCadastrado() }}</strong> foi adicionado com sucesso.
+        } @else {
+          O produto foi adicionado com sucesso.
+        }
+      </p>
+      <button class="botao-alerta" type="button" (click)="fecharAlerta()">Continuar</button>
+    </section>
+  </div>
+}

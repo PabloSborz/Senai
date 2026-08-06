@@ -8,7 +8,7 @@
         id="nome-usuario"
         name="nomeUsuario"
         type="text"
-        autocomplete="username"
+        autocomplete="off"
         [value]="nomeUsuario()"
         (input)="atualizarNomeUsuario($event)"
         required
@@ -21,7 +21,7 @@
         id="senha"
         name="senha"
         type="password"
-        autocomplete="current-password"
+        autocomplete="off"
         [value]="senha()"
         (input)="atualizarSenha($event)"
         required
@@ -31,7 +31,12 @@
     <button type="submit" [disabled]="!nomeUsuario() || !senha()">Entrar</button>
   </form>
 
-  <p class="estado" role="status">
+  <p
+    class="estado"
+    [class.logado]="usuarioLogado()"
+    [class.deslogado]="!usuarioLogado()"
+    role="status"
+  >
     {{ usuarioLogado() ? 'O usuário está logado' : 'O usuário não está logado' }}
   </p>
 
@@ -39,5 +44,7 @@
     <p class="erro" role="alert">Nome de usuário ou senha incorretos.</p>
   }
 
-  <p class="dica">Credenciais de demonstração: <strong>admin</strong> / <strong>senai123</strong></p>
+  <p class="dica">
+    Credenciais de demonstração: <strong>admin</strong> / <strong>senai123</strong>
+  </p>
 </section>

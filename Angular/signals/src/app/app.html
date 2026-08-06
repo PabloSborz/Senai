@@ -1,6 +1,20 @@
-<main class="pagina">
-  <app-contador ></app-contador>
-  <app-autenticacao ></app-autenticacao>
-  <app-visualizador-imagem ></app-visualizador-imagem>
-  <app-lista-usuarios ></app-lista-usuarios>
-</main>
+<!-- Navegação compartilhada pelas páginas inicial e Mercado. -->
+<header class="cabecalho">
+  <a class="marca" routerLink="/">Signals</a>
+
+  <nav aria-label="Navegação principal">
+    <a href="/#contador">Contador</a>
+    <a href="/#imagem">Imagem</a>
+    <a href="/#usuarios">Usuários</a>
+    <a href="/#autenticacao">Autenticação</a>
+    <a href="/#alunos">Alunos</a>
+    <a href="/#cadastro">Cadastro</a>
+    <a routerLink="/mercado" routerLinkActive="active">Mercado</a>
+  </nav>
+</header>
+<Main id="inicio" class="pagina">
+  <section id="usuarios" class="secao-componente secao-usuarios">
+    <!-- A rota ativa é renderizada neste ponto. -->
+    <router-outlet></router-outlet>
+  </section>
+</Main>

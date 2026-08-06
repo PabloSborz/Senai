@@ -1,0 +1,56 @@
+<section class="card" aria-labelledby="titulo-alunos">
+  <h1 id="titulo-alunos">Cadastro de alunos</h1>
+  <p class="descricao">Informe o nome e a média final do aluno.</p>
+
+  <form (submit)="cadastrar($event)">
+    <div class="campo">
+      <label for="nome-aluno">Nome do aluno</label>
+      <input
+        id="nome-aluno"
+        type="text"
+        placeholder="Ex.: Ana Souza"
+        [value]="nome()"
+        (input)="atualizarNome($event)"
+      />
+    </div>
+
+    <div class="campo">
+      <label for="media-aluno">Média final</label>
+      <input
+        id="media-aluno"
+        type="number"
+        min="0"
+        max="10"
+        step="0.1"
+        placeholder="0 a 10"
+        [value]="media()"
+        (input)="atualizarMedia($event)"
+      />
+    </div>
+
+    <button type="submit">Cadastrar</button>
+
+    @if (mensagemErro()) {
+      <p class="erro" role="alert">{{ mensagemErro() }}</p>
+    }
+  </form>
+
+  @if (alunos().length > 0) {
+    <!-- A classe de cor é escolhida de acordo com a média final. -->
+    <div class="lista-alunos" aria-live="polite">
+      <h2>Alunos cadastrados</h2>
+
+      <ul>
+        @for (aluno of alunos(); track aluno.id) {
+          <li [class.aprovado]="aluno.media >= 7" [class.reprovado]="aluno.media < 7">
+            <span class="nome-aluno">{{ aluno.nome }}</span>
+            <span>
+              Média: {{ aluno.media }}
+              <strong>({{ aluno.media >= 7 ? 'Aprovado' : 'Reprovado' }})</strong>
+            </span>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+</section>

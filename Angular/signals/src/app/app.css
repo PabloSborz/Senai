@@ -1,11 +1,149 @@
-.pagina {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-  gap: 2rem;
+:host {
+  display: block;
   min-height: 100vh;
-  align-content: center;
-  padding: 2rem;
-  box-sizing: border-box;
   font-family: Arial, sans-serif;
   background: #f3f4f6;
+}
+
+/* Barra de navegação compartilhada por todas as rotas. */
+.cabecalho {
+  position: sticky;
+  z-index: 100;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  border-radius: 5px;
+  padding: 1rem max(1.25rem, calc((100% - 72rem) / 2));
+  border-bottom: 1px solid rgb(255 255 255 / 25%);
+  color: #ffffff;
+  background: rgb(15 23 42 / 94%);
+  box-shadow: 0 0.25rem 1rem rgb(15 23 42 / 18%);
+  backdrop-filter: blur(0.75rem);
+}
+
+.marca {
+  color: #ffffff;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
+nav a {
+  padding: 0.55rem 0.8rem;
+  border-radius: 0.55rem;
+  color: #cbd5e1;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    color 150ms ease,
+    background 150ms ease,
+    transform 150ms ease;
+}
+
+nav a:hover {
+  color: #ffffff;
+  background: rgb(255 255 255 / 12%);
+  transform: translateY(-1px);
+}
+
+nav .nav-destaque {
+  color: #ffffff;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  box-shadow: 0 0.25rem 0.75rem rgb(37 99 235 / 25%);
+}
+
+nav a:focus-visible {
+  outline: 3px solid rgb(96 165 250 / 55%);
+  outline-offset: 2px;
+}
+
+.pagina {
+  display: flex;
+  width: min(100% - 2rem, 56rem);
+  min-height: calc(100vh - 4.5rem);
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  margin: 0 auto;
+  padding: 3rem 0;
+  box-sizing: border-box;
+}
+
+.secao-componente {
+  width: min(100%, 38rem);
+  scroll-margin-top: 6rem;
+}
+
+.secao-usuarios {
+  width: 100%;
+}
+
+.secao-componente > * {
+  display: block;
+  width: 100%;
+}
+
+/* Em celulares, os links podem ser arrastados horizontalmente. */
+@media (max-width: 42rem) {
+  .cabecalho {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0;
+  }
+
+  .marca {
+    text-align: center;
+  }
+
+  nav {
+    width: 100%;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    padding-bottom: 0.25rem;
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  nav a {
+    flex: 0 0 auto;
+    padding: 0.45rem 0.55rem;
+    font-size: 0.8rem;
+  }
+
+  .pagina {
+    padding-top: 2rem;
+  }
+}
+
+@media (max-width: 24rem) {
+  .cabecalho {
+    padding-inline: 0.65rem;
+  }
+}
+
+.secao-componente {
+  width: min(100%, 38rem);
+  scroll-margin-top: 6rem;
+}
+
+.secao-usuarios {
+  width: 100%;
+}
+
+.secao-componente > * {
+  display: block;
+  width: 100%;
 }

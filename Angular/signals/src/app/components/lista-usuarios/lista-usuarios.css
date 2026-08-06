@@ -17,7 +17,49 @@ h1 {
   font-size: 1.5rem;
 }
 
+.botao-cadastrar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  padding: 0.75rem 1.25rem;
+  border: 0;
+  border-radius: 0.75rem;
+  color: #ffffff;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  box-shadow: 0 0.25rem 0.75rem rgb(37 99 235 / 30%);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    filter 150ms ease;
+}
+
+.botao-cadastrar span {
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1rem;
+}
+
+.botao-cadastrar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgb(37 99 235 / 35%);
+  filter: brightness(1.06);
+}
+
+.botao-cadastrar:active {
+  transform: translateY(0);
+}
+
+.botao-cadastrar:focus-visible {
+  outline: 3px solid rgb(37 99 235 / 35%);
+  outline-offset: 3px;
+}
+
 .tabela-container {
+  /* Mantém a tabela utilizável em telas menores que sua largura. */
   overflow-x: auto;
 }
 
@@ -43,6 +85,211 @@ td {
   color: #1f2937;
 }
 
+.coluna-acoes {
+  text-align: right;
+}
+
+.botao-excluir {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid #fecaca;
+  border-radius: 0.55rem;
+  color: #dc2626;
+  background: #fef2f2;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    color 150ms ease,
+    background 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease;
+}
+
+.botao-excluir span {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.botao-excluir:hover {
+  border-color: #dc2626;
+  color: #ffffff;
+  background: #dc2626;
+  transform: translateY(-1px);
+}
+
+.botao-excluir:active {
+  transform: translateY(0);
+}
+
+.botao-excluir:focus-visible {
+  outline: 3px solid rgb(220 38 38 / 20%);
+  outline-offset: 2px;
+}
+
 tbody tr:last-child td {
   border-bottom: 0;
+}
+
+/* Camada e conteúdo do modal de cadastro. */
+.modal-fundo {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgb(15 23 42 / 65%);
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  position: relative;
+  width: min(100%, 26rem);
+  padding: 2rem;
+  box-sizing: border-box;
+  border-radius: 1.25rem;
+  background: #ffffff;
+  box-shadow: 0 1.5rem 4rem rgb(15 23 42 / 35%);
+  animation: abrir-modal 180ms ease-out;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+}
+
+.modal-icone {
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  place-items: center;
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  color: #ffffff;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  font-size: 2rem;
+}
+
+.modal h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 1.5rem;
+}
+
+.modal-descricao {
+  margin: 0.5rem 0 1.5rem;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.modal form {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.modal label {
+  margin-top: 0.5rem;
+  color: #374151;
+  font-weight: 700;
+}
+
+.modal input {
+  padding: 0.8rem 0.9rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.65rem;
+  color: #111827;
+  font: inherit;
+  outline: none;
+}
+
+.modal input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 15%);
+}
+
+.botao-fechar {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  border: 0;
+  color: #6b7280;
+  background: transparent;
+  font-size: 1.75rem;
+  cursor: pointer;
+}
+
+.mensagem-erro {
+  margin: 0.5rem 0 0;
+  padding: 0.65rem 0.8rem;
+  border-radius: 0.5rem;
+  color: #b91c1c;
+  background: #fef2f2;
+  font-size: 0.875rem;
+}
+
+.modal-acoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.modal-acoes button {
+  padding: 0.7rem 1rem;
+  border-radius: 0.65rem;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.botao-cancelar {
+  border: 1px solid #d1d5db;
+  color: #374151;
+  background: #ffffff;
+}
+
+.botao-confirmar {
+  border: 0;
+  color: #ffffff;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+}
+
+@keyframes abrir-modal {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 36rem) {
+  .card {
+    padding: 1.25rem;
+  }
+
+  .botao-cadastrar {
+    width: 100%;
+    justify-content: center;
+  }
+
+  table {
+    min-width: 34rem;
+  }
+
+  .modal {
+    padding: 1.25rem;
+  }
+
+  .modal-acoes {
+    flex-direction: column-reverse;
+  }
+
+  .modal-acoes button {
+    width: 100%;
+  }
 }

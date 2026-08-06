@@ -75,8 +75,52 @@ button:disabled {
 }
 
 .estado {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid;
+  border-radius: 0.7rem;
   font-size: 1.15rem;
-  font-weight: 600;
+  font-weight: 700;
+  transition:
+    color 200ms ease,
+    background 200ms ease,
+    border-color 200ms ease;
+}
+
+.estado::before {
+  display: grid;
+  width: 1.75rem;
+  height: 1.75rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.estado.logado {
+  border-color: #86efac;
+  color: #166534;
+  background: #f0fdf4;
+}
+
+.estado.logado::before {
+  content: '✓';
+  background: #16a34a;
+}
+
+.estado.deslogado {
+  border-color: #fecaca;
+  color: #991b1b;
+  background: #fef2f2;
+}
+
+.estado.deslogado::before {
+  content: '!';
+  background: #dc2626;
 }
 
 .erro {
@@ -86,4 +130,20 @@ button:disabled {
 .dica {
   color: #6b7280;
   font-size: 0.875rem;
+}
+
+@media (max-width: 32rem) {
+  .card {
+    gap: 1rem;
+    padding: 1.25rem;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  .estado {
+    align-items: flex-start;
+    font-size: 1rem;
+  }
 }

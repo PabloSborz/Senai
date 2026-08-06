@@ -1,1 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+/* Regras globais: reset básico, rolagem suave e proteção contra overflow. */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-width: 20rem;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  background: #f3f4f6;
+}
+
+button,
+input {
+  max-width: 100%;
+}
+
+img {
+  max-width: 100%;
+}

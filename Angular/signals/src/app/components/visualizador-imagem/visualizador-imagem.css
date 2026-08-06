@@ -41,3 +41,13 @@ img {
   border-radius: 0.5rem;
   object-fit: contain;
 }
+
+@media (max-width: 32rem) {
+  .card {
+    padding: 1.25rem;
+  }
+
+  h1 {
+    font-size: 1.35rem;
+  }
+}

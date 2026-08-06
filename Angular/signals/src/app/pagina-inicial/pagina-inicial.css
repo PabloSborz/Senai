@@ -1,0 +1,39 @@
+/* Coluna central que organiza todos os exercícios da página inicial. */
+.pagina {
+  display: flex;
+  width: min(100% - 2rem, 56rem);
+  min-height: calc(100vh - 4.5rem);
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  margin: 0 auto;
+  padding: 3rem 0;
+  box-sizing: border-box;
+}
+
+.secao-componente {
+  width: min(100%, 38rem);
+  scroll-margin-top: 6rem;
+}
+
+.secao-usuarios {
+  width: 100%;
+}
+
+.secao-componente > * {
+  display: block;
+  width: 100%;
+}
+
+@media (max-width: 42rem) {
+  .pagina {
+    width: min(100% - 1rem, 56rem);
+    gap: 1rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .secao-componente {
+    scroll-margin-top: 8rem;
+  }
+}

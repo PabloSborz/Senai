@@ -29,9 +29,7 @@ describe('Autenticacao', () => {
     compiled.querySelector('form')?.dispatchEvent(new Event('submit'));
     fixture.detectChanges();
 
-    expect(compiled.querySelector('.estado')?.textContent?.trim()).toBe(
-      'O usuário está logado',
-    );
+    expect(compiled.querySelector('.estado')?.textContent?.trim()).toBe('O usuário está logado');
     expect(compiled.querySelector('.erro')).toBeNull();
   });
 
