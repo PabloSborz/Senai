@@ -4,15 +4,96 @@
 
 .pagina-mercado {
   display: grid;
+  grid-template-columns: minmax(17rem, 22rem) minmax(0, 1fr);
+  gap: 2rem;
   min-height: calc(100vh - 5rem);
-  place-items: center;
+  align-items: start;
+  width: min(100%, 75rem);
+  margin: 0 auto;
   padding: 2rem 1rem;
   box-sizing: border-box;
 }
 
+.sidebar {
+  position: sticky;
+  top: 1rem;
+}
+
+.lista {
+  width: 100%;
+  min-width: 0;
+}
+
+.lista-vazia {
+  padding: 2rem;
+  box-sizing: border-box;
+  border: 2px dashed #cbd5e1;
+  border-radius: 1rem;
+  color: #64748b;
+  background: #f8fafc;
+}
+
+.lista-vazia p {
+  margin: 0;
+}
+
+.lista h2 {
+  margin: 0 0 1rem;
+  color: #111827;
+}
+
+.grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1rem;
+}
+
+.produto-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
+  background: #ffffff;
+  box-shadow: 0 0.35rem 1rem rgb(15 23 42 / 8%);
+}
+
+.avatar {
+  display: grid;
+  flex: 0 0 3rem;
+  width: 3rem;
+  height: 3rem;
+  place-items: center;
+  border-radius: 50%;
+  color: #ffffff;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.produto-dados {
+  min-width: 0;
+}
+
+.produto-dados h3,
+.produto-dados p {
+  margin: 0;
+}
+
+.produto-dados p {
+  margin: 0.25rem 0 0.5rem;
+  color: #6b7280;
+  overflow-wrap: anywhere;
+}
+
+.produto-dados strong {
+  color: #166534;
+}
+
 /* Card principal do formulário de produtos. */
 .card {
-  width: min(100%, 38rem);
+  width: 100%;
   padding: 1.5rem;
   box-sizing: border-box;
   border-radius: 1rem;
@@ -205,5 +286,15 @@ button:focus-visible {
 
   button {
     width: 100%;
+  }
+}
+
+@media (max-width: 52rem) {
+  .pagina-mercado {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
   }
 }

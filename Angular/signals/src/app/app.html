@@ -1,6 +1,5 @@
-<!-- Navegação compartilhada pelas páginas inicial e Mercado. -->
 <header class="cabecalho">
-  <a class="marca" routerLink="/">Signals</a>
+  <a class="marca" routerLink="/" (click)="voltarAoInicio()">Signals</a>
 
   <nav aria-label="Navegação principal">
     <a href="/#contador">Contador</a>
@@ -9,12 +8,52 @@
     <a href="/#autenticacao">Autenticação</a>
     <a href="/#alunos">Alunos</a>
     <a href="/#cadastro">Cadastro</a>
-    <a routerLink="/mercado" routerLinkActive="active">Mercado</a>
+    <a href="/#eleicao">Eleição</a>
+    <a href="/#tarefas">Tarefas</a>
   </nav>
+
+  <button
+    class="botao-menu"
+    type="button"
+    aria-label="Abrir menu lateral"
+    aria-controls="menu-lateral"
+    [attr.aria-expanded]="menuAberto()"
+    (click)="alternarMenu()"
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 </header>
-<Main id="inicio" class="pagina">
-  <section id="usuarios" class="secao-componente secao-usuarios">
+
+@if (menuAberto()) {
+  <button
+    class="menu-fundo"
+    type="button"
+    aria-label="Fechar menu lateral"
+    (click)="fecharMenu()"
+  ></button>
+}
+
+<aside
+  id="menu-lateral"
+  class="sidebar"
+  [class.aberta]="menuAberto()"
+  aria-label="Menu lateral"
+>
+  <div class="sidebar-cabecalho">
+    <h2>Menu</h2>
+    <button type="button" aria-label="Fechar menu" (click)="fecharMenu()">&times;</button>
+  </div>
+
+  <a routerLink="/mercado" routerLinkActive="active" (click)="fecharMenu()">
+    Mercado
+  </a>
+</aside>
+
+<main id="inicio" class="pagina">
+  <section class="secao-componente secao-usuarios">
     <!-- A rota ativa é renderizada neste ponto. -->
     <router-outlet></router-outlet>
   </section>
-</Main>
+</main>

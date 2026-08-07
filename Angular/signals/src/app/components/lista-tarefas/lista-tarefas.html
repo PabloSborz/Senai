@@ -1,0 +1,47 @@
+<section class="tarefas-container" aria-labelledby="titulo-tarefas">
+  <header>
+    <h1 id="titulo-tarefas">Lista de tarefas</h1>
+    <p>Organize suas atividades e acompanhe o que já foi concluído.</p>
+  </header>
+
+  <form (submit)="adicionarTarefa($event)">
+    <label for="nova-tarefa">Nome da tarefa</label>
+    <div class="nova-tarefa">
+      <input id="nova-tarefa" type="text" placeholder="Ex.: Estudar Angular Signals"
+        autocomplete="off" [value]="novaTarefa()" (input)="atualizarNovaTarefa($event)" />
+      <button type="submit">Adicionar</button>
+    </div>
+  </form>
+
+  <div class="lista" aria-live="polite">
+    @if (tarefas().length === 0) {
+      <p class="lista-vazia">Nenhuma tarefa cadastrada.</p>
+    } @else {
+      @for (tarefa of tarefas(); track tarefa.id) {
+        <article class="tarefa-card" [class.concluida]="tarefa.concluida">
+          @if (tarefaEmEdicaoId() === tarefa.id) {
+            <label class="sr-only" [for]="'editar-' + tarefa.id">Editar tarefa</label>
+            <input class="input-edicao" [id]="'editar-' + tarefa.id" type="text"
+              [value]="textoEdicao()" (input)="atualizarTextoEdicao($event)" />
+            <div class="acoes">
+              <button class="salvar" type="button" (click)="salvarEdicao(tarefa.id)">Salvar edição</button>
+              <button class="cancelar" type="button" (click)="cancelarEdicao()">Cancelar edição</button>
+            </div>
+          } @else {
+            <div class="conteudo">
+              <span class="status" aria-hidden="true">{{ tarefa.concluida ? '✓' : '○' }}</span>
+              <h2>{{ tarefa.nome }}</h2>
+            </div>
+            <div class="acoes">
+              <button class="concluir" type="button" (click)="alternarConclusao(tarefa.id)">
+                {{ tarefa.concluida ? 'Não concluída' : 'Concluir' }}
+              </button>
+              <button class="editar" type="button" (click)="iniciarEdicao(tarefa)">Editar</button>
+              <button class="remover" type="button" (click)="removerTarefa(tarefa.id)">Remover</button>
+            </div>
+          }
+        </article>
+      }
+    }
+  </div>
+</section>

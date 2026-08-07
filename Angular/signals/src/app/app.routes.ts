@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { Mercado } from './feats/mercado/mercado';
-import { PaginaInicial } from './pagina-inicial/pagina-inicial';
+import { PaginaInicial } from './components/pagina-inicial/pagina-inicial';
+
 
 // Mapa de URLs da aplicação. Adicione novas páginas neste array.
 export const routes: Routes = [

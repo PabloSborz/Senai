@@ -9,6 +9,8 @@ import { form, FormField } from '@angular/forms/signals';
   styleUrl: './mercado.css',
 })
 export class Mercado {
+
+ 
   // Controla o modal de confirmação mostrado após o cadastro.
   alertaVisivel = signal(false);
   produtoCadastrado = signal('');
@@ -23,6 +25,8 @@ export class Mercado {
   // Converte o modelo em uma estrutura compatível com Angular Signal Forms.
   produtoForm = form(this.produtoModel);
 
+  produto = signal<Produto[]>([])
+
   cadastrarProduto(evento: SubmitEvent): void {
     evento.preventDefault();
 
@@ -31,6 +35,7 @@ export class Mercado {
     // Guarda o título para exibi-lo no alerta personalizado.
     this.produtoCadastrado.set(produto.titulo);
     this.alertaVisivel.set(true);
+    this.produto.update(valor => [...valor, produto]);
 
     // Limpa todos os inputs após concluir o cadastro.
     this.produtoModel.set({
@@ -43,4 +48,7 @@ export class Mercado {
   fecharAlerta(): void {
     this.alertaVisivel.set(false);
   }
+
+  
+
 }

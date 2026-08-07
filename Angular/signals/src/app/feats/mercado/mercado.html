@@ -1,5 +1,5 @@
 <main class="pagina-mercado">
-  <section class="card" aria-labelledby="titulo-mercado">
+  <aside class="card sidebar" aria-labelledby="titulo-mercado">
     <h1 id="titulo-mercado">Cadastro de produtos</h1>
     <p class="descricao">Preencha os dados para adicionar um produto ao mercado.</p>
 
@@ -13,7 +13,7 @@
           placeholder="Ex.: Arroz integral"
           autocomplete="off"
           [formField]="produtoForm.titulo"
-          required
+          
         />
       </div>
 
@@ -25,7 +25,7 @@
           placeholder="Descreva o produto"
           autocomplete="off"
           [formField]="produtoForm.descricao"
-          required
+          
         />
       </div>
 
@@ -39,7 +39,6 @@
             placeholder="0,00"
             inputmode="decimal"
             [formField]="produtoForm.preco"
-            required
           />
         </div>
       </div>
@@ -49,7 +48,34 @@
         Cadastrar produto
       </button>
     </form>
-  </section>
+  </aside>
+
+  @if (produto().length > 0) {
+    <section class="lista" aria-live="polite">
+      <h2>Produtos cadastrados</h2>
+
+      <div class="grade">
+        @for (item of produto(); track $index) {
+          <article class="produto-card">
+            <span class="avatar" aria-hidden="true">
+              {{ item.titulo.charAt(0).toUpperCase() }}
+            </span>
+
+            <div class="produto-dados">
+              <h3>{{ item.titulo }}</h3>
+              <p>{{ item.descricao }}</p>
+              <strong>R$ {{ item.preco }}</strong>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+  } @else {
+    <section class="lista lista-vazia" aria-live="polite">
+      <h2>Produtos cadastrados</h2>
+      <p>Cadastre um produto usando o formulário ao lado.</p>
+    </section>
+  }
 </main>
 
 @if (alertaVisivel()) {

@@ -1,0 +1,30 @@
+<main class="pagina-eleicao">
+  <header class="titulo">
+    <div>
+      <h1>Eleição</h1>
+      <p>Escolha um candidato e registre seu voto.</p>
+    </div>
+
+    <button class="botao-ordenar" type="button" (click)="ordenarLista()">
+      Ordenar lista
+    </button>
+  </header>
+
+  <section class="lista" aria-live="polite" aria-label="Lista de candidatos">
+    @for (candidato of candidatos(); track candidato.id) {
+      <article class="candidato-card">
+        <img
+          [src]="candidato.foto"
+          [alt]="'Foto de ' + candidato.nome"
+        />
+
+        <div class="dados">
+          <h2>{{ candidato.nome }}</h2>
+          <p>{{ candidato.votos }} {{ candidato.votos === 1 ? 'voto' : 'votos' }}</p>
+        </div>
+
+        <button type="button" (click)="votar(candidato.id)">Votar</button>
+      </article>
+    }
+  </section>
+</main>

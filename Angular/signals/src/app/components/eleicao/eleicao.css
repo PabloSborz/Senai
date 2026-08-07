@@ -1,0 +1,101 @@
+:host {
+  display: block;
+}
+
+.pagina-eleicao {
+  width: min(100%, 52rem);
+  margin: 2rem auto;
+}
+
+.titulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+.titulo p {
+  margin-top: 0.35rem;
+  color: #64748b;
+}
+
+.lista {
+  display: grid;
+  gap: 1rem;
+}
+
+.candidato-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
+  background: #ffffff;
+  box-shadow: 0 0.4rem 1.2rem rgb(15 23 42 / 8%);
+}
+
+.candidato-card img {
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #e2e8f0;
+}
+
+.dados h2 {
+  color: #0f172a;
+  font-size: 1.15rem;
+}
+
+.dados p {
+  margin-top: 0.35rem;
+  color: #475569;
+  font-weight: 700;
+}
+
+button {
+  padding: 0.7rem 1.1rem;
+  border: 0;
+  border-radius: 0.65rem;
+  color: #ffffff;
+  background: #2563eb;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+.botao-ordenar {
+  background: #0f766e;
+}
+
+.botao-ordenar:hover {
+  background: #115e59;
+}
+
+@media (max-width: 36rem) {
+  .titulo {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .candidato-card {
+    grid-template-columns: auto 1fr;
+  }
+
+  .candidato-card > button {
+    grid-column: 1 / -1;
+  }
+}

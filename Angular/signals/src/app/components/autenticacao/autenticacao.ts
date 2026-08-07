@@ -37,5 +37,7 @@ export class Autenticacao {
 
     this.usuarioLogado.set(credenciaisValidas);
     this.loginInvalido.set(!credenciaisValidas);
+
   }
+  
 }
