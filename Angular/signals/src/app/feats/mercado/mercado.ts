@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { Produto } from './produto';
-import { form, FormField } from '@angular/forms/signals';
+import { form, FormField, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-mercado',
@@ -16,11 +16,12 @@ export class Mercado {
   produtoCadastrado = signal('');
 
   // Modelo reativo conectado aos inputs por meio de [formField].
-  produtoModel = signal<Produto>({
+  protected readonly produtoModel = signal<Produto>({
     titulo: '',
     descricao: '',
     preco: '',
   });
+
 
   // Converte o modelo em uma estrutura compatível com Angular Signal Forms.
   produtoForm = form(this.produtoModel);

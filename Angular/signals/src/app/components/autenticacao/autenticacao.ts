@@ -1,4 +1,5 @@
 import { Component, signal } from '@angular/core';
+import { FormField } from "@angular/forms/signals";
 
 // Credenciais usadas somente na demonstração local.
 const CREDENCIAIS_CORRETAS = {
@@ -10,6 +11,7 @@ const CREDENCIAIS_CORRETAS = {
   selector: 'app-autenticacao',
   templateUrl: './autenticacao.html',
   styleUrl: './autenticacao.css',
+  imports: [FormField],
 })
 export class Autenticacao {
   // Estado reativo dos campos e do resultado da autenticação.
