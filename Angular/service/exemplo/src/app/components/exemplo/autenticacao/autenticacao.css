@@ -1,0 +1,76 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  width: min(100% - 2rem, 28rem);
+  margin: 2rem auto;
+  padding: 2rem;
+  color: #1f2937;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid #dbeafe;
+  border-radius: 1rem;
+  box-shadow: 0 0.75rem 2rem rgb(30 58 138 / 12%);
+  box-sizing: border-box;
+}
+
+:host::before {
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  color: #ffffff;
+  background: linear-gradient(135deg, #2563eb, #1e3a8a);
+  border-radius: 50%;
+  content: '\1F512';
+  font-size: 1.5rem;
+  box-shadow: 0 0.5rem 1rem rgb(37 99 235 / 22%);
+}
+
+p {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+button {
+  min-width: 9rem;
+  padding: 0.8rem 1.25rem;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 700;
+  background: #2563eb;
+  border: 0;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  box-shadow: 0 0.35rem 0.8rem rgb(37 99 235 / 18%);
+  transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+button:hover {
+  background: #1d4ed8;
+  box-shadow: 0 0.5rem 1rem rgb(37 99 235 / 25%);
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button:focus-visible {
+  outline: 0.2rem solid rgb(37 99 235 / 25%);
+  outline-offset: 0.2rem;
+}
+
+@media (max-width: 30rem) {
+  :host {
+    margin-block: 1rem;
+    padding: 1.5rem;
+  }
+
+  button {
+    width: 100%;
+  }
+}

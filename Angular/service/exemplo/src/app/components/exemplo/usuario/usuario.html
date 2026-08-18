@@ -1,0 +1,38 @@
+<h1>Cadastro de Usuário</h1>
+
+<form (submit)="cadastrarUsuario($event)">
+    <input type="text"
+           placeholder="Nome do usuario"
+           [formField]="usuarioForm.nome">
+
+    <!-- Exibe erros apenas se o campo já foi tocado e estiver inválido -->
+    @if (usuarioForm.nome().touched() && usuarioForm.nome().invalid()) {
+        @for (error of usuarioForm.nome().errors(); track error.kind) {
+            <span>{{error.message}}</span>
+        }
+    }
+
+    <!-- Campo de média (inputmode="numeric" ajuda no mobile) -->
+    <input type="text"
+           inputmode="numeric"
+           placeholder="Idade"
+           [formField]="usuarioForm.idade">
+
+    <!-- Exibe erros da idade -->
+    @if (usuarioForm.idade().touched() && usuarioForm.idade().invalid()) {
+        @for (error of usuarioForm.idade().errors(); track error.kind) {
+            <span>{{error.message}}</span>
+        }
+    }
+
+    <!-- Botão desabilitado enquanto o formulário estiver inválido -->
+    <button [disabled]="usuarioForm().invalid()">Cadastrar usuário</button>
+</form>
+
+@for (usuario of usuarioService.usuarios(); track usuario.id) {
+  <div class="usuario-card">
+    <p>ID: {{usuario.id}}</p>
+    <p>Nome: {{usuario.nome}}</p>
+    <p>Idade: {{usuario.idade}}</p>
+  </div>
+}

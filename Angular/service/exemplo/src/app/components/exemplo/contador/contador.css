@@ -1,0 +1,59 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  width: min(100% - 2rem, 24rem);
+  margin: 2rem auto;
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+  background: #ffffff;
+  border: 1px solid #dbeafe;
+  border-radius: 1rem;
+  box-shadow: 0 0.75rem 2rem rgb(30 58 138 / 12%);
+  box-sizing: border-box;
+}
+
+span {
+  display: grid;
+  place-items: center;
+  width: 7rem;
+  height: 7rem;
+  color: #1e3a8a;
+  font-size: 3rem;
+  font-weight: 800;
+  background: #eff6ff;
+  border: 0.3rem solid #bfdbfe;
+  border-radius: 50%;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: inset 0 0 0 0.35rem #ffffff;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+span:hover {
+  background: #dbeafe;
+  transform: scale(1.04);
+}
+
+button {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 700;
+  background: #2563eb;
+  border: 0;
+  border-radius: 0.55rem;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+button:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}

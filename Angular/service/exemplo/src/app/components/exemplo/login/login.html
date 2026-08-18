@@ -1,0 +1,21 @@
+<form autocomplete="off" (submit)="efetuarLogin($event)">
+
+    <input type="email" placeholder="Email" autocomplete="off" [formField]="loginForm.email">
+    @if (loginForm.email().touched() && loginForm.email().invalid()) {
+        @for (error of loginForm.email().errors(); track error.kind) {
+            <span>{{error.message}}</span>
+        }
+    }
+
+    <input type="password" placeholder="Senha" autocomplete="new-password" [formField]="loginForm.senha">
+    @if (loginForm.senha().touched() && loginForm.senha().invalid()) {
+        @for (error of loginForm.senha().errors(); track error.kind) {
+            <span>{{error.message}}</span>
+        }
+    }
+
+    <button [disabled]="loginForm().invalid()">Fazer login</button>
+
+</form>
+
+<p>O usuário @if(!estaLogado()) {não} está logado</p>

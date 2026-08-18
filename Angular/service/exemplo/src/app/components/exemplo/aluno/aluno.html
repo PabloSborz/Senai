@@ -1,0 +1,46 @@
+<!-- Formulário que usa o Signal Form -->
+<form (submit)="cadastrarAluno($event)">
+
+    <!-- Campo de nome ligado ao formField do signal form -->
+    <input type="text"
+           placeholder="Nome do aluno"
+           [formField]="alunoForm.nome">
+
+    <!-- Exibe erros apenas se o campo já foi tocado e estiver inválido -->
+    @if (alunoForm.nome().touched() && alunoForm.nome().invalid()) {
+        @for (error of alunoForm.nome().errors(); track error.kind) {
+            <span>{{error.message}}</span>
+        }
+    }
+
+    <!-- Campo de média (inputmode="numeric" ajuda no mobile) -->
+    <input type="text"
+           inputmode="numeric"
+           placeholder="Média"
+           [formField]="alunoForm.media">
+
+    <!-- Exibe erros da média -->
+    @if (alunoForm.media().touched() && alunoForm.media().invalid()) {
+        @for (error of alunoForm.media().errors(); track error.kind) {
+            <span>{{error.message}}</span>
+        }
+    }
+
+    <!-- Botão desabilitado enquanto o formulário estiver inválido -->
+    <button [disabled]="alunoForm().invalid()">Cadastrar aluno</button>
+</form>
+
+<!-- Lista de alunos cadastrados (renderizada a partir do signal) -->
+@for (aluno of alunoService.alunos(); track aluno.nome) {
+    <p>Nome: {{aluno.nome}}</p>
+    <p>Média: {{aluno.media}}</p>
+
+    <!-- Lógica de aprovação/reprovação -->
+    @if (aluno.media !== null) {
+        @if (aluno.media >= 7) {
+            <p style="color: green;">Aprovado</p>
+        } @else {
+            <p style="color: red;">Reprovado</p>
+        }
+    }
+}

@@ -1,0 +1,90 @@
+:host {
+  display: block;
+  width: min(100% - 2rem, 30rem);
+  margin: 2rem auto;
+  color: #1f2937;
+  font-family: Arial, sans-serif;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 2rem;
+  background: #ffffff;
+  border: 1px solid #dbeafe;
+  border-radius: 1rem;
+  box-shadow: 0 0.75rem 2rem rgb(30 58 138 / 12%);
+}
+
+form::before {
+  margin-bottom: 0.5rem;
+  color: #1e3a8a;
+  content: 'Acesse sua conta';
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+input {
+  width: 100%;
+  padding: 0.8rem 0.9rem;
+  color: #111827;
+  font: inherit;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.55rem;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus {
+  background: #ffffff;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 0.2rem rgb(37 99 235 / 15%);
+}
+
+span {
+  margin-top: -0.4rem;
+  color: #dc2626;
+  font-size: 0.8rem;
+}
+
+button {
+  margin-top: 0.4rem;
+  padding: 0.8rem 1rem;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 700;
+  background: #2563eb;
+  border: 0;
+  border-radius: 0.55rem;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+button:hover:not(:disabled) {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+p {
+  margin: 1rem 0 0;
+  padding: 0.85rem 1rem;
+  text-align: center;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 0.6rem;
+}
+
+@media (max-width: 30rem) {
+  form {
+    padding: 1.5rem;
+  }
+}

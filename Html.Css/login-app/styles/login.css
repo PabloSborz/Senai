@@ -4,14 +4,33 @@
     box-sizing: border-box;
 }
 
+html {
+    min-height: 100%;
+    background: linear-gradient(
+        90deg,
+        #011C53 0%,
+        #0259E1 40%,
+        #08C4E7 70%,
+        #05BF97 100%
+    );
+    background-attachment: fixed;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
+    background: transparent;
+}
+
+nav,
+header,
+main,
+footer {
+    background: transparent;
 }
 
 .login-container {

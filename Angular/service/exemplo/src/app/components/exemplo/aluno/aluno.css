@@ -1,0 +1,125 @@
+:host {
+  display: block;
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding: 48px 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #1e293b;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(100%, 460px);
+  box-sizing: border-box;
+  margin: 0 auto ;
+  padding: 32px;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.1);
+}
+
+form::before {
+  content: "Cadastro de alunos";
+  margin-bottom: 10px;
+  color: #0f172a;
+  font-size: 26px;
+  font-weight: 700;
+  text-align: center;
+}
+
+input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 13px 14px;
+  color: #1e293b;
+  background-color: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus {
+  background-color: #ffffff;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+input::placeholder {
+  color: #94a3b8;
+}
+
+span {
+  margin-top: -6px;
+  color: #dc2626;
+  font-size: 13px;
+}
+
+button {
+  margin-top: 8px;
+  padding: 13px 18px;
+  color: #ffffff;
+  background-color: #4f46e5;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+button:hover:not(:disabled) {
+  background-color: #4338ca;
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  background-color: #a5b4fc;
+  cursor: not-allowed;
+}
+
+:host > p {
+  width: min(100%, 460px);
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 5px 24px;
+  background-color: #ffffff;
+  border-right: 1px solid #e2e8f0;
+  border-left: 1px solid #e2e8f0;
+}
+
+:host > p:nth-of-type(3n + 1) {
+  padding-top: 20px;
+  color: #0f172a;
+  border-top: 1px solid #e2e8f0;
+  border-radius: 12px 12px 0 0;
+  font-weight: 700;
+}
+
+:host > p:nth-of-type(3n) {
+  margin-bottom: 14px;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e2e8f0;
+  border-radius: 0 0 12px 12px;
+  font-weight: 700;
+}
+
+@media (max-width: 520px) {
+  :host {
+    padding: 24px 14px;
+  }
+
+  form {
+    padding: 24px 20px;
+  }
+
+  form::before {
+    font-size: 22px;
+  }
+}

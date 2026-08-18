@@ -1,0 +1,11 @@
+<p>Você está 
+    @if (logado()) {
+        logado
+    } @else {
+        deslogado
+    }
+</p>
+
+<button (click)="alterarEstado()">
+    @if (logado()) {Deslogar} @else {Logar}
+</button>
