@@ -4,6 +4,7 @@ import { UsuarioInt } from './usuario-int';
 
 @Injectable({ providedIn: 'root' })
 export class UsuarioService {
+ 
   usuarios = signal<UsuarioInt[]>([]);
   private proximoId = 1;
 

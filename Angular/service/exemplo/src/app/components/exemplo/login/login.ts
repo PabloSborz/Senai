@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { LoginInt } from './login-int';
 import { email, form, FormField, required } from '@angular/forms/signals';
+import { LoginService } from './login-service';
 
 @Component({
   selector: 'app-login',
@@ -9,6 +10,9 @@ import { email, form, FormField, required } from '@angular/forms/signals';
   styleUrl: './login.css',
 })
 export class Login {
+
+  protected readonly loginService = inject(LoginService);
+
 
     protected loginModel = signal<LoginInt>({
     email: '',
@@ -28,12 +32,19 @@ export class Login {
   protected efetuarLogin(event: SubmitEvent) {
     event.preventDefault();
 
-    alert('Foi feito o submit')
     const login = this.loginModel();
 
-    if (login.email === 'admin@gmail.com' && login.senha === '12345') {
-      this.estaLogado.set(true);
-    }
+    // if (login.email === 'admin@gmail.com' && login.senha === '12345') {
+    //   this.estaLogado.set(true);
+    // }
+
+    this.estaLogado.set(this.loginService.loginUsuario(login));
+
+     this.loginModel.set({
+      email: '',
+      senha: ''
+     });
+  
     
     this.loginForm().reset();
   }
