@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PushService } from './push-service';
+import { ConsumoHttpService } from './consumo-http-service';
 
-describe('PushService', () => {
-  let service: PushService;
+describe('ConsumoHttpService', () => {
+  let service: ConsumoHttpService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(PushService);
+    service = TestBed.inject(ConsumoHttpService);
   });
 
   it('should be created', () => {

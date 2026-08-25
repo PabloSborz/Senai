@@ -1,0 +1,9 @@
+<form (submit)="cadastrarPost($event)">
+
+    <input type="text" inputmode="numeric" [formField]="postForm.userId" placeholder="UserId">
+    <input type="text" [formField]="postForm.title" placeholder="Title">
+    <input type="text" [formField]="postForm.body" placeholder="Body">
+
+    <button>Post</button>
+
+</form>

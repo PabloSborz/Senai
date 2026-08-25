@@ -7,11 +7,12 @@ import { Autenticacao } from './components/exemplo/autenticacao/autenticacao';
 import {Contador} from './components/exemplo/contador/contador';
 import { Login } from './components/exemplo/login/login';
 import { Imagem } from './components/exemplo/imagem/imagem';
-import { PushTest } from "./components/exemplo/push-test/push-test";
+import { PostRequest } from "./components/exemplo/post/post-request/post-request";
+import { PutRequest } from './components/exemplo/post/put-request/put-request';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Usuario, Aluno, Header, Autenticacao, Contador, Imagem, Login, PushTest],
+  imports: [RouterOutlet, Usuario, Aluno, Header, Autenticacao, Contador, Imagem, Login, PostRequest, PutRequest],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
