@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { PostRequestInt } from './post-request/post-request-int';
 import { PutRequestInt } from './put-request/put-request-int';
+import { PostResponce } from './post-request/post-responce';
 
 @Service()
 export class ConsumoHttpService {
@@ -11,7 +12,7 @@ export class ConsumoHttpService {
 
     
     cadastrarPostDoService(postCadastrado: PostRequestInt) {
-        return this.httpClient.post<PostRequestInt>(this.urlApi, postCadastrado);
+        return this.httpClient.post<PostResponce>(this.urlApi, postCadastrado);
     }
 
     atualizarPutDoService(putAtualizado: PutRequestInt) {

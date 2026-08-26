@@ -14,6 +14,7 @@ export class PostRequest {
   protected readonly consumoService = inject(ConsumoHttpService);
 
   protected readonly postModel = signal<PostRequestInt>({
+    id: null,
     userId: null,
     title: '',
     body: ''
@@ -27,10 +28,11 @@ export class PostRequest {
     const post = this.postModel();
 
     this.consumoService.cadastrarPostDoService(post).subscribe({
-      next: () => {
-        alert('Post cadastrado!');
+      next: (responce) => {
+        alert('Post cadastrado!' + responce.id + ' - ' + responce.title);
 
         this.postModel.set({
+          id: null,
           userId: null,
           title: '',
           body: ''
