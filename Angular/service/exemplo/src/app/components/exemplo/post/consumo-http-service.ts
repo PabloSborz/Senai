@@ -21,7 +21,7 @@ export class ConsumoHttpService {
         );
     }
 
-    deleteService(userId: number) {
-        return this.httpClient.delete(`${this.urlApi}/${userId}`);
+    deleteService(id: number) {
+        return this.httpClient.delete(`${this.urlApi}/${id}`);
     }
 }
