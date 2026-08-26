@@ -20,4 +20,8 @@ export class ConsumoHttpService {
             putAtualizado
         );
     }
+
+    deleteService(userId: number) {
+        return this.httpClient.delete(`${this.urlApi}/${userId}`);
+    }
 }

@@ -20,7 +20,7 @@ export class PutRequest {
 
   protected readonly putForm = form(this.putModel);
 
-  protected cadastrarPut(event: SubmitEvent) {
+  protected atualizarPutService(event: SubmitEvent) {
     event.preventDefault();
 
     const put = this.putModel();
@@ -30,7 +30,7 @@ export class PutRequest {
       return;
     }
 
-    this.consumoService.atualizarPutDoService(put).subscribe({
+    this.consumoService.atualizarPutDoService(this.putModel()).subscribe({
       next: () => {
         alert('Put realizado com sucesso!');
 
