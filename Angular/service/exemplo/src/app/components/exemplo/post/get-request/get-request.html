@@ -1,0 +1,33 @@
+<section class="posts" aria-labelledby="posts-title">
+  <header class="posts__header">
+    <div>
+      <span class="posts__eyebrow">GET request</span>
+      <h1 id="posts-title">Posts encontrados</h1>
+      <p>Dados carregados da API e organizados para uma leitura mais clara.</p>
+    </div>
+
+    <span class="posts__count">
+      {{ consumoService.postsDetails.value().length }} posts
+    </span>
+  </header>
+
+  <div class="posts__grid">
+    @for (post of consumoService.postsDetails.value(); track post.id) {
+      <article class="post-card">
+        <div class="post-card__meta">
+          <span class="post-card__id">#{{ post.id }}</span>
+          <span class="post-card__user">Usuário {{ post.userId }}</span>
+        </div>
+
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.body }}</p>
+      </article>
+    } @empty {
+      <div class="posts__empty">
+        <span aria-hidden="true">⌛</span>
+        <h2>Nenhum post encontrado</h2>
+        <p>Os posts aparecerão aqui assim que forem carregados.</p>
+      </div>
+    }
+  </div>
+</section>

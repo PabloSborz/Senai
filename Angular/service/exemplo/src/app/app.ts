@@ -10,10 +10,11 @@ import { Imagem } from './components/exemplo/imagem/imagem';
 import { PostRequest } from "./components/exemplo/post/post-request/post-request";
 import { PutRequest } from './components/exemplo/post/put-request/put-request';
 import { DeleteRequest } from "./components/exemplo/post/delete-request/delete-request";
+import { GetRequest } from "./components/exemplo/post/get-request/get-request";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Usuario, Aluno, Header, Autenticacao, Contador, Imagem, Login, PostRequest, PutRequest, DeleteRequest],
+  imports: [RouterOutlet, Usuario, Aluno, Header, Autenticacao, Contador, Imagem, Login, PostRequest, PutRequest, DeleteRequest, GetRequest],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

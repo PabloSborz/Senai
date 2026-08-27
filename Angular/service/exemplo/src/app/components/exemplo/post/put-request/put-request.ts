@@ -13,6 +13,7 @@ export class PutRequest {
   protected readonly consumoService = inject(ConsumoHttpService);
 
   protected readonly putModel = signal<PutRequestInt>({
+    id: null,
     userId: null,
     title: '',
     body: ''
@@ -31,10 +32,11 @@ export class PutRequest {
     }
 
     this.consumoService.atualizarPutDoService(this.putModel()).subscribe({
-      next: () => {
-        alert('Put realizado com sucesso!');
+      next: (responce) => {
+        alert('Put realizado com sucesso!' + responce.id + ' - ' + responce.title);
 
         this.putModel.set({
+          id: null,
           userId: null,
           title: '',
           body: ''
